@@ -1,6 +1,13 @@
-composer.phar
-vendor/
+/.sculpin/
+/app/cache/*
+/app/config/sculpin_kernel_*.yml
+/app/config/sculpin_site_*.yml
+/app/logs/*
+/output_*/
+/source/components/
+s3.conf
 
-# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
+
+# node stuff
+/node_modules/
+npm*.log

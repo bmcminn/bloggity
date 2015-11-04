@@ -1,0 +1,8 @@
+---
+use: [projects]
+---
+<ul>
+    {% for project in data.projects %}
+        <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+    {% endfor %}
+</ul>
