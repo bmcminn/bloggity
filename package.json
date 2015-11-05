@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "pre-install": "php sculpin.phar install",
-    "sculpin_watch": "php sculpin.phar generate --watch --server",
-    "sculpin_prod": "php sculpin.phar generate --env=prod"
+    "watch": "php sculpin.phar generate --watch --server",
+    "build-prod": "php sculpin.phar generate --env=prod"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "grunt": "^0.4.5",
-    "grunt-contdrib-jshint": "^0.11.3",
+    "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-stylus": "^0.22.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-exec": "^0.4.6",

@@ -9,10 +9,19 @@
 
 {# CONTENT_WRAPPER #}
 {% block content_wrapper %}
+   {#  <input type="text" value="{{ site|json_encode() }}"> #}
+   {#  <input type="text" value="{{ post|json_encode() }}"> #}
+   {#  <input type="text" value="{{ page|json_encode() }}"> #}
+
   <article>
     <header>
-      <h2>{{ page.title }} <small>post</small></h2>
+      <h1>{{ page.title }}</h1>
+
+      Posted: <time>{{ page.date|date('F d, Y') }}</time>
+      By: {{ page.author }}
     </header>
+
+    <hr>
 
     <div>
       {{ page.blocks.content|raw }}

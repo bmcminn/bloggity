@@ -4,16 +4,16 @@ sculpin_content_types:
 
     projects:
         type: path
-        permalink: project/:filename/
+        permalink: projects/:filename/
         singular_name: project
         taxonomies:
             - tools
             - categories
 
-    photography:
-        type: path
-        permalink: photography/:filename/
-        singular_name: album
-        taxonomies:
-            - tools
-            - categories
+    # # photography:
+    #     type: path
+    #     permalink: photography/:filename/
+    #     singular_name: album
+    #     taxonomies:
+    #         - tools
+    #         - categories

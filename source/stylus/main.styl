@@ -5,10 +5,19 @@ $tabletWidth    = 767px
 $desktopWidth   = 980px
 
 
-$white = #fff
+$radius = 3px
 
 
-$codeBg = #272822
+
+$white          = #fff
+
+$light-gray     = #e3e3e3
+$gray           = darken($light-gray, 20%)
+
+
+$light-yellow   = #fffdac
+
+$codebg         = #272822
 
 
 
@@ -21,12 +30,58 @@ html
 *, *:before, *:after
   box-sizing: inherit;
 
+body
+  font-size: 1rem
+  line-height: 1.5rem
+
+
+
+
+//
+// HEADINGS
+//
+
+h1
+  margin: 1.5rem 0
+  font-size: 1.8rem
+
+h2
+  margin: 1rem 0
+  padding-bottom: 0.5rem
+  border-bottom: 1px solid $light-gray
+  font-size: 1.5rem
+
+
+
+//
+// PARAGRAPHS
+//
+
+p
+  margin: 0.75rem 0
 
 
 p
   code
     padding: 0.1rem 0.4rem
     // background-color: $codeBg
+
+
+//
+// LISTS
+//
+
+ol, ul
+
+  // nested lists
+  ol, ul
+    margin-top: 0
+    margin-bottom: 0
+
+  li
+    line-height: inherit
+
+
 
 
 
@@ -64,6 +119,8 @@ footer.container
   border-top: 1px dashed #aaa;
 
 
+
+@import "_posts"
 
 
 

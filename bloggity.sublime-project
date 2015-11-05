@@ -1,17 +1,18 @@
 {
-	"folders":
-	[
-		{
-			"path": "."
-    , "file_exclude_patterns": [
+  "folders": [
+    {
+      "path": ".",
+      "file_exclude_patterns": [
         "s3*",
-        "publish*"
-      ]
-    , "folder_exclude_patterns": [
+        "publish*",
+        "*.lock",
+        "*.phar"
+      ],
+      "folder_exclude_patterns": [
         "output_*",
         ".sculpin",
         "node_modules"
       ]
-		}
-	]
+    }
+  ]
 }

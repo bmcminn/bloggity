@@ -1,8 +1,13 @@
----
-use: [projects]
----
-<ul>
-    {% for project in data.projects %}
-        <li><a href="{{ project.url }}">{{ project.title }}</a></li>
-    {% endfor %}
-</ul>
+{% extends "default.html" %}
+
+
+{% block content_wrapper %}
+
+  <article>
+    {# <input type="text" value="{{ page|json_encode() }}"> #}
+    <h1>{{ page.title }}</h1>
+
+    {{ page.blocks.content|raw }}
+  </article>
+
+{% endblock %}
