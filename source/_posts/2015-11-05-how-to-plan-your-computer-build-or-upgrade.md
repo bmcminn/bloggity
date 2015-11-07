@@ -29,6 +29,7 @@ I have organized this process in order of decision priority, so you can pick all
 
 -----
 
+
 ### 1. Uninterruptible Power Supply (UPS)
 
 I would be remiss not mentioning this, but the single most important upgrade you can make to your build if nothing else is buying a decent UPS.
@@ -50,15 +51,19 @@ These devices come in a wide range of form factors and power ratings, and some c
 
 If you don't do it for yourself, do it for your wallet, because the initial investment you make upfront can save you countless time and money in unsaved work and hardware replacements over the life of your build.
 
+
 #### Recommended brands:
 
 - APC, CyberPower
 
 
+-----
+
 
 ### 2. Central Processor (CPU)
 
 The CPU is the brain of your machine and should be one of the first items you pick because it typically affects what motherboard (MOBO) you'll be looking into. Many folks think they need the fastest CPU for hardcore gaming sessions or crunching through massive amounts of graphics or video processing tasks, though that isn't necessarily true in today's market and I'll discuss why later.
+
 
 #### Preferred Brands:
 
@@ -69,6 +74,7 @@ Whether you're building an HTPC (Home Theatre Personal Computer), a gaming machi
 - Intel i5: budget friendly, decent performance
 - Intel i7: better performance, higher cost
 
+
 #### General notes:
 
 - Regarding Intel model numbers, those ending in `K` are "unlocked" meaning they have more potential for overclocking, but tend to be more expensive.
@@ -78,32 +84,40 @@ Whether you're building an HTPC (Home Theatre Personal Computer), a gaming machi
 
 -----
 
-### 2. Motherboard (MOBO)
 
-The MOBO of your build is determined by
+### 3. Motherboard (MOBO)
 
-MOBO: something that supports the socket size/pinset of the processor you choose, and supports 4 slots of 1600Mhz+ DDR3 ram (most newer models do this up to 2400Mhz)
-- WHATEVER MOBO YOU CHOOSE, make sure it matches the CPU socket number
+Your MOBO will be directly influenced by what CPU you pick, mostly because the CPU socket is a critical thing you do not want to overlook.
+
+
+#### General notes:
+
+- **Make sure the MOBO specifies the socket size/pinset of the processor you choose.**
     - some models support a range of socket types
     - Intel models are `LGA ####`
     - AMD are `AM#` or `AM#+`
-- optional features are number of USB/USB3 ports, SATA ports, built-in ethernet/networking/wireless/bluetooth/audio
+
+- The MOBO should at least support up to 4 slots of 1600Mhz+ DDR3 ram (most newer models do this up to 2400Mhz)
+- Optional features to keep in mind are number of USB/USB3 ports, SATA ports, built-in ethernet/networking/wireless/bluetooth/audio
 - another optional feature I like is a digital status code readout on-board. This will be a 2x 8-segment digital display that makes debugging your machine SO much easier.
 
 
 -----
 
-### 3. CPU cooling: Heatsink vs Liquid cooling
+
+### 4. CPU cooling: Heatsink vs Liquid cooling
 
 Most CPU's typically come with a fan cooled CPU heatsink from the manufacturer, but some don't. The heatsink is required to move heat away from the CPU to avoid destroying your computer.
 
 You have a number of options in this arena, between a fan cooled heatsink from the manufacture, an after market heatsink with better cooling performance, or a liquid cooling system.
+
 
 #### General notes:
 
 - Fan cooled and radiator style heatsinks are cheaper and offer decent cooling, but require adequate contact surface cleaning and thermal compound during installation to be effective.
 - Certain heatsink selections can be constrained by certain factors, such as physical size, CPU socket mounting types, power requirements, fan or no fan?, case size, conflicting component layout/clearance, etc.
 - Stock heatsinks bundled with your CPU are fine for typical builds, but if you plan to do marathon gaming sessions or heavy processing tasks, you may want to look into an after market heatsink to improve performance.
+
 
 #### Recommended Brands:
 
@@ -113,20 +127,22 @@ You have a number of options in this arena, between a fan cooled heatsink from t
 
 -----
 
-### 4. RAM:
+
+### 5. RAM:
 - 16Gb or more of 1600Mhz+ DDR3 (you can buy 4x 4Gb kits for cheap)
 - Don't focus too much on the clocking specs, but keep in mind that consistent timings are what you're looking for (7-9-9-9, 8-8-8-8, etc would be decent)
 - Good brands: Crucial, G.Skill, Corsair are my top 3 for price and performance
 
 -----
 
-### 5. Graphics Card _or_ Graphical Processing Unit (GPU)
+
+### 6. Graphics Card _or_ Graphical Processing Unit (GPU)
 
 I mentioned earlier that CPU performance is a critical factor in your build, and that is reasonably true to a certain extent. However in todays software landscape, software companies like Adobe are building their software to leverage the parallel processing capabilities of your graphics card (GPU) to spread the computational load and improve application performance.
 
 That whole process began back in 2007 when Nvidia released their Compute Unified Device Architecture (CUDA) technology which they pioneered to give software and game developers programmable access into the GPU's vast hardware capabilities for developing advanced render pipelines and performance enhancements. Software makers in turn began leveraging CUDA to utilize the parallel processing cores in your GPU which are far superior at resource intensive number crunching which frees up the CPU to focus on tasks like managing operating system processes and runtime cycles.
 
-GPU:
+
 - Nvidia GTX 960 or higher
 - Basically, more dedicated ram, the better the performance (2Gb+ of GDDR5)
 - Brands I like: EVGA, PNY, ASUS
@@ -136,7 +152,8 @@ GPU:
 
 -----
 
-### 6. Power Supply Unit (PSU)
+
+### 7. Power Supply Unit (PSU)
 
 The power supply is one area you don't want to skimp out on either. Certain brands have garnered huge fanbases the world over and for good reason. They manufacture a reliable product that
 
@@ -147,6 +164,7 @@ The power supply is one area you don't want to skimp out on either. Certain bran
 - For "80 Plus" power ratings, bronze level aren't bad and tend to be more budget friendly, but don't assume that gold and platinum rated units are always superior.
 - Try to find a modular power supply to keep your cable management clean (this is more of a preference, but can affect price point)
 
+
 #### Recommended brands:
 
 - Corsair, Cooler Master, Rosewill, Thermaltake
@@ -154,7 +172,8 @@ The power supply is one area you don't want to skimp out on either. Certain bran
 
 -----
 
-### 6. Data Storage
+
+### 8. Data Storage
 
 Considering how rapidly the storage market has changed the past several years and how cheap the technology is becoming, I have a couple recommendations:
 
@@ -184,7 +203,8 @@ Storage: Solid State vs Hard disk storage
 
 -----
 
-### 7. Computer Case, Fans, and Accessories
+
+### 9. Computer Case, Fans, and Accessories
 
 For the the last few items on our list you can do one of two things.
 
@@ -201,8 +221,8 @@ In my opinion, the main things you should consider are:
 - Reuse your old case or buy new. Totally your call
 - I find Cooler Master and Rosewill cases are decently priced, have ample space and cable routing options, decent airflow, and generally have nice aesthetics.
 - Keep in mind the materials it's made of:
-  - Steel cases weigh more
-  - Plastic case parts can break
+    - Steel cases weigh more
+    - Plastic case parts can break
 - Number of fan mounts is important because you can buy more fans if needed.
 - I usually layout my fans to intake from the front and exhaust out the top and back.
 - Compatable Fan sizes should be in the range of 80mm-120mm as these are the most common sizes you'll find.
