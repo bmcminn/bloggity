@@ -1,0 +1,8 @@
+extends ../layouts/base
+block head
+  title Projects
+block content
+  h1 Projects
+
+  each post in posts
+    mixin postHead(post)

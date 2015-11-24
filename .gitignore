@@ -1,17 +1,27 @@
-/.sculpin/
-/app/cache/*
-/app/config/sculpin_kernel_*.yml
-/app/config/sculpin_site_*.yml
-/app/logs/*
-/output_*/
-/source/components/
-s3.conf
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
 
+.DS_Store
 
-# node stuff
-/node_modules/
-npm*.log
+pids
+logs
+results
 
+npm-debug.log
+node_modules
 
-# sublime stuff
-*.*workspace
+.sass-cache
+
+# Cabin-specific ignored files
+dist
+.grunt
+.ftppass
+
+__*
+

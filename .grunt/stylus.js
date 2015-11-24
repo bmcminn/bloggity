@@ -9,7 +9,7 @@ module.exports = {
       }
 
     , files: {
-        'source/css/style.css': 'source/stylus/main.styl'
+        'dist/styles/main.css': './src/styles/main.styl'
       }
   },
 
@@ -19,7 +19,7 @@ module.exports = {
       , linenos: false
       }
     , files: {
-        'source/css/style.css': 'source/stylus/main.styl'
+        'dist/styles/main.css': './src/styles/main.styl'
       }
   }
 

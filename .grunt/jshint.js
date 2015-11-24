@@ -4,7 +4,7 @@ module.exports = {
   theme_js: [
     'gruntfile.js'
   , '.grunt/**/*.js'
-  , '!source/components/**/*.js'
+  , 'src/**/*.js'
   ],
 
   options: {
@@ -23,6 +23,7 @@ module.exports = {
     , grunt: true
     , navigator: true
     , Image: true
+    , $: true
     , V: true
     , setTimeout: true
     , order: true

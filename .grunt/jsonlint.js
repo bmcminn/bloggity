@@ -6,7 +6,6 @@ module.exports = {
     src: [
       '**/*.json'
     , '!node_modules/**'
-    , '!.sculpin/**'
     ]
   }
 

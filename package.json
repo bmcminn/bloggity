@@ -1,33 +1,33 @@
 {
-  "name": "bloggity",
-  "version": "1.0.0",
-  "description": "Official website of Brandtley McMinn\r =====================",
-  "main": "index.js",
-  "scripts": {
-    "pre-install": "php sculpin.phar install",
-    "watch": "php sculpin.phar generate --watch --server",
-    "build-prod": "php sculpin.phar generate --env=prod"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bmcminn/bloggity.git"
-  },
+  "name": "bloggity-blog",
+  "version": "0.0.0",
+  "description": "A flat-file static site generator built-on Grunt.",
   "author": "Brandtley McMinn <labs@gbox.name>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bmcminn/bloggity/issues"
-  },
-  "homepage": "https://github.com/bmcminn/bloggity#readme",
-  "dependencies": {
-    "chalk": "^1.1.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.11.3",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-compass": "~0.2.0",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-stylus": "^0.22.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-exec": "^0.4.6",
+    "grunt-contrib-watch": "~0.4.3",
+    "grunt-ftpush": "~0.3.2",
+    "grunt-open": "~0.2.0",
+    "grunt-pages": "~0.10.0",
+    "load-grunt-tasks": "~0.1.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "fastmatter": "^1.1.1",
+    "grunt-contrib-jshint": "^0.11.3",
     "grunt-jsonlint": "^1.0.6",
+    "handlebars": "^4.0.5",
+    "jsonlint": "^1.6.2",
     "load-grunt-config": "^0.19.0",
-    "lodash": "^3.10.1",
+    "nib": "^1.1.0",
     "time-grunt": "^1.2.2"
   }
 }

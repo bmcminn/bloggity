@@ -1,0 +1,40 @@
+{
+  "CSSPreprocessor": [
+    "stylus"
+  ],
+  "templateEngine": [
+    "Jade"
+  ],
+  "dest": "dist",
+  "postTypes": [
+    {
+      "name": "pages",
+      "src": "pages",
+      "url": "/:title/",
+      "layout": "src/layouts/page"
+    },
+    {
+      "name": "posts",
+      "src": "posts",
+      "url": "posts/:title/",
+      "layout": "src/layouts/post",
+      "taxonomies": [
+          "tags",
+          "categories"
+      ]
+    },
+    {
+      "name": "projects",
+      "src": "projects",
+      "url": "projects/:title/",
+      "layout": "src/layouts/project",
+      "taxonomies": [
+          "tags",
+          "categories",
+          "tools"
+      ]
+    }
+
+
+  ]
+}

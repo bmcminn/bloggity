@@ -1,18 +1,19 @@
 
 module.exports = {
 
-  dev: {
-    path: 'output_dev',
-    remove: [
-      'stylus'
-    ]
-  },
+  dist: 'dist'
+  // dev: {
+  //   path: 'output_dev',
+  //   remove: [
+  //     'stylus'
+  //   ]
+  // },
 
-  prod: {
-    path: 'output_prod',
-    remove: [
-      'stylus'
-    ]
-  }
+  // prod: {
+  //   path: 'output_prod',
+  //   remove: [
+  //     'stylus'
+  //   ]
+  // }
 
 };

@@ -2,16 +2,30 @@
 module.exports = function(grunt) {
 
   grunt.registerTask('default', [
-    'lintify'
-  , 'clean:dev'
-  , 'watch'
+    'server'
+  ]);
+
+
+  grunt.registerTask('deploy', [
+    'build',
+    'ftpush'
+  ]);
+
+
+  grunt.registerTask('server', [
+    'build',
+    'connect',
+    'open',
+    'watch'
   ]);
 
 
   grunt.registerTask('build', [
-    'lintify'
-  , 'exec:sculpin_prod'
-  , 'clean:prod'
+    'lintify',
+    'clean',
+    'pages',
+    'stylus',
+    'copy'
   ]);
 
 

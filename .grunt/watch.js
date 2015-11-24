@@ -13,6 +13,35 @@ module.exports = {
   //     }
   // },
 
+  dist: {
+    files: ['dist/**'],
+    options: {
+      livereload: true
+    }
+  },
+
+
+  pages: {
+    files: [
+      'posts/**',
+      'src/layouts/**',
+      'src/pages/**'
+    ],
+    tasks: ['pages']
+  },
+
+
+  copy: {
+    files: [
+      'src/images/**',
+      'src/scripts/**',
+      'src/styles/**.css',
+      'src/styles/fonts/**'
+    ],
+    tasks: ['copy']
+  },
+
+
   style: {
     files: ['**/*.styl'],
     tasks: ['stylus:dev'],

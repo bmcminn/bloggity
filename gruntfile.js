@@ -12,8 +12,9 @@ module.exports = function(grunt) {
   require('load-grunt-config')(grunt, {
       configPath: path.join(process.cwd(), '.grunt')
     , data: {
-        pkg:      grunt.file.readJSON('package.json'),
-        sculpin:  grunt.file.readJSON('sculpin.json')
+        pkg: grunt.file.readJSON('package.json')
+      , templateEngine: 'hbs'
+        // , sculpin:  grunt.file.readJSON('sculpin.json')
       }
     });
 
