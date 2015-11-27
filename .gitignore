@@ -13,6 +13,9 @@ pids
 logs
 results
 
+# Sublime files
+*.sublime-workspace
+
 npm-debug.log
 node_modules
 
