@@ -1,6 +1,6 @@
 ---
 title: Candy Theme
-date:  2013-12-15
+published:  2013-12-15
 description: Description of Candy's features
 categories:
     - testing

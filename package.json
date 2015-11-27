@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "A flat-file static site generator built-on Grunt.",
   "author": "Brandtley McMinn <labs@gbox.name>",
+  "repository": "https://github.com/bmcminn/bloggity.git",
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -10,24 +11,27 @@
     "grunt-contrib-compass": "~0.2.0",
     "grunt-contrib-connect": "~0.5.0",
     "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-stylus": "^0.22.0",
     "grunt-contrib-watch": "~0.4.3",
     "grunt-ftpush": "~0.3.2",
+    "grunt-jsonlint": "^1.0.6",
     "grunt-open": "~0.2.0",
     "grunt-pages": "~0.10.0",
-    "load-grunt-tasks": "~0.1.0"
+    "jsonminify": "^0.2.3",
+    "load-grunt-config": "^0.19.0",
+    "time-grunt": "^1.2.2"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "dependencies": {
     "fastmatter": "^1.1.1",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-jsonlint": "^1.0.6",
     "handlebars": "^4.0.5",
-    "jsonlint": "^1.6.2",
-    "load-grunt-config": "^0.19.0",
+    "jade": "^1.11.0",
+    "jade-highlight": "0.0.1",
+    "lodash": "^3.10.1",
     "nib": "^1.1.0",
-    "time-grunt": "^1.2.2"
+    "yamljs": "^0.2.4"
   }
 }

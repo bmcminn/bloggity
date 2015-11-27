@@ -1,8 +1,9 @@
-{
-  title: "My cool blog post",
-  date:   "2013-08-3",
-  description: "Sample Candy post using Cupcake Ipsum"
-}
+---
+title: My cool blog post
+published: 2013-08-3
+description: Sample Candy post using Cupcake Ipsum
+---
+
 ### Some [Cupake Ipsum](http://cupcakeipsum.com) to brighten your day!
 
 Chocolate bar apple pie sesame snaps jelly beans cupcake.
