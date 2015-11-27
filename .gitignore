@@ -23,7 +23,7 @@ node_modules
 
 # Cabin-specific ignored files
 dist
-.grunt
+.grunt/data
 .ftppass
 
 __*
