@@ -1,7 +1,7 @@
 //- Mixin for post, used on homepage and post page
 mixin postHead(post)
   .post-head.group
-    a(href="#{data.baseUrl}#{post.url}")
+    a(href="#{site.baseUrl}#{post.url}")
       h1.post-title= post.title
     span.post-date!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
 
@@ -10,29 +10,29 @@ mixin post(post)
   .post-body.markdown!= post.content
   .post-body.markdown!= post.content
 
-doctype 5
+doctype html
 html
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="icon", type="image/png", href="#{data.baseUrl}images/cabin.png")
-    link(href="#{data.baseUrl}styles/main.css", rel="stylesheet")
-    link(rel="canonical", href="#{data.baseUrl}")
+    link(rel="icon", type="image/png", href="#{site.baseUrl}images/cabin.png")
+    link(href="#{site.baseUrl}styles/main.css", rel="stylesheet")
+    link(rel="canonical", href="#{site.baseUrl}")
     block title
       title= "My Blog"
   body
     header.site-header
       h1.name
-        a(href="#{data.baseUrl}") My Name
+        a(href="#{site.baseUrl}") My Name
       nav.site-nav
         .menu.icon-menu
         ul.nav-links
           li.text-link
-            a(href="#{data.baseUrl}about.html") about
+            a(href="#{site.baseUrl}about.html") about
           li.text-link
-            a(href="#{data.baseUrl}projects.html") projects
+            a(href="#{site.baseUrl}projects.html") projects
           li.text-link
-            a(href="#{data.baseUrl}archives.html") archives
+            a(href="#{site.baseUrl}archives.html") archives
 
       .social-media
         a.icon-github(href="https://github.com/colinwren")
@@ -40,8 +40,9 @@ html
 
 
     .content
-      block content
+      block body-content
+
 
     script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js", type="text/javascript")
-    script(src="#{data.baseUrl}scripts/main.js", type="text/javascript")
+    script(src="#{site.baseUrl}scripts/main.js", type="text/javascript")
       // Add your analytics code here

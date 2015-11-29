@@ -22,8 +22,9 @@ node_modules
 .sass-cache
 
 # Cabin-specific ignored files
-dist
+.dist
 .grunt/data
+.grunt/cache
 .ftppass
 
 __*
