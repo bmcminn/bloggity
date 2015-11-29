@@ -155,12 +155,12 @@ module.exports = function(grunt) {
 
       app.renderPages();
 
-      // TODO: generate page/index.html files
-      // TODO: generate atom.xml
-      // TODO: generate sitemap.xml
-      // TODO: generate 404.html
-      // TODO: generate index.html
-      // TODO: generate post-listings files (ie: blog.html)
+      // TODO: generate .dist/page/index.html files
+      // TODO: generate .dist/atom.xml
+      // TODO: generate .dist/sitemap.xml
+      // TODO: generate .dist/404.html
+      // TODO: generate .dist/index.html
+      // TODO: generate .dist/post-listings files (ie: blog.html)
 
 
     });
