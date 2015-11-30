@@ -4,7 +4,6 @@ module.exports = {
   theme_js: [
     'gruntfile.js'
   , '.grunt/**/*.js'
-  , 'src/**/*.js'
   ],
 
   options: {

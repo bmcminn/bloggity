@@ -2,16 +2,23 @@
 
 module.exports = {
 
-  // js: {
-  //     options: {
-  //       compress: false
-  //     , linenos: true
-  //     }
+  js: {
+    files: [
+      'scripts/**/*.js'
+    ],
+    tasks: [
+      'jshint',
+      'uglify'
+    ]
+    //   options: {
+    //     compress: false
+    //   , linenos: true
+    //   }
 
-  //   , files: {
-  //       'source/css/style.css': 'source/stylus/main.styl'
-  //     }
-  // },
+    // , files: {
+    //     'source/css/style.css': 'source/stylus/main.styl'
+    //   }
+  },
 
   dist: {
     files: ['dist/**'],
@@ -21,22 +28,32 @@ module.exports = {
   },
 
 
-  pages: {
+  content: {
     files: [
-      'posts/**',
-      'src/layouts/**',
-      'src/pages/**'
+      '**/*.md'
+    , 'pages/*.jade'
     ],
-    tasks: ['pages']
+    tasks: [
+      'bloggity'
+    ]
   },
+
+  // pages: {
+  //   files: [
+  //     'posts/**',
+  //     'layouts/**',
+  //     'pages/**'
+  //   ],
+  //   tasks: ['pages']
+  // },
 
 
   copy: {
     files: [
-      'src/images/**',
-      'src/scripts/**',
-      'src/styles/**.css',
-      'src/styles/fonts/**'
+      'images/**',
+      'scripts/**.min.js',
+      'styles/**.css',
+      'styles/fonts/**'
     ],
     tasks: ['copy']
   },

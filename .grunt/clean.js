@@ -1,7 +1,7 @@
 
 module.exports = {
 
-  dist: 'dist'
+  // dist: 'dist'
   // dev: {
   //   path: 'output_dev',
   //   remove: [

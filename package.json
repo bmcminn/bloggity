@@ -7,20 +7,27 @@
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-concurrent": "^2.1.0",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-compass": "~0.2.0",
-    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-connect": "^0.5.0",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-livereload": "~0.1.2",
     "grunt-contrib-stylus": "^0.22.0",
+    "grunt-contrib-uglify": "^0.11.0",
     "grunt-contrib-watch": "~0.4.3",
     "grunt-ftpush": "~0.3.2",
     "grunt-jsonlint": "^1.0.6",
     "grunt-open": "~0.2.0",
     "grunt-pages": "~0.10.0",
+    "html-diff": "~0.0.2",
     "jsonminify": "^0.2.3",
     "load-grunt-config": "^0.19.0",
-    "time-grunt": "^1.2.2"
+    "matchdep": "~0.1.1",
+    "should": "~1.2.2",
+    "time-grunt": "^1.2.2",
+    "wrench": "~1.5.1"
   },
   "engines": {
     "node": ">=0.10.0"

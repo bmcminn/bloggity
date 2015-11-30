@@ -1,12 +1,13 @@
 
 
-var path        = require('path')
-  , fs          = require('fs')
-  , _           = require('lodash')
-  // , pygmentize  = require('pygmentize-bundled')
-  , marked      = require('marked')
-  , RSS         = require('rss')
-  , fastmatter  = require('fastmatter')
+var path          = require('path')
+  , fs            = require('fs')
+  , _             = require('lodash')
+  // , pygmentize    = require('pygmentize-bundled')
+  , marked        = require('marked')
+  , RSS           = require('rss')
+  , fastmatter    = require('fastmatter')
+  , chalk         = require('chalk')
   ;
 
 
@@ -44,27 +45,8 @@ module.exports = function(grunt) {
   'use strict';
 
 
-  /**
-   * [readJSON description]
-   * @param  {[type]} target [description]
-   * @return {[type]}        [description]
-   */
-  grunt.file.readJSON = function(target) {
-    var content = grunt.file.read(target);
-    return JSON.parse(JSON.minify(content));
-  };
-
-  /**
-   * [writeJSON description]
-   * @param  {[type]} targetLoc [description]
-   * @param  {[type]} data      [description]
-   * @param  {[type]} pretty    [description]
-   * @return {[type]}           [description]
-   */
-  grunt.file.writeJSON = function(targetLoc, data, pretty) {
-    pretty = pretty || 2;
-    grunt.file.write(targetLoc, JSON.stringify(data, null, pretty));
-  };
+  // load up our grunt extensions
+  grunt = require('./grunt-extensions.js')(grunt);
 
 
   // Allow for test objects to be used during unit testing
@@ -137,6 +119,17 @@ module.exports = function(grunt) {
         baseUrl: "http://localhost:3005"
 
       }, app.config);
+
+      // update baseUrl
+      // TODO: add config/check for local env vs deploy
+      if (this.flags.dev) {
+        temp = require('../.grunt/connect.js');
+        console.log(temp);
+        app.site.baseUrl = ['http://', temp.dist.options.hostname, ':', temp.dist.options.port, '/'].join('');
+      }
+
+
+      console.log(JSON.stringify(this, null,2));
 
 
       //
@@ -322,7 +315,7 @@ module.exports = function(grunt) {
 
         grunt.file.write(page.renderPath, page.renderedContent);
 
-        console.log(page);
+        // console.log(page);
       });
 
 

@@ -3,24 +3,24 @@
 module.exports = {
 
   dev: {
-      options: {
-        compress: false
-      , linenos: true
-      }
+    options: {
+      compress: false
+    , linenos: true
+    }
 
-    , files: {
-        'dist/styles/main.css': './src/styles/main.styl'
-      }
+  , files: {
+      './styles/main.css': './styles/main.styl'
+    }
   },
 
   build: {
-      options: {
-        compress: true
-      , linenos: false
-      }
-    , files: {
-        'dist/styles/main.css': './src/styles/main.styl'
-      }
+    options: {
+      compress: true
+    , linenos: false
+    }
+  , files: {
+      './styles/main.css': './styles/main.styl'
+    }
   }
 
 };

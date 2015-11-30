@@ -13,23 +13,32 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('server', [
-    'build',
+    'dev',
     'connect',
     'open',
     'watch'
   ]);
 
 
-  grunt.registerTask('build', [
-    'lintify',
-    'clean',
-    'pages',
-    'stylus',
+  grunt.registerTask('dev', [
+    'linty',
+    'stylus:dev',
+    'bloggity:dev',
     'copy'
   ]);
 
 
-  grunt.registerTask('lintify', [
+  grunt.registerTask('build', [
+    'linty',
+    // 'clean',
+    'stylus:build',
+    'uglify',
+    'bloggity:build',
+    'copy'
+  ]);
+
+
+  grunt.registerTask('linty', [
     'jsonlint'
   , 'jshint'
   ]);

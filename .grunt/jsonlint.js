@@ -4,8 +4,8 @@ module.exports = {
 
   theme_json: {
     src: [
-      '**/*.json'
-    , '!node_modules/**'
+    //   '**/*.json'
+    // , '!node_modules/**'
     ]
   }
 
