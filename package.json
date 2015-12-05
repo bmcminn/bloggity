@@ -21,6 +21,7 @@
     "grunt-jsonlint": "^1.0.6",
     "grunt-open": "~0.2.0",
     "grunt-pages": "~0.10.0",
+    "grunt-release": "^0.13.0",
     "html-diff": "~0.0.2",
     "jsonminify": "^0.2.3",
     "load-grunt-config": "^0.19.0",

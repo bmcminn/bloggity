@@ -21,7 +21,7 @@ module.exports = {
   },
 
   dist: {
-    files: ['dist/**'],
+    files: ['.dist/**'],
     options: {
       livereload: true
     }
