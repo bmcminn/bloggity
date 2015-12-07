@@ -32,6 +32,7 @@ module.exports = {
     files: [
       '**/*.md'
     , 'pages/*.jade'
+    , 'templates/*.jade'
     ],
     tasks: [
       'bloggity'
