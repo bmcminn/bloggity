@@ -67,6 +67,10 @@ module.exports = function(grunt) {
   app.pages = [];
 
 
+  // initialize the post object to null
+  app.post = {};
+
+
   // get the current cache date
   app.cacheDate = new Date();
 
@@ -116,9 +120,11 @@ module.exports = function(grunt) {
 
       // update app site model
       app.site = _.merge({
-        baseUrl: "http://localhost:3005"
 
-      }, app.config);
+        // TODO: establish defaults
+        // baseUrl: "http://localhost:3005"
+
+      }, app.config.site);
 
       // update baseUrl
       // TODO: add config/check for local env vs deploy
@@ -129,7 +135,7 @@ module.exports = function(grunt) {
       }
 
 
-      console.log(JSON.stringify(this, null,2));
+      // console.log(JSON.stringify(this, null,2));
 
 
       //
@@ -145,16 +151,18 @@ module.exports = function(grunt) {
       // save a snapshot of the current site model
       app.cacheAppState();
 
-
+      // create all static page assets
+      // TODO: generate .dist/page/index.html files
       app.renderPages();
 
-      // TODO: generate .dist/page/index.html files
       // TODO: generate .dist/atom.xml
       // TODO: generate .dist/sitemap.xml
       // TODO: generate .dist/404.html
       // TODO: generate .dist/index.html
-      // TODO: generate .dist/post-listings files (ie: blog.html)
 
+
+      // TODO: generate .dist/post-listings files (ie: blog.html)
+      app.renderPosts();
 
     });
 
@@ -288,7 +296,10 @@ module.exports = function(grunt) {
 
 
 
-
+    /**
+     * [renderPages description]
+     * @return {[type]} [description]
+     */
     app.renderPages = function() {
 
       var self  = this
@@ -318,6 +329,46 @@ module.exports = function(grunt) {
         // console.log(page);
       });
 
+
+      return false;
+    };
+
+
+
+    /**
+     * [renderPages description]
+     * @return {[type]} [description]
+     */
+    app.renderPosts = function() {
+
+      var self = this
+        ;
+
+      // console.log(self.config.postTypes);
+
+
+      // iterate over each post type
+      _.each(self.config.postTypes, function(postType, index) {
+
+        // iterate over each post in said post type
+        _.each(self[postType.name], function(post, index) {
+
+          var targetPath = path.resolve(self.config.dest, postType.url)
+            ;
+
+          // replace url partials with necsesary data
+          targetPath = targetPath.replace(/:title/, post.name);
+          // targetPath = targetPath.replace(/:postDate/, moment(post.ctime));
+
+          targetPath = path.resolve(targetPath, 'index.html');
+
+
+          console.log('awffles', targetPath);
+
+
+        });
+
+      });
 
       return false;
     };
