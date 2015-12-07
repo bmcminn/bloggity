@@ -152,16 +152,16 @@ module.exports = function(grunt) {
       app.cacheAppState();
 
       // create all static page assets
-      // TODO: generate .dist/page/index.html files
+      // TODO: generate `.dist/page/index.html files`
       app.renderPages();
 
-      // TODO: generate .dist/atom.xml
-      // TODO: generate .dist/sitemap.xml
-      // TODO: generate .dist/404.html
-      // TODO: generate .dist/index.html
+      // TODO: generate `.dist/atom.xml`
+      // TODO: generate `.dist/sitemap.xml`
+      // TODO: generate `.dist/404.html`
+      // TODO: generate `.dist/index.html`
 
 
-      // TODO: generate .dist/post-listings files (ie: blog.html)
+      // TODO: generate `.dist/post-listings` files (ie: `blog.html`)
       app.renderPosts();
 
     });
@@ -342,6 +342,7 @@ module.exports = function(grunt) {
     app.renderPosts = function() {
 
       var self = this
+        , templateEngine = this.templateEngine.engine
         ;
 
       // console.log(self.config.postTypes);
@@ -350,20 +351,32 @@ module.exports = function(grunt) {
       // iterate over each post type
       _.each(self.config.postTypes, function(postType, index) {
 
+        console.log(postType);
+
+
         // iterate over each post in said post type
         _.each(self[postType.name], function(post, index) {
 
-          var targetPath = path.resolve(self.config.dest, postType.url)
-            ;
+          post.targetPath = path.resolve(self.config.dest, postType.url);
 
           // replace url partials with necsesary data
-          targetPath = targetPath.replace(/:title/, post.name);
-          // targetPath = targetPath.replace(/:postDate/, moment(post.ctime));
+          post.targetPath = post.targetPath.replace(/:title/, post.name);
+          // post.targetPath = post.targetPath.replace(/:postDate/, moment(post.ctime));
 
-          targetPath = path.resolve(targetPath, 'index.html');
+          post.targetPath = path.resolve(post.targetPath, 'index.html');
 
 
-          console.log('awffles', targetPath);
+
+          console.log(post);
+
+          post.template = grunt.file.read(path.resolve(postType.template + '.jade'));
+
+
+          post.renderedContent = templateEngine.render(post.template, self);
+
+
+          console.log(post.renderedContent);
+          console.log(post.targetPath);
 
 
         });

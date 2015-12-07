@@ -74,7 +74,7 @@ module.exports = function(grunt) {
         temp.filepath = temp.filepath.join('/');
 
         // add the heading of the current file we're parsing
-        message.push('## `' + temp.filepath + '`');
+        message.push('### `' + temp.filepath + '`');
         message.push('');
 
         // iterate over ALL the todos we found and format that as a list of changes to each file
