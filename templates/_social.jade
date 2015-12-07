@@ -1,15 +1,15 @@
-// Social sharing icons
+//- Social sharing icons
 .social
   a(href="https://twitter.com/share", class="twitter-share-button") Tweet
   .g-plusone(data-size="medium", data-annotation="bubble", data-width="300")
   a(href="http://news.ycombinator.com/submit", class="hn-share-button") Vote on HN
 
-// Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below
+//- Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below
 #comments
   #disqus_thread
 
-// Helper scripts for social share icons
-// Hacker News
+//- Helper scripts for social share icons
+//- Hacker News
 script(type="text/javascript").
   (function(d, t) {
     var g = d.createElement(t),
@@ -18,11 +18,11 @@ script(type="text/javascript").
     s.parentNode.insertBefore(g, s);
   }(document, 'script'));
 
-// Twitter
+//- Twitter
 script(type="text/javascript").
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-// Google Plus
+//- Google Plus
 script(type="text/javascript").
   (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -30,9 +30,9 @@ script(type="text/javascript").
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 
-// Disqus
+//- Disqus
 script(type="text/javascript").
-  var disqus_shortname = 'colinwren'; // Change this to your Disqus account name
+  var disqus_shortname = 'colinwren'; //- Change this to your Disqus account name
 
   (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -21,17 +21,20 @@ To use Candy you must have [Node.js](http://nodejs.org/), [Python](http://www.py
 
 First install Cabin and Grunt globally with this command:
 
+
 ```bash
 npm install -g cabin grunt-cli
 ```
 
 Then scaffold a static site generator using the Candy theme with this command:
 
+
 ```bash
 cabin new blog CabinJS/Candy
 ```
 
 Now change into the `blog` directory and run the `grunt` command:
+
 
 ```bash
 cd blog && grunt
@@ -54,6 +57,7 @@ There are parts of the Candy theme which you are expected to edit when building 
 You are expected to add your name to the nav home link in the [`src/layouts/base.jade`](https://github.com/CabinJS/Candy/blob/master/src/layouts/base.jade#L24) or [`src/layouts/_header.ejs`](https://github.com/CabinJS/Candy/blob/master/src/layouts/_header.ejs#L20) file.You are also expected to update the social media links with your GitHub username and Twitter handle in the [`src/layouts/base.jade`](https://github.com/CabinJS/Candy/blob/master/src/layouts/base.jade#L35-L36) or [`src/layouts/_header.ejs`](https://github.com/CabinJS/Candy/blob/master/src/layouts/_header.ejs#L35-L36) file.
 
 We have also provided social media icons for Google+, Facebook, and Pinterest which you can use out of the box. You can see all the icon font classes in the [`src/styles/_icon.scss`](https://github.com/CabinJS/Candy/blob/master/src/styles/_icons.scss#L27) file, and here is an example of how you would add a link to your Pinterest profile:
+
 
 ```html
 <a href="http://pinterest.com/chrisawren/" class="icon-pinterest"></a>
@@ -97,6 +101,8 @@ If you didn't select a deployment tool during the theme installation, you can ad
 
 If you are not deploying to the root of your site, you will need to modify the grunt-pages `data.baseUrl` property during deployment so that the asset paths and URLs resolve correctly. Here is an example which augments the `build` and `deploy` tasks when deploying a site to `/blog/`:
 
+
+
 ```js
 grunt.registerTask('build', function (target) {
   if (target === 'deploy') {
@@ -113,6 +119,7 @@ grunt.registerTask('build', function (target) {
 
 grunt.registerTask('deploy', ['build:deploy', 'yourChosenDeployTask']);
 ```
+
 
 ### Changing the main theme color
 
@@ -142,12 +149,14 @@ If you would like to generate an RSS feed, check out grunt-pages' [RSS option](h
 Cabin supports [GitHub flavored Markdown](https://help.github.com/articles/github-flavored-markdown) for its static site generation. It has awesome features like:
 
 ### Syntax highlighted code blocks
+
 ```javascript
 function praise (thing) {
   console.log(thing + ' is so great!');
 }
 
 praise('Candy');
+
 ```
 ### Linked headers(link on the left)
 Link into specific sections of your posts.

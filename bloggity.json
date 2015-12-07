@@ -13,7 +13,7 @@
       "name": "posts",
       "src": "./posts",
       "url": "blog/:title/",
-      // TODO: configure :postDate; "url": "blog/:postDate-:title/",
+      // TODO: configure `:postDate`; ex: `"url": "blog/:postDate-:title/"`
       "template": "./templates/post",
       "sortBy": "date:asc",
       "paging": {
