@@ -2,22 +2,24 @@
   "site": {
     "language": "en-US"
   , "title": "Brandtley's Blog"
+  , "description": "waffles are delicious"
+  , "keywords": "waffles are delicious"
   , "baseUrl": null
   },
-  "CSSPreprocessor": [
-    "stylus"
-  ],
-  "templateEngine": "jade",
+  // "templateEngine": "jade",
   "dest": ".dist",
   "postTypes": [
     {
       "name": "posts",
       "src": "./posts",
-      "url": "posts/:title/",
+      "url": "blog/:title/",
+      // TODO: configure :postDate; "url": "blog/:postDate-:title/",
       "template": "./templates/post",
       "sortBy": "date:asc",
       "paging": {
-        "template": "./templates/"
+        "url": "blog/",
+        "template": "./templates/archives.jade",
+        "pageSize": "5"
       },
       "taxonomies": [
         "tags",
@@ -26,7 +28,7 @@
     },
     {
       "name": "projects",
-      "url": "/projects/:title/",
+      "url": "projects/:title/",
       "src": "./projects",
       "template": "./templates/project",
       "sortBy": "date:asc",
@@ -55,16 +57,16 @@
                                         // OPTIONAL PARAMETERS
                                         // ===================
   , "image_url": "/icon.png"            // {string} - Small image for feed readers to use.
-  , "docs": ""                          // {string} - Url to documentation on this feed.
-  , "managingEditor": ""                // {string} - Who manages content in this feed.
-  , "webMaster": ""                     // {string} - Who manages feed availability and technical support.
-  , "copyright": ""                     // {string} - Copyright information for this feed.
-  , "language": ""                      // {string} - The language of the content of this feed.
-  , "categories": ""                    // {array} - One or more categories this feed belongs to.
-  , "pubDate": ""                       // {date} - Date object or date string The publication date for content in the feed
-  , "ttl": ""                           // {integer - Number of minutes feed can be cached before refreshing from source.
-  , "hub": ""                           // {string} - PubSubHubbub hub url Where is the PubSubHub hub located.
-  , "custom_namespaces": ""             // {object} - Put additional namespaces in element (without 'xmlns:' prefix)
-  , "custom_elements": ""               // {}
+  , "docs": null                        // {string} - Url to documentation on this feed.
+  , "managingEditor": null              // {string} - Who manages content in this feed.
+  , "webMaster": null                   // {string} - Who manages feed availability and technical support.
+  , "copyright": null                   // {string} - Copyright information for this feed.
+  , "language": null                    // {string} - The language of the content of this feed.
+  , "categories": null                  // {array} - One or more categories this feed belongs to.
+  , "pubDate": null                     // {date} - Date object or date string The publication date for content in the feed
+  , "ttl": null                         // {integer - Number of minutes feed can be cached before refreshing from source.
+  , "hub": null                         // {string} - PubSubHubbub hub url Where is the PubSubHub hub located.
+  , "custom_namespaces": null           // {object} - Put additional namespaces in element (without 'xmlns:' prefix)
+  , "custom_elements": null             // {}
   }
 }
