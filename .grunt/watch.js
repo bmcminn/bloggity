@@ -21,7 +21,7 @@ module.exports = {
   },
 
   dist: {
-    files: ['dist/**'],
+    files: ['.dist/**'],
     options: {
       livereload: true
     }
@@ -32,6 +32,7 @@ module.exports = {
     files: [
       '**/*.md'
     , 'pages/*.jade'
+    , 'templates/*.jade'
     ],
     tasks: [
       'bloggity'
