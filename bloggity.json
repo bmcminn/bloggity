@@ -18,7 +18,7 @@
       "sortBy": "date:asc",
       "paging": {
         "url": "blog/",
-        "template": "./templates/archives.jade",
+        "template": "./templates/blog",
         "pageSize": "5"
       },
       "taxonomies": [
@@ -42,7 +42,7 @@
   "pages": {
     "name": "pages",
     "url": "/:title/",
-    "src": "./templates/pages",
+    "src": "./pages",
     "template": "./templates/page"
   },
   "rss": {

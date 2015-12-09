@@ -25,7 +25,7 @@ var templateEngines = {
 // build collection of file locations
 var files = {
       bloggityJSON: path.resolve('.', 'bloggity.json')
-    , appCacheJSON: path.resolve('.', '.grunt','cache','bloggity.json')
+    , appCacheJSON: path.resolve('.', '.grunt','cache','bloggity-cache.json')
     }
   ;
 
@@ -126,13 +126,15 @@ module.exports = function(grunt) {
 
       }, app.config.site);
 
-      // update baseUrl
       // TODO: add config/check for local env vs deploy
-      if (this.flags.dev) {
-        temp = require('../.grunt/connect.js');
-        console.log(temp);
-        app.site.baseUrl = ['http://', temp.dist.options.hostname, ':', temp.dist.options.port, '/'].join('');
-      }
+      // if (this.flags.dev) {
+      //   temp = require('../.grunt/connect.js');
+      //   console.log(temp);
+      //   app.site.baseUrl = ['http://', temp.dist.options.hostname, ':', temp.dist.options.port].join('');
+      // }
+
+      // update baseUrl
+      app.site.baseUrl = ['//', 'localhost', ':', '3005'].join('');
 
 
       // console.log(JSON.stringify(this, null,2));
@@ -205,7 +207,7 @@ module.exports = function(grunt) {
         return _.uniq(tests);
 
       } else {
-        return false;
+        return;
 
       }
     };
@@ -272,7 +274,7 @@ module.exports = function(grunt) {
         app[postType.name] = self.buildFileData(postFiles);
       });
 
-      return false;
+      return;
     };
 
 
@@ -291,7 +293,7 @@ module.exports = function(grunt) {
       // reassign our pages collection back to the app instance
       this.pages = this.buildFileData(pageFiles);
 
-      return false;
+      return;
     };
 
 
@@ -329,8 +331,7 @@ module.exports = function(grunt) {
         // console.log(page);
       });
 
-
-      return false;
+      return;
     };
 
 
@@ -351,7 +352,7 @@ module.exports = function(grunt) {
       // iterate over each post type
       _.each(self.config.postTypes, function(postType, index) {
 
-        console.log(postType);
+        // console.log(postType);
 
 
         // iterate over each post in said post type
@@ -361,29 +362,43 @@ module.exports = function(grunt) {
 
           // replace url partials with necsesary data
           post.targetPath = post.targetPath.replace(/:title/, post.name);
-          // post.targetPath = post.targetPath.replace(/:postDate/, moment(post.ctime));
-
           post.targetPath = path.resolve(post.targetPath, 'index.html');
 
-
-
-          console.log(post);
-
+          // get the post template file
           post.template = grunt.file.read(path.resolve(postType.template + '.jade'));
 
 
+          // render the post markdown
+          post.postContent = marked(post.body);
+
+
+          console.log(post.postContent);
+
+
+          // merge the frontmatter attributes into the post object
+          post = _.merge(post, post.attributes);
+
+
+          // remove the post.attributes collection to clean things up a bit
+          delete post.attributes;
+
+
+          // set the post object on our model
+          self.post = post;
+
+
+          // render the final template
           post.renderedContent = templateEngine.render(post.template, self);
 
 
-          console.log(post.renderedContent);
-          console.log(post.targetPath);
-
+          // write file to dist/postType/ folder
+          grunt.file.write(post.targetPath, post.renderedContent);
 
         });
 
       });
 
-      return false;
+      return;
     };
 
 

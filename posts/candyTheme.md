@@ -10,6 +10,7 @@ tags:
     - what did I do?
     - waffles
 ---
+## What is this for?
 
 Candy is a minimal blogging theme for [Cabin](http://cabinjs.com).
 

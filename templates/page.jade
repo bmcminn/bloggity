@@ -1,15 +1,15 @@
-//- Mixin for post, used on homepage and post page
-mixin postHead(post)
-  .post-head.group
-    a(href="#{site.baseUrl}/#{post.url}")
-      h1.post-title= post.title
-    span.post-date!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+//- //- Mixin for post, used on homepage and post page
+//- mixin postHead(post)
+//-   .post-head.group
+//-     a(href="#{site.baseUrl}/#{post.url}")
+//-       h1.post-title= post.title
+//-     span.post-date!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
 
 
-mixin post(post)
-  mixin postHead(post)
-  .post-body.markdown!= post.content
-  //- .post-body.markdown!= post.content
+//- mixin post(post)
+//-   mixin postHead(post)
+//-   .post-body.markdown!= post.content
+//-   //- .post-body.markdown!= post.content
 
 
 doctype html
@@ -48,11 +48,11 @@ html(lang="#{site.language}")
       nav.site-nav
         ul.nav-links
           li.text-link
-            a(href="#{site.baseUrl}/about.html") about
+            a(href="#{site.baseUrl}/about/") About
           li.text-link
-            a(href="#{site.baseUrl}/projects.html") projects
+            a(href="#{site.baseUrl}/projects/") Projects
           li.text-link
-            a(href="#{site.baseUrl}/archives.html") archives
+            a(href="#{site.baseUrl}/blog/") Blog
 
       //- .social-media
       //-   a.icon-github(href="https://github.com/colinwren")
