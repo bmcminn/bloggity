@@ -1,6 +1,7 @@
 
 
 var path          = require('path')
+  , url           = require('url')
   , fs            = require('fs')
   , _             = require('lodash')
   // , pygmentize    = require('pygmentize-bundled')
@@ -313,18 +314,25 @@ module.exports = function(grunt) {
       // iteratate over each page
       _.each(pages, function(page, index) {
 
+        // find the render path for the file
+        if (page.filepath.match(/(index|\d{3,4})\.jade/)) {
+          page.renderPath = path.resolve(config.dest, page.name + '.html');
+          self.meta.canonical = url.resolve(self.baseUrl + '/', page.name + '.html');
+        } else {
+          page.renderPath = path.resolve(config.dest, page.name, 'index.html');
+          self.meta.canonical = url.resolve(self.baseUrl + '/', '/' + page.name);
+        }
+
+
+        // setup the self.filename property so Jade has a file system reference point
         self.filename = page.filepath;
 
+        // assign the page object to self.page
+        self.page = page;
 
         // render content
         page.renderedContent = templateEngine.render(page.body, self);
 
-        // find the render path for the file
-        if (page.filepath.match(/(index|\d{3,4})\.jade/)) {
-          page.renderPath = path.resolve(config.dest, page.name + '.html');
-        } else {
-          page.renderPath = path.resolve(config.dest, page.name, 'index.html');
-        }
 
         grunt.file.write(page.renderPath, page.renderedContent);
 
@@ -346,13 +354,9 @@ module.exports = function(grunt) {
         , templateEngine = this.templateEngine.engine
         ;
 
-      // console.log(self.config.postTypes);
-
 
       // iterate over each post type
       _.each(self.config.postTypes, function(postType, index) {
-
-        // console.log(postType);
 
 
         // iterate over each post in said post type

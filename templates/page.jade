@@ -18,21 +18,29 @@ html(lang="#{site.language}")
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
 
+
     block title
       title= "My Blog"
+
 
     link(rel="icon", type="image/png", href="#{site.baseUrl}/images/cabin.png")
     link(href="#{site.baseUrl}/styles/main.css", rel="stylesheet")
 
-    block post-meta
-      if !post
-        if post.description
-          meta(name="description", content="#{post.description}")
-        if post.keywords
-          meta(name="keywords", content="#{post.keywords}")
-      else
-        meta(name="description", content="#{site.description}")
-        meta(name="keywords", content="#{site.keywords}")
+
+    block meta
+      if meta.description
+        meta(name="description", content="#{meta.description}")
+      if meta.keywords
+        meta(name="keywords", content="#{meta.keywords}")
+
+
+    link(rel="canonical", href="#{meta.canonical}")
+
+    if meta.prev
+      link(rel="prev", href="#{meta.prev}")
+    if meta.next
+      link(rel="next", href="#{meta.next}")
+
 
     block styles
 
@@ -42,8 +50,7 @@ html(lang="#{site.language}")
   body
     header.site-header
       .site-name
-        a(href="#{site.baseUrl}/")
-          My Name
+        a(href="#{site.baseUrl}/") My Name
 
       nav.site-nav
         ul.nav-links

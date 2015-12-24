@@ -37,11 +37,13 @@
   },
   "dependencies": {
     "fastmatter": "^1.1.1",
+    "fs-expand": "git+https://github.com/kaelzhang/node-fs-expand.git",
     "handlebars": "^4.0.5",
     "jade": "^1.11.0",
     "jade-highlight": "0.0.1",
     "lodash": "^3.10.1",
     "nib": "^1.1.0",
-    "yamljs": "^0.2.4"
+    "yamljs": "^0.2.4",
+    "yargs": "^3.31.0"
   }
 }

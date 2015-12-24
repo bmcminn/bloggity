@@ -1,15 +1,15 @@
 extends ../templates/page
 
 block title
-    title= post.title
+  title= post.title
 
 
 block post-meta
-    if post.description
-        meta(name="description", content="#{post.description}")
+  if post.description
+    meta(name="description", content="#{post.description}")
 
 
 block body-content
-    !{post.postContent}
-    //- mixin post(post)
-    //- include _social
+  !{post.postContent}
+  //- mixin post(post)
+  //- include _social
