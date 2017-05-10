@@ -1,0 +1,31 @@
+site:
+    name: Site Title Here
+    clientDir: ./content
+    publicDir: ./public
+    assetExts: [ png, jpg, jpeg, gif, svg, mp3, mp4, avi, wmv, webm ]
+
+
+authors:
+    - &BRANDTLEY_MCMINN
+        name: Brandtley McMinn
+        website: http://brandtley.name/
+        social:
+            -
+                name: Facebook
+                url:    https://facebook.com/blarg
+            -
+                name: Twitter
+                url:    https://twitter.com/blarg
+    - &BOB_DOLE
+        name: Bob Dole
+        website: http://bobdo.le/
+        social:
+            -
+                name: Facebook
+                url: https://facebook.com/boblarg
+            -
+                name: Instagram
+                url: https://instagram.com/boblarg
+
+post:
+    author: *BRANDTLEY_MCMINN

@@ -1,0 +1,478 @@
+
+/* line 5 : E:\github\bloggity\content\css\main.styl */
+
+/* line 1 : E:\github\bloggity\node_modules\stylus\lib\functions\index.styl */
+
+/* line 297 : E:\github\bloggity\node_modules\stylus\lib\functions\index.styl */
+
+/* line 1 : E:\github\bloggity\content\css\_waffle.styl */
+/*
+ * waffle-grid - v1.3.1 - (https://lucasgruwez.github.io/waffle-grid)
+ * Copyright 2017 Lucas Gruwez.
+ * Licensed under MIT
+ * https://lucasgruwez.github.io/waffle-grid
+ */
+
+/* line 62 : E:\github\bloggity\content\css\_waffle.styl */
+.grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* line 70 : E:\github\bloggity\content\css\_waffle.styl */
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* line 77 : E:\github\bloggity\content\css\_waffle.styl */
+.col {
+  box-sizing: border-box;
+  margin: 10px;
+  vertical-align: top;
+}
+
+/* line 82 : E:\github\bloggity\content\css\_waffle.styl */
+
+/* line 83 : E:\github\bloggity\content\css\_waffle.styl */
+.row.center {
+  justify-content: center;
+  align-items: center;
+}
+
+/* line 88 : E:\github\bloggity\content\css\_waffle.styl */
+
+/* line 90 : E:\github\bloggity\content\css\_waffle.styl */
+.col.middle {
+  vertical-align: middle;
+}
+
+/* line 93 : E:\github\bloggity\content\css\_waffle.styl */
+.col.bottom {
+  vertical-align: middle;
+}
+
+/* line 97 : E:\github\bloggity\content\css\_waffle.styl */
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 101 : E:\github\bloggity\content\css\_waffle.styl */
+.left {
+  margin-right: auto;
+}
+
+/* line 104 : E:\github\bloggity\content\css\_waffle.styl */
+.right {
+  margin-left: auto;
+}
+
+/* line 107 : E:\github\bloggity\content\css\_waffle.styl */
+.w-auto {
+  flex: 1;
+}
+
+/* line 132 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile-hide] {
+  display: none;
+}
+
+/* line 135 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile-show] {
+  display: initial;
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="1-4"] {
+  width: calc(25% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="2-4"] {
+  width: calc(50% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="3-4"] {
+  width: calc(75% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="4-4"] {
+  width: calc(100% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="1-8"] {
+  width: calc(12.5% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="2-8"] {
+  width: calc(25% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="3-8"] {
+  width: calc(37.5% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="4-8"] {
+  width: calc(50% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="5-8"] {
+  width: calc(62.5% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="6-8"] {
+  width: calc(75% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="7-8"] {
+  width: calc(87.5% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="8-8"] {
+  width: calc(100% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="1-12"] {
+  width: calc(8.333333333333332% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="2-12"] {
+  width: calc(16.666666666666664% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="3-12"] {
+  width: calc(25% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="4-12"] {
+  width: calc(33.33333333333333% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="5-12"] {
+  width: calc(41.66666666666667% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="6-12"] {
+  width: calc(50% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="7-12"] {
+  width: calc(58.333333333333336% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="8-12"] {
+  width: calc(66.66666666666666% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="9-12"] {
+  width: calc(75% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="10-12"] {
+  width: calc(83.33333333333334% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="11-12"] {
+  width: calc(91.66666666666666% - 20px);
+}
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+[mobile="12-12"] {
+  width: calc(100% - 20px);
+}
+@media screen and (min-width: 480px) {
+
+/* line 132 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet-hide] {
+    display: none;
+  }
+
+/* line 135 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet-show] {
+    display: initial;
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="1-4"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="2-4"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="3-4"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="4-4"] {
+    width: calc(100% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="1-8"] {
+    width: calc(12.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="2-8"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="3-8"] {
+    width: calc(37.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="4-8"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="5-8"] {
+    width: calc(62.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="6-8"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="7-8"] {
+    width: calc(87.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="8-8"] {
+    width: calc(100% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="1-12"] {
+    width: calc(8.333333333333332% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="2-12"] {
+    width: calc(16.666666666666664% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="3-12"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="4-12"] {
+    width: calc(33.33333333333333% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="5-12"] {
+    width: calc(41.66666666666667% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="6-12"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="7-12"] {
+    width: calc(58.333333333333336% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="8-12"] {
+    width: calc(66.66666666666666% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="9-12"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="10-12"] {
+    width: calc(83.33333333333334% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="11-12"] {
+    width: calc(91.66666666666666% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [tablet="12-12"] {
+    width: calc(100% - 20px);
+  }
+}
+@media screen and (min-width: 900px) {
+
+/* line 132 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop-hide] {
+    display: none;
+  }
+
+/* line 135 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop-show] {
+    display: initial;
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="1-4"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="2-4"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="3-4"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="4-4"] {
+    width: calc(100% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="1-8"] {
+    width: calc(12.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="2-8"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="3-8"] {
+    width: calc(37.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="4-8"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="5-8"] {
+    width: calc(62.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="6-8"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="7-8"] {
+    width: calc(87.5% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="8-8"] {
+    width: calc(100% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="1-12"] {
+    width: calc(8.333333333333332% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="2-12"] {
+    width: calc(16.666666666666664% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="3-12"] {
+    width: calc(25% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="4-12"] {
+    width: calc(33.33333333333333% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="5-12"] {
+    width: calc(41.66666666666667% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="6-12"] {
+    width: calc(50% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="7-12"] {
+    width: calc(58.333333333333336% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="8-12"] {
+    width: calc(66.66666666666666% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="9-12"] {
+    width: calc(75% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="10-12"] {
+    width: calc(83.33333333333334% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="11-12"] {
+    width: calc(91.66666666666666% - 20px);
+  }
+
+/* line 144 : E:\github\bloggity\content\css\_waffle.styl */
+  [desktop="12-12"] {
+    width: calc(100% - 20px);
+  }
+}
+
+/* line 4 : E:\github\bloggity\content\css\main.styl */
+body {
+  background-color: #f90;
+}

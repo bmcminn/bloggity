@@ -1,33 +1,29 @@
 {
   "name": "bloggity",
   "version": "1.0.0",
-  "description": "Official website of Brandtley McMinn\r =====================",
   "main": "index.js",
-  "scripts": {
-    "pre-install": "php sculpin.phar install",
-    "watch": "php sculpin.phar generate --watch --server",
-    "build-prod": "php sculpin.phar generate --env=prod"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bmcminn/bloggity.git"
-  },
+  "repository": "https://github.com/bmcminn/bloggity",
   "author": "Brandtley McMinn <labs@gbox.name>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bmcminn/bloggity/issues"
+  "scripts": {
+    "dev": "node index.js",
+    "build-css": "node ./bin/compile-css",
+    "build-js": "node ./bin/compile-js",
+    "build-assets": "node ./bin/migrate-assets"
   },
-  "homepage": "https://github.com/bmcminn/bloggity#readme",
   "dependencies": {
-    "chalk": "^1.1.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.11.3",
-    "grunt-contrib-stylus": "^0.22.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-exec": "^0.4.6",
-    "grunt-jsonlint": "^1.0.6",
-    "load-grunt-config": "^0.19.0",
-    "lodash": "^3.10.1",
-    "time-grunt": "^1.2.2"
+    "body-parser": "^1.17.1",
+    "chalk": "^1.1.3",
+    "cors": "^2.8.3",
+    "dotenv-safe": "^4.0.4",
+    "errorhandler": "^1.5.0",
+    "express": "^4.15.2",
+    "grunt": "^1.0.1",
+    "method-override": "^2.3.8",
+    "morgan": "^1.8.1",
+    "passport": "^0.3.2",
+    "sequelize": "^3.30.4",
+    "stylus": "^0.54.5",
+    "uglify-js": "^3.0.3"
   }
 }
