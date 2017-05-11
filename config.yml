@@ -6,7 +6,7 @@ site:
 
 
 authors:
-    - &BRANDTLEY_MCMINN
+    BRANDTLEY_MCMINN:
         name: Brandtley McMinn
         website: http://brandtley.name/
         social:
@@ -16,7 +16,7 @@ authors:
             -
                 name: Twitter
                 url:    https://twitter.com/blarg
-    - &BOB_DOLE
+    BOB_DOLE:
         name: Bob Dole
         website: http://bobdo.le/
         social:
@@ -27,5 +27,3 @@ authors:
                 name: Instagram
                 url: https://instagram.com/boblarg
 
-post:
-    author: *BRANDTLEY_MCMINN

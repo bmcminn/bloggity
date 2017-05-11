@@ -14,6 +14,7 @@ const prod      = !!process.env.production;  // coerce env.production to bool
 const log       = console.log.bind(console);
 
 
+
 const styles = {
     omitFilePrefix: '_'
 ,   fileExt:        '.styl'
@@ -24,47 +25,56 @@ const styles = {
 };
 
 
-const stylesPatterns = [
-    path.join(styles.srcDir, `**/*${styles.fileExt}`)
-,   '!' + path.join(styles.srcDir, `**/${styles.omitFilePrefix}*${styles.fileExt}`)
-];
+styles.renderStylesheets = function() {
+    let self = this;
 
+    self.filepaths = [
+        path.join(self.srcDir, `**/*${self.fileExt}`)
+    ,   '!' + path.join(self.srcDir, `**/${self.omitFilePrefix}*${self.fileExt}`)
+    ];
 
-const globFiles = {
-    filter: 'isFile'
+    self.globConfig = {
+        filter: 'isFile'
+    };
+
+    self.stylesheets = fs.expand(self.globConfig, self.filepaths);
+
+    if (self.stylesheets.length <= 0) {
+        console.log(chalk.yellow('No files found.'));
+        return;
+    }
+
+    self.stylesheets.map(self.renderStylesheet)
+
 };
 
 
-const styleFiles = fs.expand(globFiles, stylesPatterns);
+styles.renderStylesheet = function renderStylesheet(style) {
 
-
-if (!styleFiles.length > 0) {
-    console.log(chalk.yellow('No files found.'));
-    return;
-}
-
-
-styleFiles.map(style => {
+    let self = this;
 
     log(chalk.green('> compiling', chalk.cyan(style)));
 
     let content     = fs.read(style).toString();
-    let filepath    = style.substr(styles.srcDir.length + 1);
-    let filename    = path.basename(filepath, styles.fileExt) + styles.renderFileExt;
+    let filepath    = style.substr(self.srcDir.length + 1);
+    let filename    = path.basename(filepath, self.fileExt) + self.renderFileExt;
 
-    const destPath  = path.join(styles.destDir, filename);
+    const destPath  = path.join(self.destDir, filename);
 
     stylus(content)
         .set('filename',    style)
-        .set('paths',       [ styles.srcDir ])
+        .set('paths',       [ self.srcDir ])
         .set('linenos',     !prod)  // render linenos when not prod
         .set('compress',    prod)   // compress when prod
         .render((err, css) => {
             if (err) { console.log(chalk.red(err)); return; }
-
             fs.write(destPath, css);
 
         })
         ;
 
-});
+};
+
+
+
+module.exports = styles;

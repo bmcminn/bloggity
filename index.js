@@ -5,12 +5,10 @@ const path          = require('path');
 const http          = require('http');
 const methods       = require('methods');
 const express       = require('express');
+const chokidar      = require('chokidar');
 const bodyParser    = require('body-parser');
-// const session       = require('express-session');
 const cors          = require('cors');
-// const passport      = require('passport');
 // const errorhandler  = require('errorhandler');
-// const mongoose      = require('mongoose');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -21,6 +19,20 @@ const configYAML = fs.read(configYAMLpath);
 
 // Create global app object
 var app = express();
+
+
+app.set('config', fs.readYAML(configYAMLpath));
+
+
+
+chokidar.watch('./content/', {
+    persistent: true
+})
+    .on('add',      require('./middleware/file-add-handler'))
+    .on('change',   require('./middleware/file-change-handler'))
+    .on('delete',   require('./middleware/file-delete-handler'))
+    ;
+
 
 app.use(cors());
 
@@ -34,21 +46,21 @@ app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
 
-// asset compilation middleware
-app.use(require('./middleware/compile-css'));
-app.use(require('./middleware/compile-js'));
+app.use(require('./middleware/get-content'));
+
+
+app.get('/', function(req, res) {
+
+    console.log('loading homepage');
+    res.send(res.template);
+
+});
 
 
 
+app.set('PORT', process.env.PORT || 3505);
+app.set('HOST', process.env.HOST || 'http://localhost');
 
-
-
-
-
-
-process.env.PORT = process.env.PORT || 3505;
-process.env.HOST = process.env.HOST || 'http://localhost';
-
-app.listen(process.env.PORT, () => {
-    console.log(`\tServing ${process.env.HOST}:${process.env.PORT}`);
+app.listen(app.get('PORT'), () => {
+    console.log(`\tServing ${app.get('HOST')}:${app.get('PORT')}`);
 });
