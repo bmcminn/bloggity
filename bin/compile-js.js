@@ -10,7 +10,7 @@ const pkg       = fs.readJSON(pkgSrc);
 const configSrc = path.join(process.cwd(), 'config.yml');
 const Config    = fs.readYAML(configSrc);
 
-const prod      = !!process.env.production;  // coerce env.production to bool
+const PROD      = !!process.env.production;  // coerce env.production to bool
 const log       = console.log.bind(console);
 
 
@@ -20,39 +20,26 @@ const scripts = {
 
 ,   srcDir:     path.join(process.cwd(), Config.site.clientDir + '/js')
 ,   destDir:    path.join(process.cwd(), Config.site.publicDir + '/js')
+
+,   globConfig: {
+        filter: 'isFile'
+    }
 };
 
 
-const scriptsPatterns = [
-    path.join(scripts.srcDir, `**/*${scripts.fileExt}`)
-,   '!' + path.join(scripts.srcDir, `**/${scripts.omitFilePrefix}*${scripts.fileExt}`)
-];
+scripts.uglifyScript = function(script) {
 
-
-const globFiles = {
-    filter: 'isFile'
-};
-
-
-const scriptFiles = fs.expand(globFiles, scriptsPatterns);
-
-
-if (!scriptFiles.length > 0) {
-    console.log(chalk.yellow('No files found.'));
-    return;
-}
-
-
-scriptFiles.map(script => {
-
-    log(chalk.green('> compressing', chalk.cyan(script)));
+    let self = this;
 
     let content     = fs.read(script).toString();
-    let filepath    = script.substr(scripts.srcDir.length + 1);
+    let filepath    = script.substr(self.srcDir.length + 1);
 
-    const destPath  = path.join(scripts.destDir, filepath);
+    const destPath  = path.join(self.destDir, filepath);
 
-    if (prod) {
+    log(chalk.green('> compiling', chalk.cyan(script), chalk.yellow('->'), chalk.cyan(destPath)));
+
+    // TODO: abstract this as asset handler callback and unify the compile-css/compile-js utilities
+    if (PROD) {
         content = uglify.minify(content, {
             fromString: true,
             compress: {
@@ -66,4 +53,28 @@ scriptFiles.map(script => {
 
     fs.write(destPath, content);
 
-});
+};
+
+
+scripts.uglifyScripts = function() {
+
+    let self = this;
+
+    self.filepaths = [
+        path.join(self.srcDir, `**/*${self.fileExt}`)
+    ,   '!' + path.join(self.srcDir, `**/${self.omitFilePrefix}*${self.fileExt}`)
+    ];
+
+    self.scripts = fs.expand(self.globConfig, self.filepaths);
+
+    if (!self.scripts.length > 0) {
+        log(chalk.yellow('No files found.'));
+        return;
+    }
+
+    self.scripts.map(self.uglifyScript, self);
+
+};
+
+
+module.exports = scripts;

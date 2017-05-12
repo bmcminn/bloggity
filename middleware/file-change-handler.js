@@ -14,14 +14,10 @@ function fileWatchHandler(filepath, stats) {
     // handle javascript file updates
     if (path.extname(filepath) === '.js') {
         // console.log('JS FILE');
-        require('../bin/compile-js');
+        require('../bin/compile-js').uglifyScript(filepath);
     }
 
-
-
-
 }
-
 
 
 module.exports = fileWatchHandler;

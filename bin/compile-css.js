@@ -10,9 +10,8 @@ const pkg       = fs.readJSON(pkgSrc);
 const configSrc = path.join(process.cwd(), 'config.yml');
 const Config    = fs.readYAML(configSrc);
 
-const prod      = !!process.env.production;  // coerce env.production to bool
+const PROD      = !!process.env.production;  // coerce env.production to bool
 const log       = console.log.bind(console);
-
 
 
 const styles = {
@@ -22,38 +21,16 @@ const styles = {
 
 ,   srcDir:     path.join(process.cwd(), Config.site.clientDir + '/css')
 ,   destDir:    path.join(process.cwd(), Config.site.publicDir + '/css')
-};
 
-
-styles.renderStylesheets = function() {
-    let self = this;
-
-    self.filepaths = [
-        path.join(self.srcDir, `**/*${self.fileExt}`)
-    ,   '!' + path.join(self.srcDir, `**/${self.omitFilePrefix}*${self.fileExt}`)
-    ];
-
-    self.globConfig = {
+,   globConfig: {
         filter: 'isFile'
-    };
-
-    self.stylesheets = fs.expand(self.globConfig, self.filepaths);
-
-    if (self.stylesheets.length <= 0) {
-        console.log(chalk.yellow('No files found.'));
-        return;
     }
-
-    self.stylesheets.map(self.renderStylesheet)
-
 };
 
 
-styles.renderStylesheet = function renderStylesheet(style) {
+styles.renderStylesheet = function(style) {
 
     let self = this;
-
-    log(chalk.green('> compiling', chalk.cyan(style)));
 
     let content     = fs.read(style).toString();
     let filepath    = style.substr(self.srcDir.length + 1);
@@ -61,13 +38,15 @@ styles.renderStylesheet = function renderStylesheet(style) {
 
     const destPath  = path.join(self.destDir, filename);
 
+    log(chalk.green('> compiling', chalk.cyan(style), chalk.yellow('->'), chalk.cyan(destPath)));
+
     stylus(content)
         .set('filename',    style)
         .set('paths',       [ self.srcDir ])
-        .set('linenos',     !prod)  // render linenos when not prod
-        .set('compress',    prod)   // compress when prod
+        .set('linenos',     !PROD)  // render linenos when not prod
+        .set('compress',    PROD)   // compress when prod
         .render((err, css) => {
-            if (err) { console.log(chalk.red(err)); return; }
+            if (err) { log(chalk.red(err)); return; }
             fs.write(destPath, css);
 
         })
@@ -75,6 +54,26 @@ styles.renderStylesheet = function renderStylesheet(style) {
 
 };
 
+
+styles.renderStylesheets = function() {
+
+    let self = this;
+
+    self.filepaths = [
+        path.join(self.srcDir, `**/*${self.fileExt}`)
+    ,   '!' + path.join(self.srcDir, `**/${self.omitFilePrefix}*${self.fileExt}`)
+    ];
+
+    self.stylesheets = fs.expand(self.globConfig, self.filepaths);
+
+    if (self.stylesheets.length <= 0) {
+        log(chalk.yellow('No files found.'));
+        return;
+    }
+
+    self.stylesheets.map(self.renderStylesheet, self);
+
+};
 
 
 module.exports = styles;
