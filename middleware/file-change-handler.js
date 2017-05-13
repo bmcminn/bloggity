@@ -6,6 +6,10 @@ function fileWatchHandler(filepath, stats) {
     filepath = path.join(process.cwd(), filepath);
 
 
+    if (path.extname(filepath) === '.md') {
+        require('./db').updateDocument(filepath);
+    }
+
     // handle stylus file updates
     if (path.extname(filepath) === '.styl') {
         require('../bin/compile-css').renderStylesheet(filepath);

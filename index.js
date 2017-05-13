@@ -18,10 +18,6 @@ const configYAMLpath = path.join(process.cwd(), 'config.yml');
 const configYAML = fs.read(configYAMLpath);
 
 
-global.NEDB     = require('nedb');
-global.DB       = {};
-
-
 // Create global app object
 var app = express();
 
