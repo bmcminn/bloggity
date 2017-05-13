@@ -22,6 +22,8 @@ const configYAML = fs.read(configYAMLpath);
 var app = express();
 
 
+app.set('CONTENT_DIR', 'content')
+
 app.set('config', fs.readYAML(configYAMLpath));
 
 console.log(['', chalk.yellow('// [BUILD ASSETS]'), ''].join('\n'));
@@ -59,6 +61,43 @@ app.get('/', function(req, res) {
     res.send(res.template);
 
 });
+
+
+
+app.get('/:taxonomy/:target/', (req, res) => {
+
+    let msg = {};
+
+    msg.url         = req.url;
+    msg.taxonomy    = req.params.taxonomy;
+    msg.target    = req.params.target;
+
+
+    let filepath = path.join(process.cwd(), req.app.get('CONTENT_DIR'), req.url);
+
+
+    // check if .md file exists
+    let isFileMd = path.join(filepath + '.md');
+
+    if (fs.exists(isFileMd)) {
+        msg.filepath    = isFileMd;
+        msg.isPost      = true;
+    }
+
+
+
+
+    // if the file doesn't exist
+    if (!msg.filepath) {
+        msg.status = 404;
+        res.status(404).json(msg);
+    }
+
+    res.json(msg);
+});
+
+
+
 
 
 app.set('PORT', process.env.PORT || 3505);
