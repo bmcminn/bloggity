@@ -10,8 +10,8 @@ function getContent(req, res, next) {
         next();
     }
 
-    console.log(req.params.length);
-    console.log(req.url);
+    // console.log(req.params.length);
+    // console.log(req.url);
 
     res.template = '555555';
 

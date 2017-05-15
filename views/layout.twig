@@ -1,0 +1,111 @@
+{# {% autoescape on %} #}
+{% filter spaceless %}
+{% filter sanitize %}
+
+<!doctype html>
+<html class="no-js" lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>{% block title %}{{ title }}{% endblock title %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ description }}">
+
+{#
+    {% if not debug %}
+    <base href="{{ hostname }}">
+    {% endif %}
+ #}
+
+    <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png'|hash }}">
+    <link rel="shortcut icon" href="{{ '/apple-touch-icon.png'|hash }}">
+
+    {% for font in fonts %}
+    <link rel="stylesheet" href="{{ font|hash }}" async defer>
+    {# <link rel="stylesheet" href=""> #}
+    {% endfor %}
+
+
+    {% for style in defaultStyles %}
+        <link rel="stylesheet" href="{{ style|hash }}" async defer>
+    {% endfor %}
+
+    {% for style in styles %}
+        <link rel="stylesheet" href="{{ style|hash }}" async defer>
+    {% endfor %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" async defer></script>
+</head>
+<body {% if bodyClasses %}class="{% for class in bodyClasses %}{{ class }} {% endfor %}"{% endif %}>
+
+    {% block header %}
+        {% include "partials/header" %}
+    {% endblock header %}
+
+
+    <div class="page-container container">
+
+        {% block mainNav %}
+        {% include "partials/navigation" %}
+        {% endblock mainNav %}
+
+
+        {% block aboveBody %}
+        {% endblock aboveBody %}
+
+
+        <main class="body-content row">
+        {% block body %}
+            <h1>{{ title }}</h1>
+            {{ contents|safe }}
+        {% endblock body %}
+        </main>
+
+        {% block footer %}
+        <footer class="footer-block row">
+            <nav class="">
+            {% for nav in navi.footer %}
+                <a href="{{ nav.link }}">{{ nav.title }}</a>
+            {% endfor %}
+            </nav>
+
+            <hr>
+
+            <div class="row">
+                <div class="col" tablet="6">
+                    ©{{ date.year }} — {{ company.legalname }} All Rights Reserved.
+                </div>
+                <div class="col text-right" tablet="6">
+                    <abbr title="Texas Board of Professional Land Surveying">TBPLS</abbr> Firm No. {{ license }}
+                </div>
+            </div>
+
+        </footer>
+        {% endblock footer %}
+    </div>
+
+    {% for script in defaultScripts %}
+        <script src="{{ script|hash }}"></script>
+    {% endfor %}
+
+    {% for script in scripts %}
+        <script src="{{ script|hash }}"></script>
+    {% endfor %}
+
+
+    {% if not debug %}
+    <script type="text/javascript">
+        window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+        ga('create','{{ analytics.google }}','auto');ga('send','pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    {% endif %}
+
+</body>
+</html>
+
+{% endfilter %}
+{% endfilter %}
+{# {% endautoescape %} #}

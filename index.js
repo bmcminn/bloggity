@@ -11,15 +11,15 @@ const bodyParser    = require('body-parser');
 const cors          = require('cors');
 
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-
 const configYAMLpath = path.join(process.cwd(), 'config.yml');
 const configYAML = fs.read(configYAMLpath);
 
 
 // Create global app object
 var app = express();
+
+
+app.set('isProduction', process.env.NODE_ENV === 'production');
 
 
 app.set('CONTENT_DIR', 'content')
@@ -43,59 +43,102 @@ chokidar.watch('./content/', {
 app.use(cors());
 
 
+// SETUP LOGGING MIDDLEWARE
+// -----------------------------------------------------------------
+
 app.use(require('morgan')('dev'));
+
+
+
+// SETUP BODY PARSER MIDDLEWARE
+// -----------------------------------------------------------------
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+
+// SETUP VIEW ENGINE
+// -----------------------------------------------------------------
+
+const expressNunjucks   = require('express-nunjucks');
+const nunjucks          = require('./bin/nunjucks');
+
+app.set('view engine', 'twig')
+app.set('views', __dirname + '/views');
+
+expressNunjucks(app, {
+    watch:      false
+,   noCache:    !app.get('isProduction')
+// ,   tags:
+,   loader:     nunjucks.reloader
+,   filters:    nunjucks.filters
+});
+
+
+
+
+
+
 app.use(require('method-override')());
+
+
+// SETUP STATIC DIRECTORY MIDDLEWARE
+// -----------------------------------------------------------------
+
 app.use(express.static(__dirname + '/public'));
 
 
-app.use(require('./middleware/get-content'));
+// SETUP LOGGING MIDDLEWARE
+// -----------------------------------------------------------------
 
+// app.use(require('./middleware/get-content'));
+
+
+
+
+
+// SETUP ROUTER MIDDLERWARE
+// -----------------------------------------------------------------
 
 app.get('/', function(req, res) {
 
     console.log('loading homepage');
-    res.send(res.template);
+    res.render('pages/default');
 
 });
 
 
 
-app.get('/:taxonomy/:target/', (req, res) => {
+// app.get('/:taxonomy/:target/', (req, res) => {
 
-    let msg = {};
+//     let msg = {};
 
-    msg.url         = req.url;
-    msg.taxonomy    = req.params.taxonomy;
-    msg.target    = req.params.target;
-
-
-    let filepath = path.join(process.cwd(), req.app.get('CONTENT_DIR'), req.url);
+//     msg.url         = req.url;
+//     msg.taxonomy    = req.params.taxonomy;
+//     msg.target    = req.params.target;
 
 
-    // check if .md file exists
-    let isFileMd = path.join(filepath + '.md');
-
-    if (fs.exists(isFileMd)) {
-        msg.filepath    = isFileMd;
-        msg.isPost      = true;
-    }
+//     let filepath = path.join(process.cwd(), req.app.get('CONTENT_DIR'), req.url);
 
 
+//     // check if .md file exists
+//     let isFileMd = path.join(filepath + '.md');
+
+//     if (fs.exists(isFileMd)) {
+//         msg.filepath    = isFileMd;
+//         msg.isPost      = true;
+//     }
 
 
-    // if the file doesn't exist
-    if (!msg.filepath) {
-        msg.status = 404;
-        res.status(404).json(msg);
-    }
+//     // if the file doesn't exist
+//     if (!msg.filepath) {
+//         msg.status = 404;
+//         res.status(404).json(msg);
+//     }
 
-    res.json(msg);
-});
-
+//     res.json(msg);
+// });
 
 
 
