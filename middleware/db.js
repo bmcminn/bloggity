@@ -1,6 +1,7 @@
-const path  = require('path');
-const fs    = require('grunt').file;
-const fm    = require('front-matter');
+const path      = require('path');
+const fs        = require('grunt').file;
+const fm        = require('front-matter');
+const Promise   = require('bluebird');
 
 const NEDB  = require('nedb');
 const DB    = {};

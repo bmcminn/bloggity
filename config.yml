@@ -3,7 +3,17 @@ site:
     clientDir: ./content
     publicDir: ./public
     assetExts: [ png, jpg, jpeg, gif, svg, mp3, mp4, avi, wmv, webm ]
+    legalName:
+    owner:  Brandtley McMinn
 
+
+address:
+    street1:    4500 Testing
+    street2:
+    city:       Austin
+    stateFull:  Texas
+    state:      TX
+    zipcode:    78759
 
 authors:
     BRANDTLEY_MCMINN:
