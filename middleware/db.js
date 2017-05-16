@@ -7,6 +7,7 @@ const NEDB  = require('nedb');
 const DB    = {};
 
 
+
 DB.config = function(filepath) {
     return new NEDB({
         filename:   filepath
@@ -15,12 +16,22 @@ DB.config = function(filepath) {
 };
 
 
+
 DB.insertDocument = function(filepath, stats) {
 
     let doc = DB.content.findOne({ filepath: filepath }, function(err, doc) {
         if (!doc) {
-            console.log(doc);
-            let data = Object.assign({ filepath: filepath }, stats);
+            let parts = fm(fs.read(filepath));
+
+            let data = {};
+
+            data.filepath   = filepath;
+            data.published  = parts.attributes.published    ? new Date(parts.attributes.published)  : false;
+            data.draft      = parts.attributes.draft        ? parts.attributes.draft                : false;
+            data.content    = parts.body;
+
+            data = Object.assign({}, stats, parts.attributes, data);
+
             doc = DB.content.insert(data);
         }
     });
@@ -28,22 +39,28 @@ DB.insertDocument = function(filepath, stats) {
 };
 
 
-DB.updateDocument = function(filepath) {
+
+DB.updateDocument = function(filepath, stats) {
 
     let doc = DB.content.findOne({ filepath: filepath }, function(err, res) {
 
         let parts = fm(fs.read(filepath));
 
-        res = Object.assign({}, parts.attributes, res);
+        let data = {};
 
-        // normalize published time strings
-        if (res.published) { res.published = new Date(res.published); }
+        data.filepath   = filepath;
+        data.published  = parts.attributes.published    ? new Date(parts.attributes.published)  : false;
+        data.draft      = parts.attributes.draft        ? parts.attributes.draft                : false;
+        data.content    = parts.body;
 
-        // normalize updated time strings
+        data = Object.assign({}, stats, parts.attributes, data);
+
+
+       // normalize updated time strings
         if (res.updated) { res.updated = new Date(res.updated); }
 
-        // write content into res.content
-        res.content = parts.content;
+        // // write content into res.content
+        // res.content = parts.body;
 
         // update DB record with new information
         DB.content.update({ filepath: filepath }, res);
@@ -53,6 +70,7 @@ DB.updateDocument = function(filepath) {
 
     return doc;
 };
+
 
 
 DB.readDocument = function(filepath) {

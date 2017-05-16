@@ -1,4 +1,4 @@
 ---
 title: Welcome to Bloggity
-author: Brandltey McMinn
+author: Brandtley McMinn
 ---

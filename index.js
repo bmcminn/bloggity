@@ -15,8 +15,8 @@ const configYAMLpath = path.join(process.cwd(), 'config.yml');
 const configYAML = fs.read(configYAMLpath);
 
 
-// Create global app object
-var app = express();
+
+const app = express();
 
 
 app.set('isProduction', process.env.NODE_ENV === 'production');
@@ -43,10 +43,26 @@ chokidar.watch('./content/', {
 app.use(cors());
 
 
+
 // SETUP LOGGING MIDDLEWARE
 // -----------------------------------------------------------------
 
 app.use(require('morgan')('dev'));
+
+
+
+// SETUP MAIN DIRECTORIES
+// -----------------------------------------------------------------
+
+app.set('paths', {
+    public:     path.join(process.cwd(), 'public')
+,   content:    path.join(process.cwd(), 'content')
+// ,   css:        path.join(process.cwd(), '')
+,   db:         path.join(process.cwd(), '__db')
+,   bin:        path.join(process.cwd(), 'bin')
+,   middleware: path.join(process.cwd(), 'middleware')
+,   views:      path.join(process.cwd(), 'views')
+});
 
 
 
@@ -78,6 +94,12 @@ expressNunjucks(app, {
 
 
 
+// REGISTER STYLES AND SCRIPTS
+// -----------------------------------------------------------------
+
+app.use(require('./middleware/register-assets'))
+
+
 
 
 app.use(require('method-override')());
@@ -92,7 +114,7 @@ app.use(express.static(__dirname + '/public'));
 // SETUP LOGGING MIDDLEWARE
 // -----------------------------------------------------------------
 
-// app.use(require('./middleware/get-content'));
+app.use(require('./middleware/get-content'));
 
 
 
@@ -119,7 +141,7 @@ app.get('/', function(req, res) {
 //     msg.target    = req.params.target;
 
 
-//     let filepath = path.join(process.cwd(), req.app.get('CONTENT_DIR'), req.url);
+//     let filepath = path.join(process.cwd(), req.app.get('paths').content, req.url);
 
 
 //     // check if .md file exists
@@ -148,18 +170,43 @@ app.set('HOST', process.env.HOST || 'http://localhost');
 
 app.listen(app.get('PORT'), () => {
 
-    let msg = [ 'Site available at:', chalk.green(app.get('HOST') + ':' + app.get('PORT')) ].join(' ');
-    let msgLength = chalk.stripColor(msg).length + 1;
+    let siteInfo = [ chalk.yellow('Site available at:'), chalk.green(app.get('HOST') + ':' + app.get('PORT')) ].join(' ');
+    let msgLength = chalk.stripColor(siteInfo).length + 1;
 
-    let spacer = new Array(msgLength + 6);
+    let maxLength = 80;
+    let sideSpace = (maxLength - msgLength);
+
+    let spacer = new Array(msgLength + sideSpace);
+
+    let tmpSpace = new Array(Math.ceil(sideSpace / 2));
+    let msg = tmpSpace.join(' ') + siteInfo + tmpSpace.join(' ');
+
+    if (chalk.stripColor(msg).length < maxLength) {
+        let tmpSpace2 = new Array(Math.ceil(sideSpace / 2) + (maxLength - chalk.stripColor(msg).length - 1));
+        msg = tmpSpace.join(' ') + siteInfo + tmpSpace2.join(' ');
+    }
 
     let container = [
         ''
-    ,   chalk.yellow(`.${spacer.join('-')}.`)
-    ,   chalk.yellow(`|${spacer.join(' ')}|`)
-    ,   chalk.yellow(`|   ${msg}   |`)
-    ,   chalk.yellow(`|${spacer.join(' ')}|`)
-    ,   chalk.yellow(` ${spacer.join('-')} `)
+    ,   chalk.blue(`+${spacer.join('-')}+`)
+    ,   ''
+    ,   chalk.yellow("                   ,                                         ,               ")
+    ,   chalk.yellow("     `7MM\"\"\"Yp, `7MM                                  db    mm                ")
+    ,   chalk.yellow("       MM    Yb   MM                                        MM                ")
+    ,   chalk.yellow("       MM    dP   MM   ,pW\"Wq.    .P\"Ybm`   .P\"Ybm` `7MM  mmMMmm `7M'   `MF'  ")
+    ,   chalk.yellow("       MM\"\"\"bg.   MM  6W'   `Wb  :MI  I8   :MI  I8    MM    MM     VA   ,V    ")
+    ,   chalk.yellow("       MM    `Yb  MM  8M     M8   WmmmP\"    WmmmP\"    MM    MM      VA ,V     ")
+    ,   chalk.yellow("       MM    ,9P  MM  YA.   ,A9  8M        8M         MM    MM       VVV      ")
+    ,   chalk.yellow("     .JMMmmmd9` .JMML. `Ybmd9'    YMMMMMb   YMMMMMb .JMML.  `Mbmo    ,V       ")
+    ,   chalk.yellow("                                 6'     dP 6'     dP                ,V        ")
+    ,   chalk.yellow("                                  Ybmmmd'   Ybmmmd'               OOb\"         ")
+    ,   ''
+    ,   chalk.blue(`+${spacer.join('-')}+`)
+    ,   chalk.blue(`|${spacer.join(' ')}|`)
+    ,   chalk.blue(`|${msg}|`)
+    ,   chalk.blue(`|${spacer.join(' ')}|`)
+    ,   chalk.blue(`+${spacer.join('-')}+`)
+    ,   ''
     ].join('\n')
     ;
 
