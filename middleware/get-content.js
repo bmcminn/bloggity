@@ -21,6 +21,8 @@ function getContent(req, res, next) {
 
     }
 
+    // console.log(req.params.length);
+    // console.log(req.url);
 
     // STANDALONE PAGE (eg: About, Contact, Terms, Privacy Notice, etc)
     // -----------------------------------------------------------------

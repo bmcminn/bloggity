@@ -22,6 +22,9 @@ const app = express();
 app.set('isProduction', process.env.NODE_ENV === 'production');
 
 
+app.set('isProduction', process.env.NODE_ENV === 'production');
+
+
 app.set('CONTENT_DIR', 'content')
 
 app.set('config', fs.readYAML(configYAMLpath));
@@ -116,6 +119,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(require('./middleware/get-content'));
 
+// app.use(require('./middleware/get-content'));
 
 
 
@@ -132,7 +136,9 @@ app.get('/', function(req, res) {
 
 
 
+
 // app.get('/:taxonomy/:target/', (req, res) => {
+
 
 //     let msg = {};
 
@@ -141,11 +147,26 @@ app.get('/', function(req, res) {
 //     msg.target    = req.params.target;
 
 
+//     let filepath = path.join(process.cwd(), req.app.get('CONTENT_DIR'), req.url);
 //     let filepath = path.join(process.cwd(), req.app.get('paths').content, req.url);
-
 
 //     // check if .md file exists
 //     let isFileMd = path.join(filepath + '.md');
+
+//     // check if .md file exists
+//     let isFileMd = path.join(filepath + '.md');
+
+//     if (fs.exists(isFileMd)) {
+//         msg.filepath    = isFileMd;
+//         msg.isPost      = true;
+//     }
+
+
+//     // if the file doesn't exist
+//     if (!msg.filepath) {
+//         msg.status = 404;
+//         res.status(404).json(msg);
+//     }
 
 //     if (fs.exists(isFileMd)) {
 //         msg.filepath    = isFileMd;
