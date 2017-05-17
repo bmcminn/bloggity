@@ -130,7 +130,7 @@ app.use(require('./middleware/get-content'));
 app.get('/', function(req, res) {
 
     console.log('loading homepage');
-    res.render('pages/default');
+    res.render(req.app.locals.template);
 
 });
 

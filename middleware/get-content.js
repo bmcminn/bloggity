@@ -13,8 +13,6 @@ function getContent(req, res, next) {
     // -----------------------------------------------------------------
     if (!req.params.length && req.url === '/') {
 
-        res.template = 'index';
-
         pageName = 'index.md';
 
         // locals.content =
@@ -45,7 +43,6 @@ function getContent(req, res, next) {
                                 .toUpperCase()
                                 .replace(/\s/gi, '_')
             ;
-            console.log(authorName);
             file.author     = req.app.get('config').authors[authorName];
 
         }

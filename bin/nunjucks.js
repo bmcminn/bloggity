@@ -1,7 +1,9 @@
 
-const path        = require('path');
-const fs          = require('grunt').file;
-const nunjucks    = require('nunjucks');
+const path      = require('path');
+const fs        = require('grunt').file;
+const nunjucks  = require('nunjucks');
+const chokidar  = require('chokidar');
+
 
 const regex = {
     ext: /\.[\w\d]{2,}$/i
@@ -17,6 +19,25 @@ module.exports.reloader = new nunjucks.Loader.extend({
 
         this.baseDir    = viewspath[0];
         this.getFiles();
+
+
+        let self = this;
+
+        chokidar.watch(self.baseDir)
+            .on('change', filepath => {
+                console.log('updated view:', filepath);
+                this.getFile(filepath);
+                this.emit('update', this.getFileName(filepath));
+            })
+            ;
+
+    }
+
+,   getFile: function(filepath) {
+        let self = this;
+
+        let name = this.getFileName(filepath);
+        this.templates[name] = fs.read(filepath);
     }
 
 
@@ -24,12 +45,9 @@ module.exports.reloader = new nunjucks.Loader.extend({
 
         let self = this;
 
-        let viewFiles = fs.expand({ filter: 'isFile' }, path.join(self.baseDir, '**/*'));
+        let viewFiles = fs.expand({ filter: 'isFile' }, path.join(this.baseDir, '**/*'));
 
-        viewFiles.map(function(filepath) {
-            let name = self.getFileName(filepath);
-            this.templates[name] = fs.read(filepath);
-        }, this);
+        viewFiles.map(this.getFile, this);
 
     }
 
