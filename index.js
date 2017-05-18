@@ -22,12 +22,11 @@ const app = express();
 app.set('isProduction', process.env.NODE_ENV === 'production');
 
 
-app.set('isProduction', process.env.NODE_ENV === 'production');
-
-
 app.set('CONTENT_DIR', 'content')
 
+
 app.set('config', fs.readYAML(configYAMLpath));
+
 
 console.log(['', chalk.yellow('// [BUILD ASSETS]'), ''].join('\n'));
 (require('./bin/compile-css')).renderStylesheets();

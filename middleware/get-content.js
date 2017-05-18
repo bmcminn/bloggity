@@ -1,19 +1,35 @@
 
 const fs    = require('grunt').file;
 const path  = require('path');
+const chalk = require('chalk');
 const DB    = require('./db');
 
 
 function getContent(req, res, next) {
 
-    let locals = {};
-    let pageName = '';
+    const PATHS = req.app.get('paths');
+
+
+    let locals  = {};
+    let page    = {};
+
+
+    console.log(chalk.green('req.url'), req.url);
+    console.log(chalk.green('PATHS'), PATHS);
+
+
+    // ignore assets with a file extension
+    if (path.extname(req.url)) {
+        next();
+        return;
+    }
+
 
     // HOMEPAGE
     // -----------------------------------------------------------------
-    if (!req.params.length && req.url === '/') {
+    if (req.url === '/') {
 
-        pageName = 'index.md';
+        page.name = 'index.md';
 
         // locals.content =
 
@@ -31,25 +47,26 @@ function getContent(req, res, next) {
     // console.log(req.url);
 
 
-    let filepath = path.join(req.app.get('paths').content, pageName);
+    let filepath = path.join(PATHS.content, page.name);
 
-    console.log(filepath);
+    console.log(chalk.green('filepath'), filepath);
 
     DB.content.findOne({ filepath: filepath }, (err, file) => {
 
-        if (file.author) {
+        if (!file.author) {
 
             let authorName  = file.author
                                 .toUpperCase()
                                 .replace(/\s/gi, '_')
             ;
+
             file.author     = req.app.get('config').authors[authorName];
 
         }
 
         locals = Object.assign({}, file);
 
-        console.log(locals);
+        console.log(chalk.green('locals'), locals);
 
         req.app.locals = Object.assign({}, req.app.locals, locals);
 
