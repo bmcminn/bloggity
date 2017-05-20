@@ -11,15 +11,15 @@ function fileAddWatcher(filepath, stats) {
         require('./db').insertDocument(filepath, stats);
     }
 
-    // handle stylus file updates
-    if (path.extname(filepath) === '.styl') {
+    // // handle stylus file updates
+    // if (path.extname(filepath) === '.styl') {
 
-    }
+    // }
 
-    // handle javascript file updates
-    if (path.extname(filepath) === '.js') {
+    // // handle javascript file updates
+    // if (path.extname(filepath) === '.js') {
 
-    }
+    // }
 
 }
 

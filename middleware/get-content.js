@@ -5,6 +5,9 @@ const chalk = require('chalk');
 const DB    = require('./db');
 
 
+Symbol('sefjksle');
+
+
 function getContent(req, res, next) {
 
     const PATHS = req.app.get('paths');
@@ -51,28 +54,30 @@ function getContent(req, res, next) {
 
     console.log(chalk.green('filepath'), filepath);
 
-    DB.content.findOne({ filepath: filepath }, (err, file) => {
+    // DB.content.findOne({ filepath: filepath }, (err, file) => {
 
-        if (!file.author) {
+    //     if (!file.author) {
 
-            let authorName  = file.author
-                                .toUpperCase()
-                                .replace(/\s/gi, '_')
-            ;
+    //         let authorName  = file.author
+    //                             .toUpperCase()
+    //                             .replace(/\s/gi, '_')
+    //         ;
 
-            file.author     = req.app.get('config').authors[authorName];
+    //         file.author     = req.app.get('config').authors[authorName];
 
-        }
+    //     }
 
-        locals = Object.assign({}, file);
+    //     locals = Object.assign({}, file);
 
-        console.log(chalk.green('locals'), locals);
+    //     console.log(chalk.green('locals'), locals);
 
-        req.app.locals = Object.assign({}, req.app.locals, locals);
+    //     req.app.locals = Object.assign({}, req.app.locals, locals);
 
-        next();
+    //     next();
 
-    });
+    // });
+
+    next();
 
 }
 

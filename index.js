@@ -14,7 +14,7 @@ const cors          = require('cors');
 const configYAMLpath = path.join(process.cwd(), 'config.yml');
 const configYAML = fs.read(configYAMLpath);
 
-
+const pkg = fs.readJSON(path.join(__dirname, 'package.json'));
 
 const app = express();
 
@@ -128,7 +128,6 @@ app.use(require('./middleware/get-content'));
 
 app.get('/', function(req, res) {
 
-    console.log('loading homepage');
     res.render(req.app.locals.template);
 
 });
