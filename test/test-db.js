@@ -22,20 +22,20 @@ let files = fs.expand({ filter: 'isFile' }, [
 ]);
 
 
-files.map((filepath) => {
 
-    console.log(chalk.cyan(filepath));
 
-    let data    = require('fs').statSync(filepath);
-    let content = fs.read(filepath);
+function compileData(filepath) {
 
-    content     = fm(content);
-    data        = Object.assign({}, data, content.attributes);
+    let data        = require('fs').statSync(filepath);
+    let content     = fs.read(filepath);
+
+    content         = fm(content);
+    data            = Object.assign({}, data, content.attributes);
 
     data.filepath   = filepath;
     data.content    = content.body.trim();
 
-    data.template   = data.template     || 'pages/default';
+    data.template   = data.template || 'pages/default';
 
     if (data.published) {
 
@@ -47,6 +47,24 @@ files.map((filepath) => {
         }
     }
 
+    return data;
+}
+
+
+
+function handleTaxonomies(data) {
+
+    let insert = DB.updateTaxonomies(data);
+
+}
+
+
+
+files.map((filepath) => {
+
+    console.log(chalk.cyan(filepath));
+
+    let data = compileData(filepath);
 
     let insert = DB.insertDocument(data);
 
@@ -54,7 +72,12 @@ files.map((filepath) => {
         DB.updateDocument(data.filepath, data);
     }
 
+    handleTaxonomies(data);
+
 });
+
+
+
 
 
 console.log(DB);

@@ -98,7 +98,7 @@ DB._getDocumentID = function(filepath) {
     });
 
     if (docID < 0) {
-        console.error(chalk.red('document does not exist:'), chalk.cyan(filepath));
+        // console.error(chalk.red('document does not exist:'), chalk.cyan(filepath));
         return null;
     }
 
@@ -112,7 +112,7 @@ DB.insertDocument = function(data) {
     let self = this;
 
     if (!data.filepath) {
-        console.error(chalk.red(`'data.filepath' was not defined`));
+        // console.error(chalk.red(`'data.filepath' was not defined`));
         return null;
     }
 
@@ -120,7 +120,7 @@ DB.insertDocument = function(data) {
 
     // FIXED: conditional coerces docID = 0 to false, giving false positive on first index records
     if (docID > -1) {
-        console.info(chalk.yellow('document already exists:'), chalk.cyan(data.filepath));
+        // console.info(chalk.yellow('document already exists:'), chalk.cyan(data.filepath));
         return null;
     }
 
@@ -166,9 +166,45 @@ DB.deleteDocument = function(filepath) {
 // TAXONOMY MANAGEMENT
 // -----------------------------------------------------------------
 
-DB.insertTaxonomy = function(taxonomy, filepath) {
+/**
+ * @sauce  http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array#9229821
+ * @param  array a
+ * @return sorted array
+ */
+DB._uniq = function(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    });
+};
 
 
+DB.updateTaxonomies = function(data) {
+
+    let self = this;
+
+    if (!data.taxonomies) { return; }
+
+    let taxonomies = data.taxonomies;
+
+
+    for (let taxonomy in taxonomies) {
+        console.log(taxonomy);
+
+        let taxList = self.data.taxonomies[taxonomy] || [];
+
+        taxList.map(taxItem => {
+            self.data.taxonomies[taxonomy].push(data.filepath);
+        });
+
+        // this.data.taxonomies[taxonomy] = DB._uniq(this.data.taxonomies[taxonomy]);
+
+    }
+
+    this.data.taxonomies = self.data.taxonomies;
+
+    console.log(self.data.taxonomies);
+
+    // this.data.taxonomies[taxonomy]
 
 };
 
