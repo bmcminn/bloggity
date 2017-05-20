@@ -14,42 +14,43 @@ DB.init = function(config) {
     config = config || {};
 
     let defaults = {
-        location:   path.join(process.cwd(), 'db/db.json')
+        dbLocation:   path.join(process.cwd(), 'db/db.json')
     };
 
     this.config = Object.assign({}, defaults, config);
 
-
-    if (!fs.exists(this.config.location)) {
-        console.log(chalk.yellow('initializing database:'), chalk.cyan(this.config.location));
+    if (!fs.exists(this.config.dbLocation)) {
+        console.log(chalk.yellow('initializing database:'), chalk.cyan(this.config.dbLocation));
         this.data = {};
 
     } else {
-        console.log(chalk.yellow('reading database:'), chalk.cyan(this.config.location));
-        this.data = fs.readJSON(this.config.location);
+        console.log(chalk.yellow('reading database:'), chalk.cyan(this.config.dbLocation));
+        this.data = fs.readJSON(this.config.dbLocation);
 
     }
 
+    this.data.content       = this.data.content     || [];
+    this.data.renderList    = this.data.renderList  || [];
+    this.data.taxonomies    = this.data.taxonomies  || {};
+    this.data.canonical     = this.data.canonical   || {};
 
-    this.data.content       = this.data.content || [];
-    this.data.renderList    = this.data.renderList || [];
-    this.data.taxonomies    = this.data.taxonomies || {};
+    this.save();
 
-
-    console.log(this.data);
-
-
-    this.backup();
 };
 
 
 
+DB.reset = DB.init;
 
-DB.backup = function() {
+
+
+DB.save = function() {
 
     let self = this;
 
-    fs.write(self.config.location, JSON.stringify(self.data));
+    console.log(chalk.yellow('saving database: '), chalk.cyan(self.config.dbLocation));
+
+    fs.write(self.config.dbLocation, JSON.stringify(self.data));
 
 };
 
@@ -80,42 +81,94 @@ DB.backup = function() {
 
 
 
+// DOCUMENT MANAGEMENT
+// -----------------------------------------------------------------
+
+DB.getDocumentCount = function() {
+    return this.data.content.length;
+};
+
+
+DB._getDocumentID = function(filepath) {
+
+    let content = this.data.content;
+
+    let docID = content.findIndex(index => {
+        return index.filepath === filepath;
+    });
+
+    if (docID < 0) {
+        console.error(chalk.red('document does not exist:'), chalk.cyan(filepath));
+        return null;
+    }
+
+    return docID;
+
+};
+
 
 DB.insertDocument = function(data) {
 
     let self = this;
-
-    self.data.pages = self.data.pages || [];
-
-    let pages = self.data.pages;
 
     if (!data.filepath) {
         console.error(chalk.red(`'data.filepath' was not defined`));
         return null;
     }
 
-    let doc = pages.find(doc => {
-        return doc.filepath === data.filepath;
-    });
+    let docID = this._getDocumentID(data.filepath);
 
-
-    if (doc) {
-        console.error(
-            chalk.red(`${data.filepath} already exists\n`,
-                chalk.yellow('try updating the document with '),
-                chalk.cyan('chalk.DB.updateDocument(data)')
-            )
-        );
-
+    // FIXED: conditional coerces docID = 0 to false, giving false positive on first index records
+    if (docID > -1) {
+        console.info(chalk.yellow('document already exists:'), chalk.cyan(data.filepath));
         return null;
     }
 
     this.data.content.push(data);
+
+};
+
+
+DB.readDocument = function(filepath) {
+
+    let docID = this._getDocumentID(filepath);
+    if (!docID) { return null; }
+
+    return this.data.content[docID];
+
+};
+
+
+DB.updateDocument = function(filepath, data) {
+
+    let docID = this._getDocumentID(filepath);
+    if (!docID) { return null; }
+
+    let content = this.readDocument(filepath);
+
+    data = Object.assign({}, content, data);
+
+    this.data.content[docID] = data;
+
+};
+
+
+DB.deleteDocument = function(filepath) {
+
+    let doc = this.readDocument(filepath);
+
+    delete(this.data.content[doc]);
+
 };
 
 
 
+// TAXONOMY MANAGEMENT
+// -----------------------------------------------------------------
+
 DB.insertTaxonomy = function(taxonomy, filepath) {
+
+
 
 };
 
