@@ -184,27 +184,29 @@ DB.updateTaxonomies = function(data) {
 
     if (!data.taxonomies) { return; }
 
-    let taxonomies = data.taxonomies;
+    let taxonomies = {};
 
 
-    for (let taxonomy in taxonomies) {
-        console.log(taxonomy);
+    for (let taxonomy in data.taxonomies) {
 
-        let taxList = self.data.taxonomies[taxonomy] || [];
+        console.log(chalk.magenta('taxonomy:'), taxonomy, data.taxonomies[taxonomy]);
+
+        let taxList = data.taxonomies[taxonomy];
+
+        taxonomies[taxonomy] = this.data.taxonomies[taxonomy] || [];
 
         taxList.map(taxItem => {
-            self.data.taxonomies[taxonomy].push(data.filepath);
-        });
+            console.log(taxItem);
 
-        // this.data.taxonomies[taxonomy] = DB._uniq(this.data.taxonomies[taxonomy]);
+            taxonomies[taxonomy].push(data.filepath);
+
+        }, self);
 
     }
 
-    this.data.taxonomies = self.data.taxonomies;
+    console.log(taxonomies);
 
-    console.log(self.data.taxonomies);
-
-    // this.data.taxonomies[taxonomy]
+    // this.data.taxonomies = taxonomies;
 
 };
 
