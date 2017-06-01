@@ -4,27 +4,29 @@ const fm        = require('front-matter');
 const chalk     = require('chalk');
 const Promise   = require('bluebird');
 
+const log       = require('../middleware/log');
 
-// const NEDB  = require('nedb');
+
 const DB    = {};
 
 
 DB.init = function(config) {
 
+    log.info(chalk.yellow('[DB::init]'));
+
     config = config || {};
 
     let defaults = {
         dbLocation:   path.join(process.cwd(), 'db/db.json')
+    ,   currentDate:  new Date()
     };
 
     this.config = Object.assign({}, defaults, config);
 
     if (!fs.exists(this.config.dbLocation)) {
-        console.log(chalk.yellow('initializing database:'), chalk.cyan(this.config.dbLocation));
         this.data = {};
 
     } else {
-        console.log(chalk.yellow('reading database:'), chalk.cyan(this.config.dbLocation));
         this.data = fs.readJSON(this.config.dbLocation);
 
     }
@@ -48,35 +50,16 @@ DB.save = function() {
 
     let self = this;
 
-    console.log(chalk.yellow('saving database: '), chalk.cyan(self.config.dbLocation));
+    log.info(chalk.yellow('[DB::save]', chalk.cyan(self.config.dbLocation)));
 
-    fs.write(self.config.dbLocation, JSON.stringify(self.data));
+    let data = process.env.NODE_ENV === 'production'
+        ? JSON.stringify(this.data)             // compress our JSON data in production
+        : JSON.stringify(this.data, null, 4)    // prettify JSON data for dev
+        ;
+
+    fs.write(self.config.dbLocation, data);
 
 };
-
-
-// DB.insert = function(data) {
-
-// };
-
-
-
-// DB.update = function(target, data) {
-
-
-
-// };
-
-
-
-// DB.read = function(target, data) {
-//     let doc = DB.content.findOne({ filepath: filepath }, function(err, res) {
-//         return res;
-//     });
-
-//     return doc;
-// };
-
 
 
 
@@ -85,6 +68,9 @@ DB.save = function() {
 // -----------------------------------------------------------------
 
 DB.getDocumentCount = function() {
+
+    log.info(chalk.yellow('[DB::getDocumentCount]'));
+
     return this.data.content.length;
 };
 
@@ -97,8 +83,9 @@ DB._getDocumentID = function(filepath) {
         return index.filepath === filepath;
     });
 
+
     if (docID < 0) {
-        // console.error(chalk.red('document does not exist:'), chalk.cyan(filepath));
+        // log.error(chalk.red('document does not exist:'), chalk.cyan(filepath));
         return null;
     }
 
@@ -109,22 +96,24 @@ DB._getDocumentID = function(filepath) {
 
 DB.insertDocument = function(data) {
 
-    let self = this;
+    log.info(chalk.yellow('[DB::insertDocument]', chalk.cyan(data.filepath)));
 
     if (!data.filepath) {
-        // console.error(chalk.red(`'data.filepath' was not defined`));
+        log.error(chalk.red(`'data.filepath' was not defined`));
         return null;
     }
 
     let docID = this._getDocumentID(data.filepath);
 
     // FIXED: conditional coerces docID = 0 to false, giving false positive on first index records
-    if (docID > -1) {
-        // console.info(chalk.yellow('document already exists:'), chalk.cyan(data.filepath));
+    if (docID >= 0) {
+        log(chalk.yellow('  >> document already exists:'), chalk.cyan(data.filepath));
         return null;
     }
 
     this.data.content.push(data);
+
+    log('waffles', this.data.content);
 
 };
 
@@ -189,24 +178,26 @@ DB.updateTaxonomies = function(data) {
 
     for (let taxonomy in data.taxonomies) {
 
-        console.log(chalk.magenta('taxonomy:'), taxonomy, data.taxonomies[taxonomy]);
+        log(chalk.magenta('taxonomy:'), taxonomy, data.taxonomies[taxonomy]);
 
         let taxList = data.taxonomies[taxonomy];
 
         taxonomies[taxonomy] = this.data.taxonomies[taxonomy] || [];
 
         taxList.map(taxItem => {
-            console.log(taxItem);
+            log(taxItem);
 
             taxonomies[taxonomy].push(data.filepath);
 
         }, self);
 
+        // ensure our taxonomy index has unique values
+        taxonomies[taxonomy] = DB._uniq(taxonomies[taxonomy]);
+
     }
 
-    console.log(taxonomies);
 
-    // this.data.taxonomies = taxonomies;
+    this.data.taxonomies = taxonomies;
 
 };
 
@@ -243,7 +234,7 @@ DB.insertRenderItem = function(route) {
  */
 DB.getTaxonomyContent = function(taxonomy) {
     if (!this.data.taxonomies[taxonomy]) {
-        console.error(chalk.red(`${taxonomy} does not exist`));
+        log.error(chalk.red(`${taxonomy} does not exist`));
         return null;
     }
 
@@ -266,8 +257,6 @@ DB.getTaxonomyContent = function(taxonomy) {
 
 //     return Object.assign({}, stats, parts.attributes, data);
 // }
-
-
 
 
 

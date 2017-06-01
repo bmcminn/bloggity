@@ -8,3 +8,5 @@ taxonomies:
     tags:       [ test, posts, canonical, tags ]
 ---
 First page content goes here!
+
+Waffles
