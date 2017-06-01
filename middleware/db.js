@@ -10,6 +10,7 @@ const log       = require('../middleware/log');
 const DB    = {};
 
 
+
 DB.init = function(config) {
 
     log.info(chalk.yellow('[DB::init]'));
@@ -75,6 +76,7 @@ DB.getDocumentCount = function() {
 };
 
 
+
 DB._getDocumentID = function(filepath) {
 
     let content = this.data.content;
@@ -92,6 +94,7 @@ DB._getDocumentID = function(filepath) {
     return docID;
 
 };
+
 
 
 DB.insertDocument = function(data) {
@@ -118,6 +121,7 @@ DB.insertDocument = function(data) {
 };
 
 
+
 DB.readDocument = function(filepath) {
 
     let docID = this._getDocumentID(filepath);
@@ -128,9 +132,11 @@ DB.readDocument = function(filepath) {
 };
 
 
+
 DB.updateDocument = function(filepath, data) {
 
     let docID = this._getDocumentID(filepath);
+
     if (!docID) { return null; }
 
     let content = this.readDocument(filepath);
@@ -140,6 +146,7 @@ DB.updateDocument = function(filepath, data) {
     this.data.content[docID] = data;
 
 };
+
 
 
 DB.deleteDocument = function(filepath) {
@@ -167,6 +174,7 @@ DB._uniq = function(a) {
 };
 
 
+
 DB.updateTaxonomies = function(data) {
 
     let self = this;
@@ -187,7 +195,7 @@ DB.updateTaxonomies = function(data) {
         taxList.map(taxItem => {
             log(taxItem);
 
-            taxonomies[taxonomy].push(data.filepath);
+            taxonomies[taxonomy].push(data.url);
 
         }, self);
 
@@ -198,6 +206,42 @@ DB.updateTaxonomies = function(data) {
 
 
     this.data.taxonomies = taxonomies;
+
+};
+
+
+
+DB.updateCanonicals = function(data) {
+
+    let self = this;
+
+    if (!data.canonicals) { return; }
+
+    let canonicals = {};
+
+
+    for (let canonical in data.canonicals) {
+
+        log(chalk.magenta('canonical:'), canonical, data.canonicals[canonical]);
+
+        let taxList = data.canonicals[canonical];
+
+        canonicals[canonical] = this.data.canonicals[canonical] || [];
+
+        taxList.map(taxItem => {
+            log(taxItem);
+
+            canonicals[canonical].push(data.url);
+
+        }, self);
+
+        // ensure our canonical index has unique values
+        canonicals[canonical] = DB._uniq(canonicals[canonical]);
+
+    }
+
+
+    this.data.canonicals = canonicals;
 
 };
 

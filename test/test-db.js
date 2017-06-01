@@ -59,14 +59,21 @@ function compileData(filepath) {
         }
     }
 
+    DB.data.renderList.push(data.url);
+
     return data;
 }
 
 
 function handleTaxonomies(data) {
 
-    let insert = DB.updateTaxonomies(data);
+    DB.updateTaxonomies(data);
 
+}
+
+
+function handleCanonicals(data) {
+    let canoni
 }
 
 
@@ -80,9 +87,15 @@ files.map((filepath) => {
         DB.updateDocument(data.filepath, data);
     }
 
-    handleTaxonomies(data);
+    DB.updateTaxonomies(data);
+    DB.updateCanonicals(data);
+    // handleTaxonomies(data);
+    // handleCanonicals(data);
 
 });
+
+
+DB.data.renderList = DB._uniq(DB.data.renderList);
 
 
 log.info(DB.getDocumentCount());
