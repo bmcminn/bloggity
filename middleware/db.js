@@ -286,27 +286,5 @@ DB.getTaxonomyContent = function(taxonomy) {
 };
 
 
-// compileData = function(filepath, stats) {
-
-//     let parts = fm(fs.read(filepath));
-
-//     let data = {};
-
-//     data.filepath   = filepath;
-//     data.published  = parts.attributes.published    ? new Date(parts.attributes.published)  : true;
-//     data.draft      = parts.attributes.draft        ? parts.attributes.draft                : false;
-//     data.content    = parts.body;
-
-//     data.template   = parts.attributes.template     ? parts.attributes.template             : 'pages/default';
-
-//     return Object.assign({}, stats, parts.attributes, data);
-// }
-
-
-
-
-// init respective DB modules
-// DB.content = DB.config(path.join(process.cwd(), '__db/content.dbjs'));
-
 
 module.exports = DB;
