@@ -4,6 +4,7 @@
     ,   "node_modules/**/node_modules"
     ,   "content/"
     ,   "public/"
+    ,   "db.json"
     ],
     "ext": "js json"
 }

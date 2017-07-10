@@ -1,6 +1,7 @@
 ---
 title: Welcome to Bloggity
-author: Brandtley McMinn
+author: Brandtley
+isHomepage: true
 ---
 
 Home page goes here
