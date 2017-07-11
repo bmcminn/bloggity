@@ -2,24 +2,181 @@ require('dotenv-safe').load();
 
 const express   = require('express');
 const chalk     = require('chalk');
+const path      = require('path');
+const fs        = require('grunt').file;
+const _         = require('lodash');
+
 
 const app = express();
 
 
-app.set('db', require('./app/db.js'));
+// setup DB instance
+const db = require('./app/db.js');
+
+app.set('db', db);
 
 
+// configure base app model
+const configYAMLpath    = path.join(process.cwd(), 'config.yml');
+const config            = fs.readYAML(configYAMLpath);
+
+let d = new Date();
+
+config.date = {
+    day:    d.getDate()
+,   month:  d.getMonth()
+,   year:   d.getFullYear()
+};
+
+app.set('model', config);
+
+
+// setup static assets directory
 app.use(express.static(__dirname + '/public'));
 
 
+// SETUP VIEW ENGINE
+// -----------------------------------------------------------------
+
+const expressNunjucks   = require('express-nunjucks');
+const nunjucks          = require('./app/nunjucks.js');
+
+app.set('view engine', 'twig')
+app.set('views', __dirname + '/app/views');
+
+expressNunjucks(app, {
+    watch:      true
+,   noCache:    !process.env.NODE_ENV === 'production'
+// ,   tags:
+,   loader:     nunjucks.reloader
+,   filters:    nunjucks.filters
+,   extension:  '.twig'
+});
+
+
+
+//
+//
+//
+
 app.get('/', function(req, res) {
 
-    res.send('homepage');
+    let db = req.app.get('db');
+
+    let model = req.app.get('model');
+
+    post = db.get('posts')
+        .find({ isHomepage: true })
+        .value()
+        ;
+
+    if (!post) {
+        model.post = db.get('posts')
+            .find({ doc: 'missing-homepage' })
+            .value()
+            ;
+
+        res.status(404).render(model.post.template, model);
+        return;
+    }
+
+    model.post = post;
+
+    res.render(post.template, model);
 
 });
 
 
-// app.get('')
+
+let posttypes = db.get('posttypes').value();
+
+
+_.each(posttypes, function(posttype) {
+    app.get(`/${posttype}`, function(req, res) {
+
+        let db      = req.app.get('db');
+        let model   = req.app.get('model');
+
+        model.posts = db.get('posts')
+            .filter({ posttype: posttype })
+            .sortBy('published')
+            .value()
+            ;
+
+        res.render(`pages/${posttype}`, model);
+    });
+
+
+    app.get(`/${posttype}/:id`, function(req, res) {
+
+        let db      = req.app.get('db');
+        let model   = req.app.get('model');
+
+        let id = req.params.id;
+
+        console.log(id, req.url);
+
+        if (typeof id === 'number') {
+            res.write('number' + id);
+        }
+
+        if (typeof id === 'string') {
+
+            model.post = db.get('posts')
+                .find({ route: req.url })
+                .value()
+                ;
+
+            res.render(`pages/${posttype}-post`, model);
+        }
+
+    })
+});
+
+
+
+
+
+
+// TODO: figure out how to query collections within collections
+// let taxonomies = db.get('taxonomies')
+//     .value()
+//     ;
+
+// console.log('tax:', taxonomies);
+
+// _.each(taxonomies, function(tax) {
+
+//     app.get(`/${tax}/:page?`, function(req, res) {
+
+//         let model = req.app.get('model');
+
+//         console.log(req.params.page);
+
+//         let db = req.app.get('db');
+
+//         model.posts = db.get('posts')
+//             .filter({ taxonomies: tax })
+//             .value()
+//             ;
+
+//         console.log(model.posts);
+
+//         res.render('pages/taxonomies', model);
+
+//     });
+
+
+
+//     app.get(`/${tax.name}/:taxonomy`, function(req, res) {
+
+//     });
+
+// });
+
+
+
+
 
 
 console.log(chalk.green('app started at', chalk.yellow(`http://localhost:${process.env.PORT}`)));
@@ -34,10 +191,6 @@ app.listen(process.env.PORT);
 // const chokidar      = require('chokidar');
 // const bodyParser    = require('body-parser');
 // const cors          = require('cors');
-
-
-// const configYAMLpath = path.join(process.cwd(), 'config.yml');
-// const configYAML = fs.read(configYAMLpath);
 
 // const pkg = fs.readJSON(path.join(__dirname, 'package.json'));
 
@@ -100,23 +253,6 @@ app.listen(process.env.PORT);
 // app.use(bodyParser.json());
 
 
-
-// // SETUP VIEW ENGINE
-// // -----------------------------------------------------------------
-
-// const expressNunjucks   = require('express-nunjucks');
-// const nunjucks          = require('./bin/nunjucks');
-
-// app.set('view engine', 'twig')
-// app.set('views', __dirname + '/views');
-
-// expressNunjucks(app, {
-//     watch:      false
-// ,   noCache:    !app.get('isProduction')
-// // ,   tags:
-// ,   loader:     nunjucks.reloader
-// ,   filters:    nunjucks.filters
-// });
 
 
 

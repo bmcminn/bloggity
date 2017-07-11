@@ -3,7 +3,7 @@
 require('dotenv-safe').load();
 
 
-if (process.env.production) {
+if (process.env.NODE_ENV === 'production') {
     process.env.HOST = process.env.PROD_HOST;
 
 } else {
@@ -12,13 +12,15 @@ if (process.env.production) {
 }
 
 
-const path      = require('path');
-const fs        = require('grunt').file;
-const exec      = require('child_process').exec;
-const db        = require('../app/db.js');
-const pkg       = require('../package.json');
-
+const fs    = require('grunt').file;
+fs.stats    = require('fs').statSync;
 fs.defaultEncoding = 'utf8';
+
+const path  = require('path');
+const exec  = require('child_process').exec;
+const db    = require('../app/db.js');
+const pkg   = require('../package.json');
+const ymf   = require('yaml-front-matter').loadFront;
 
 const _         = require('lodash');
 const chalk     = require('chalk');
@@ -36,7 +38,7 @@ const isProduction = process.env.NODE_ENV === 'production' ? true : false;
 global.APP_DIR      = path.join(process.cwd(), 'app');
 global.VIEWS_DIR    = path.join(process.cwd(), 'app/views');
 global.PUBLIC_DIR   = path.join(process.cwd(), 'public');
-
+global.CONTENT_DIR  = path.join(process.cwd(), 'content');
 
 // Ensure public directory structures exist
 global.ASSET_DIRS = {
@@ -45,6 +47,7 @@ global.ASSET_DIRS = {
 ,   JS:     'js'
 ,   FONTS:  'fonts'
 };
+
 
 _.each(ASSET_DIRS, function(pubDir, id) {
     let dir = path.join(PUBLIC_DIR, pubDir);
@@ -55,6 +58,17 @@ _.each(ASSET_DIRS, function(pubDir, id) {
 });
 
 
+// INDEX DB AS NEEDED
+let files = fs.expand([
+    path.resolve(CONTENT_DIR, '**/*.md')
+]);
+
+
+_.each(files, function(filepath) {
+    addContent(filepath, fs.stats(filepath));
+});
+
+
 // RUN INITIAL BUILD ON START UP
 styles();
 scripts();
@@ -62,15 +76,10 @@ images();
 fonts();
 
 
-
-// One-liner for current directory, ignores .dotfiles
-
-const watchPath = path.join(process.cwd(), '/app/**/*');
-
 chokidar
     .watch([
-            process.cwd() + '/app/**/*'
-        ,   process.cwd() + '/content/**/*'
+            APP_DIR + '/**/*'
+        ,   CONTENT_DIR + '/**/*'
         ], {
             ignored: /(^|[\/\\])\../
         ,   persistent: true
@@ -78,47 +87,162 @@ chokidar
 
     .on('add', function(filepath, stats) {
 
+        filepath = filepath.replace(/\\+/g, '/');
+
         let ext = path.extname(filepath);
 
-        console.log(ext);
-
-        if (ext.match(/(md)$/)) { content(filepath); }
+        if (ext.match(/\.(md|markdown|mdown)$/)) { addContent(filepath, stats); }
 
     })
+
+    .on('unlink', function(filepath, stats) {
+
+        filepath = filepath.replace(/\\+/g, '/');
+
+        let ext = path.extname(filepath);
+
+        if (ext.match(/\.(md|markdown|mdown)$/)) { deleteContent(filepath); }
+    })
+
     .on('change', function(filepath, stats) {
 
+        filepath = filepath.replace(/\\+/g, '/');
+
         let ext = path.extname(filepath);
 
-        console.log(ext);
+        if (ext.match(/\.(md)$/)) { updateContent(filepath, stats); }
+        if (ext.match(/\.(eot|woff|woff2|ttf|otf)$/)) { fonts(); }
+        if (ext.match(/\.(jpeg|jpg|png|gif|tiff)$/)) { images(); }
+        if (ext.match(/\.(js)$/)) { scripts(); }
+        if (ext.match(/\.(styl)$/)) { styles(); }
+        if (ext.match(/\.(svg)$/)) { svg(); }
 
-        if (ext.match(/styl$/)) { styles(); }
-        if (ext.match(/js$/)) { scripts(); }
-        if (ext.match(/(jpeg|jpg|png|gif|tiff)$/)) { images(); }
-        if (ext.match(/(eot|woff|woff2|ttf|otf)$/)) { fonts(); }
-        if (ext.match(/svg$/)) { svg(); }
-        if (ext.match(/md$/)) { content(filepath); }
     })
 ;
-
 
 
 // START UP APP
 require('../app.js');
 
 
+//
+// ADD/UPDATE CONTENT IN DATABASE
+//
 
-// HELPER FUNCTIONS
-function content(filepath) {
+function deleteContent(filepath) {
 
-    console.log(filepath);
+    db.get('posts')
+        .find({ filepath: filepath })
+        .remove()
+        // .assign({ isDeleted: true })
+        .write()
+        ;
+}
 
-    console.log(chalk.green('migrated images'), filepath);
+
+function addContent(filepath, stats) {
+
+    let post = db.get('posts')
+        .find({ filepath: filepath })
+        .value()
+        ;
+
+    if (post) { return; }
 
 
+    let file = ymf(filepath, 'content');
+
+    file.published
+        ? file.published = new Date(file.published).getTime()
+        : file.published = new Date().getTime()
+        ;
+
+    file.content    = file.content.trim();
+    file.filepath   = filepath;
+    file.template   = file.template || 'pages/default';
+
+    let route = filepath.substr(CONTENT_DIR.length);
+
+    file.route = route.replace(/\.[a-z]{2,4}$/, '');
+
+    let posttype = route.substr(1).split('/');
+
+    console.log('posttype', posttype);
+
+    if (posttype.length > 1) {
+        file.posttype = posttype[0];
+
+        let dbPosttypes = db.get('posttypes')
+            .value()
+            ;
+
+        dbPosttypes.push(file.posttype);
+        dbPosttypes = _.uniq(dbPosttypes);
+
+        db.set('posttypes', dbPosttypes)
+            .write()
+            ;
+
+        console.log(filepath, ':', file.posttype);
+    }
 
 
+    // insert post to POSTS db collection
+    db.get('posts')
+        .push(file)
+        .write()
+        ;
+
+
+    if (file.taxonomies) {
+        _.each(file.taxonomies, (value, key) => {
+
+            let tax = db.get('taxonomies').find({ name: key }).value();
+
+            if (tax) {
+                tax.props = _.merge(tax.props, value);
+
+                db.get('taxonomies')
+                    .find({ name: key })
+                    .assign(tax)
+                    .write();
+
+            } else {
+
+                db.get('taxonomies')
+                    .push({
+                        name: key
+                    ,   props: value
+                    })
+                    .write()
+                    ;
+
+            }
+
+        });
+    }
 
 }
+
+
+
+function updateContent(filepath, stats) {
+
+    console.log(chalk.green('updating'), chalk.yellow(filepath));
+
+    let file = ymf(filepath, 'content');
+
+    file.updated = new Date();
+    file.content = file.content.trim();
+
+    db.get('posts')
+        .find({ filepath: filepath })
+        .assign(file)
+        .write()
+        ;
+
+}
+
 
 
 

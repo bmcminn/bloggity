@@ -2,38 +2,48 @@
 {% filter spaceless %}
 {% filter sanitize %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>{% block title %}{{ title }}{% endblock title %}</title>
+    {% block title %}
+        {% if page.title %}
+            <title>{{ page.title }}</title>
+
+        {% else %}
+            <title>{{ site.title }}</title>
+
+        {% endif %}
+    {% endblock title %}
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ description }}">
 
-{#
-    {% if not debug %}
-    <base href="{{ hostname }}">
+    {% if page.description %}
+        <meta name="description" content="{{ page.description }}">
+
+    {% else %}
+        <meta name="description" content="{{ site.description }}">
+
     {% endif %}
- #}
 
-    <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png'|hash }}">
-    <link rel="shortcut icon" href="{{ '/apple-touch-icon.png'|hash }}">
+    <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' }}">
+    <link rel="shortcut icon" href="{{ '/apple-touch-icon.png' }}">
 
     {% for font in fonts %}
-    <link rel="stylesheet" href="{{ font|hash }}" async defer>
+    <link rel="stylesheet" href="{{ font }}" async defer>
     {# <link rel="stylesheet" href=""> #}
     {% endfor %}
 
 
     {% for style in defaultStyles %}
-        <link rel="stylesheet" href="{{ style|hash }}" async defer>
+        <link rel="stylesheet" href="{{ style }}" async defer>
     {% endfor %}
 
     {% for style in styles %}
-        <link rel="stylesheet" href="{{ style|hash }}" async defer>
+        <link rel="stylesheet" href="{{ style }}" async defer>
     {% endfor %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" async defer></script>
@@ -57,10 +67,10 @@
 
 
         <main class="body-content row">
-        {% block body %}
+        {% block content %}
             <h1>{{ title }}</h1>
             {{ contents|safe }}
-        {% endblock body %}
+        {% endblock content %}
         </main>
 
         {% block footer %}
@@ -74,7 +84,8 @@
             <hr>
 
             <div class="row text-center">
-                ©{{ date.year }} — {{ company.legalname }} All Rights Reserved.
+                ©{{ date.year }} — {{ site.legalName }} All Rights Reserved.
+                }
             </div>
 
         </footer>
@@ -82,11 +93,11 @@
     </div>
 
     {% for script in defaultScripts %}
-        <script src="{{ script|hash }}"></script>
+        <script src="{{ script }}"></script>
     {% endfor %}
 
     {% for script in scripts %}
-        <script src="{{ script|hash }}"></script>
+        <script src="{{ script }}"></script>
     {% endfor %}
 
 

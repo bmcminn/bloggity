@@ -1,9 +1,6 @@
 site:
     name: Site Title Here
-    clientDir: ./content
-    publicDir: ./public
-    assetExts: [ png, jpg, jpeg, gif, svg, mp3, mp4, avi, wmv, webm ]
-    legalName:
+    legalName: Company Name
     owner:  Brandtley McMinn
 
 
@@ -16,7 +13,7 @@ address:
     zipcode:    78759
 
 authors:
-    BRANDTLEY_MCMINN:
+    brandtley:
         name: Brandtley McMinn
         website: http://brandtley.name/
         social:
@@ -26,7 +23,7 @@ authors:
             -
                 name: Twitter
                 url:    https://twitter.com/blarg
-    BOB_DOLE:
+    bob:
         name: Bob Dole
         website: http://bobdo.le/
         social:
@@ -37,3 +34,6 @@ authors:
                 name: Instagram
                 url: https://instagram.com/boblarg
 
+
+defaultStyles:
+    - /public/css/main.css

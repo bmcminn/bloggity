@@ -7,23 +7,24 @@ const chokidar  = require('chokidar');
 
 const regex = {
     ext: /\.[\w\d]{2,}$/i
-}
+};
 
 
 module.exports.reloader = new nunjucks.Loader.extend({
 
     init: function(viewspath, opts) {
 
-        this.opts = opts || {};
-        this.templates = {};
+        this.opts       = opts || {};
+        this.templates  = {};
+        // TODO: need better way of passing custom options to nunjucks instance
+        this.opts.extension  = this.opts.extension || '.twig';
+        this.viewsDir    = viewspath[0];
 
-        this.baseDir    = viewspath[0];
         this.getFiles();
-
 
         let self = this;
 
-        chokidar.watch(self.baseDir)
+        chokidar.watch(self.viewsDir)
             .on('change', filepath => {
                 console.log('updated view:', filepath);
                 this.getFile(filepath);
@@ -42,13 +43,11 @@ module.exports.reloader = new nunjucks.Loader.extend({
 
 
 ,   getFiles: function() {
-
         let self = this;
 
-        let viewFiles = fs.expand({ filter: 'isFile' }, path.join(this.baseDir, '**/*'));
+        let viewFiles = fs.expand({ filter: 'isFile' }, path.join(self.viewsDir, '**/*' + self.opts.extension));
 
         viewFiles.map(this.getFile, this);
-
     }
 
 
@@ -56,7 +55,7 @@ module.exports.reloader = new nunjucks.Loader.extend({
         let self = this;
 
         let filename = filepath
-                .substr(self.baseDir.length + 1) // remove the base directory path
+                .substr(self.viewsDir.length + 1) // remove the base directory path
                 .replace(regex.ext, '')
                 ;
 
@@ -126,6 +125,10 @@ module.exports.filters = {
 
 ,   phone: function(content) {
         return require('./nunjucks/filter-phone')(nunjucks)(content);
+    }
+
+,   md: function(content) {
+        return require('./nunjucks/filter-md')(nunjucks)(content);
     }
 
 

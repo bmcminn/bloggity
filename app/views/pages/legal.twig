@@ -1,11 +1,11 @@
 {% extends "layout" %}
 
-{% block body %}
+{% block content %}
     <h1>{{ title }}</h1>
 
     <blockquote>
-    Last Modified: <time datetime="{{ updated|date('YYYY-MM-DDTHH:MM:SS') }}">{{ updated|date('LL') }}</time>
+    Last Modified: <time datetime="{{ updated }}">{{ updated }}</time>
     </blockquote>
 
     {{ contents|safe }}
-{% endblock body %}
+{% endblock content %}

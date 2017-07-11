@@ -1,8 +1,7 @@
 ---
 title: Privacy Policy
 nav: footer
-updated: 2017-05-12
-publish: 2017-05-10
+published: 2017-05-10
 template: pages/legal
 ---
 
