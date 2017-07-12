@@ -1,4 +1,4 @@
-"strict";
+'use strict';
 
 require('dotenv-safe').load();
 
@@ -147,6 +147,7 @@ function addContent(filepath, stats) {
         .value()
         ;
 
+    // if the post already exists, don't add it
     if (post) { return; }
 
 
@@ -167,21 +168,29 @@ function addContent(filepath, stats) {
 
     let posttype = route.substr(1).split('/');
 
-    console.log('posttype', posttype);
-
+    // determine posttype from filepath content directory
     if (posttype.length > 1) {
         file.posttype = posttype[0];
 
-        let dbPosttypes = db.get('posttypes')
+        console.log(file.posttype);
+
+        let dbPostType = db.get('posttypes')
+            .find({ name: file.posttype })
             .value()
             ;
 
-        dbPosttypes.push(file.posttype);
-        dbPosttypes = _.uniq(dbPosttypes);
+        console.log('dbPostType:', dbPostType)
 
-        db.set('posttypes', dbPosttypes)
-            .write()
-            ;
+        if (!dbPostType) {
+            db.get('posttypes')
+                .push({
+                    name: file.posttype
+                ,   taxonomies: db._.keys(file.taxonomies)
+                })
+                .write()
+                ;
+        }
+
 
         console.log(filepath, ':', file.posttype);
     }
@@ -192,6 +201,35 @@ function addContent(filepath, stats) {
         .push(file)
         .write()
         ;
+
+
+    // setup named route for content page
+    let route = db.get('routes')
+        .find({ name: })
+        value()
+        ;
+
+    if (file.isHomepage) {
+        file.name = 'homepage';
+
+    } else {
+        file.name = path.basename(file.filepath);
+
+    }
+
+    if (!route) {
+        db.get('routes')
+            .push({ name: file.name })
+            .write()
+            ;
+    }
+
+
+
+
+    // db.get('routes')
+    //     .push({})
+
 
 
     if (file.taxonomies) {

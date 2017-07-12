@@ -7,6 +7,7 @@ db
         posts: []
     ,   posttypes: []
     ,   taxonomies: []
+    ,   routes: []
     })
     .write()
 ;

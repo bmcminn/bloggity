@@ -4,7 +4,7 @@
       "title": "404 Not Found",
       "private": true,
       "content": "# 404 Not found...\r\n\r\n[Go home](/)",
-      "published": 1499760265758,
+      "published": 1499836238878,
       "filepath": "C:/Users/Brandtley/github/bloggity/content/404.md",
       "template": "pages/default",
       "route": "/404"
@@ -13,7 +13,7 @@
       "title": "500 Interanal Error",
       "private": true,
       "content": "# 500...\r\n\r\nThere was an error...\r\n\r\n[Go home](/)",
-      "published": 1499760265768,
+      "published": 1499836238880,
       "filepath": "C:/Users/Brandtley/github/bloggity/content/500.md",
       "template": "pages/default",
       "route": "/500"
@@ -121,7 +121,7 @@
     {
       "doc": "missing-homepage",
       "content": "# You're missing an `isHomepage` post\r\n\r\nYou must specify your homepage using the `isHomepage` property in your yaml frontmatter of your content pages.\r\n\r\n## Example\r\n\r\n```yaml\r\n---\r\ntitle: Page Title\r\nisHomepage: true\r\n...\r\n---\r\nPage content goes here...\r\n```\r\n\r\nYou only need one file with this property for the `/` homepage to work correctly.",
-      "published": 1499760265791,
+      "published": 1499836238905,
       "filepath": "C:/Users/Brandtley/github/bloggity/content/docs/missing-homepage.md",
       "template": "pages/default",
       "route": "/docs/missing-homepage",
@@ -132,7 +132,7 @@
       "author": "Brandtley",
       "isHomepage": true,
       "content": "Home page goes here",
-      "published": 1499760265793,
+      "published": 1499836238907,
       "filepath": "C:/Users/Brandtley/github/bloggity/content/index.md",
       "template": "pages/default",
       "route": "/index"
@@ -167,8 +167,17 @@
     }
   ],
   "posttypes": [
-    "blog",
-    "docs"
+    {
+      "name": "blog",
+      "taxonomies": [
+        "category",
+        "tags"
+      ]
+    },
+    {
+      "name": "docs",
+      "taxonomies": []
+    }
   ],
   "taxonomies": [
     {
@@ -186,6 +195,16 @@
         "canonical",
         "tags"
       ]
+    }
+  ],
+  "routes": [
+    {
+      "name": "blog",
+      "route": "/blog"
+    },
+    {
+      "name": "docs",
+      "route": "/docs"
     }
   ]
 }
