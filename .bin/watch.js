@@ -12,15 +12,17 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-const fs    = require('grunt').file;
-fs.stats    = require('fs').statSync;
+const fs        = require('grunt').file;
+fs.stats        = require('fs').statSync;
 fs.defaultEncoding = 'utf8';
 
-const path  = require('path');
-const exec  = require('child_process').exec;
-const db    = require('../app/db.js');
-const pkg   = require('../package.json');
-const ymf   = require('yaml-front-matter').loadFront;
+const path      = require('path');
+const exec      = require('child_process').exec;
+const db        = require('../app/db.js');
+const pkg       = require('../package.json');
+const ymf       = require('yaml-front-matter').loadFront;
+const YAML      = require('yamljs');
+const moment    = require('moment');
 
 const _         = require('lodash');
 const chalk     = require('chalk');
@@ -130,14 +132,13 @@ require('../app.js');
 //
 
 function deleteContent(filepath) {
-
     db.get('posts')
         .find({ filepath: filepath })
         .remove()
         // .assign({ isDeleted: true })
         .write()
         ;
-}
+ }
 
 
 function addContent(filepath, stats) {
@@ -150,90 +151,118 @@ function addContent(filepath, stats) {
     // if the post already exists, don't add it
     if (post) { return; }
 
-
-    let file = ymf(filepath, 'content');
-
-    file.published
-        ? file.published = new Date(file.published).getTime()
-        : file.published = new Date().getTime()
-        ;
-
-    file.content    = file.content.trim();
-    file.filepath   = filepath;
-    file.template   = file.template || 'pages/default';
-
-    let route = filepath.substr(CONTENT_DIR.length);
-
-    file.route = route.replace(/\.[a-z]{2,4}$/, '');
-
-    let posttype = route.substr(1).split('/');
-
-    // determine posttype from filepath content directory
-    if (posttype.length > 1) {
-        file.posttype = posttype[0];
-
-        console.log(file.posttype);
-
-        let dbPostType = db.get('posttypes')
-            .find({ name: file.posttype })
-            .value()
-            ;
-
-        console.log('dbPostType:', dbPostType)
-
-        if (!dbPostType) {
-            db.get('posttypes')
-                .push({
-                    name: file.posttype
-                ,   taxonomies: db._.keys(file.taxonomies)
-                })
-                .write()
-                ;
-        }
-
-
-        console.log(filepath, ':', file.posttype);
-    }
-
-
     // insert post to POSTS db collection
     db.get('posts')
-        .push(file)
+        .push({ filepath: filepath })
         .write()
         ;
 
+    updateContent(filepath, stats);
 
-    // setup named route for content page
-    let route = db.get('routes')
-        .find({ name: })
-        value()
+}
+
+
+
+function updateContent(filepath, stats) {
+
+    let snapshot = ymf(filepath, 'content');
+
+    let file = Object.assign({}, snapshot);
+
+    file.stats      = stats;
+    file.filepath   = filepath;
+    file.content    = file.content.trim();
+
+
+    getPublished(file);
+    getRoute(file);
+    getIsHomepage(file);
+    getTemplate(file);
+    getPosttype(file);
+    getTaxonomies(file);
+
+
+
+    let post = db.get('posts')
+        .find({ filepath: filepath })
+        .value()
         ;
 
-    if (file.isHomepage) {
-        file.name = 'homepage';
-
-    } else {
-        file.name = path.basename(file.filepath);
-
-    }
-
-    if (!route) {
-        db.get('routes')
-            .push({ name: file.name })
-            .write()
-            ;
+    if (post) {
+        getUpdated(file);
+        updateFileTimestamp(snapshot, post);
     }
 
 
+    db.get('posts')
+        .find({ filepath: filepath })
+        .assign(file)
+        .write()
+        ;
+
+    console.log('-------------------------------------------------------');
+
+}
 
 
-    // db.get('routes')
-    //     .push({})
+
+//
+// FILE MODEL COMPOSITION HELPERS
+//
 
 
 
-    if (file.taxonomies) {
-        _.each(file.taxonomies, (value, key) => {
+function updateFileTimestamp(snapshot, obj) {
+
+    console.log(chalk.yellow('updating file timestamp:', obj.filepath));
+
+    // update file `updated` timestamp
+    snapshot.updated = obj.updated;
+
+    // capture file content
+    let content = snapshot.content
+
+    delete(snapshot.content);
+
+
+    // update timestamp formats
+    snapshot.published  = moment(snapshot.published).format('YYYY-MM-DD');
+    snapshot.updated    = moment().format('YYYY-MM-DD');
+
+    let fm  = YAML.stringify(snapshot);
+
+    let file = [
+        '---'
+    ,   fm.trim()
+    ,   '---'
+    ,   content.trim()
+    ].join('\n');
+
+    fs.write(obj.filepath, file);
+
+}
+
+
+
+/**
+ * [getUpdated description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getUpdated(obj) {
+    obj.updated = (new Date()).getTime();
+    return obj;
+}
+
+
+/**
+ * [getTaxonomies description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getTaxonomies(obj) {
+    if (obj.taxonomies) {
+        _.each(obj.taxonomies, (value, key) => {
 
             let tax = db.get('taxonomies').find({ name: key }).value();
 
@@ -260,26 +289,147 @@ function addContent(filepath, stats) {
         });
     }
 
+    return obj;
 }
 
 
-
-function updateContent(filepath, stats) {
-
-    console.log(chalk.green('updating'), chalk.yellow(filepath));
-
-    let file = ymf(filepath, 'content');
-
-    file.updated = new Date();
-    file.content = file.content.trim();
-
-    db.get('posts')
-        .find({ filepath: filepath })
-        .assign(file)
-        .write()
+/**
+ * [getRoute description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getRoute(obj) {
+    obj.route = obj.filepath
+        .substr(CONTENT_DIR.length)
+        .replace(/\.[a-z]{2,4}$/, '') // remove file extension
         ;
 
+    let namedRoute = db.get('routes')
+        .find({ name: obj.name })
+        .value()
+        ;
+
+    if (!namedRoute) {
+        db.get('routes')
+            .push({
+                name: obj.name
+            ,   route: obj.route
+            })
+            .write()
+            ;
+    }
+
+    return obj;
 }
+
+
+/**
+ * [getPublished description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getPublished(obj) {
+    obj.published
+        ? obj.published = new Date(obj.published).getTime()
+        : obj.published = new Date().getTime()
+        ;
+
+    return obj;
+}
+
+
+/**
+ * [getPosttype description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getPosttype(obj) {
+    let route = obj.filepath
+        .substr(CONTENT_DIR.length)
+        .replace(/\.[a-z]{2,4}$/, '') // remove file extension
+        ;
+
+    let posttype = route.substr(1).split('/');
+
+    // determine posttype from filepath content directory
+    if (posttype.length > 1) {
+        obj.posttype = posttype[0];
+
+    } else {
+        obj.posttype = 'page'
+
+    }
+
+    let dbPostType = db.get('posttypes')
+        .find({ name: obj.posttype })
+        .value()
+        ;
+
+    if (!dbPostType) {
+        db.get('posttypes')
+            .push({
+                name: obj.posttype
+            ,   taxonomies: db._.keys(obj.taxonomies)
+            })
+            .write()
+            ;
+    }
+
+    return obj;
+}
+
+
+/**
+ * [getTemplate description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getTemplate(obj) {
+
+    // user config templates take precedence!!!
+    if (obj.template) {
+        return obj;
+    }
+
+    // if template not provided, we check for a posttype template
+    if (obj.posttype) {
+        let template = `pages/${obj.posttype}-single`;
+        let templateFilepath = path.join(VIEWS_DIR, template + process.env.VIEWS_EXT);
+
+        if (fs.exists(templateFilepath)) {
+            obj.template = template;
+        }
+    }
+
+    // all else fails, we use the default template
+    if (!obj.template) {
+        obj.template = 'pages/default';
+    }
+
+    return obj;
+}
+
+
+/**
+ * [getIsHomepage description]
+ * @param  {[type]} obj [description]
+ * @return {[type]}     [description]
+ */
+function getIsHomepage(obj) {
+    // setup named route for content page
+    if (obj.isHomepage) {
+        obj.name = 'homepage';
+        obj.route = '/';
+
+    } else {
+        obj.name = path.basename(obj.filepath, path.extname(obj.filepath));
+    }
+
+    return obj;
+}
+
+
+
 
 
 
@@ -310,8 +460,7 @@ function images() {
         fs.copy(filepath, newImage);
     });
 
-    console.log(chalk.green('migrated images'));
-
+    // console.log(chalk.green('migrated images'));
 }
 
 
@@ -354,8 +503,7 @@ function svg() {
 
     });
 
-    console.log(chalk.green('migrated SVGs'));
-
+    // console.log(chalk.green('migrated SVGs'));
 }
 
 

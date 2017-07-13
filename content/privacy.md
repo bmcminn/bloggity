@@ -1,10 +1,10 @@
 ---
-title: Privacy Policy
+title: 'Privacy Policy'
 nav: footer
-published: 2017-05-10
+published: '2017-05-09'
 template: pages/legal
+updated: '2017-07-13'
 ---
-
 ### _{{ site.name }}_
 All rights reserved.
 

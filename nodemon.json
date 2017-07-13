@@ -6,5 +6,9 @@
     ,   "public/"
     ,   "db.json"
     ],
+    "watch": [
+        ".bin/"
+    ,   "."
+    ],
     "ext": "js json"
 }

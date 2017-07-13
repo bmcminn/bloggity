@@ -132,6 +132,11 @@ module.exports.filters = {
     }
 
 
+,   render: function(content) {
+        return require('./nunjucks/filter-render')(nunjucks)(content);
+    }
+
+
 };
 
 
