@@ -82,12 +82,13 @@ expressNunjucks(app, {
 
 let posts = db.get('posts')
     .filter((p) => {
-        return !p.published < Date.now();
+        return p.published < Date.now();
     })
     .sortBy('route')
     .sortBy('priority')
     .value()
     ;
+
 
 
 _.each(posts, function(post) {
@@ -100,9 +101,11 @@ _.each(posts, function(post) {
         let db      = req.app.get('db');
         let model   = req.app.get('model');
 
-
-        if (post.canonical)
-
+        if (post.canonical) {
+            post.postList = _.filter(posts, function(p) {
+                return (p.canonical === post.canonical);
+            });
+        }
 
         model.post = post;
 
@@ -122,8 +125,11 @@ app.get('/sitemap.xml', function(req, res) {
     let model   = req.app.get('model');
 
 
-    model.posts = posts;
+    model.posts = _(posts)
+        .filter((p) => { return !p.private; })
+        ;
 
+    model.model = model;
 
     res.render('sitemap', model);
 });

@@ -97,6 +97,10 @@ module.exports = function(app) {
         }
         // date: require('nunjucks-date-filter')
 
+    ,   debug: function(ctx, space) {
+            return nunjucks.runtime.safeString(JSON.stringify(ctx, null, space || 0));
+        }
+
 
     ,   shorten: function(str, count) {
             return str.slice(0, count || 5);

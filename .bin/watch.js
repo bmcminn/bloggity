@@ -177,8 +177,8 @@ function updateContent(filepath, stats) {
     getPublished(file);
     getRoute(file);
     getIsHomepage(file);
-    getTemplate(file);
     getPosttype(file);
+    getTemplate(file);
     getTaxonomies(file);
 
 
@@ -395,6 +395,8 @@ function getTemplate(obj) {
     if (obj.posttype) {
         let template = `pages/${obj.posttype}-single`;
         let templateFilepath = path.join(VIEWS_DIR, template + process.env.VIEWS_EXT);
+
+        console.log(template);
 
         if (fs.exists(templateFilepath)) {
             obj.template = template;

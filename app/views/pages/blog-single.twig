@@ -5,6 +5,26 @@
 
     <h1>{{ post.title }}</h1>
 
+    <section class="post-meta">
+    Published: <time datetime="{{ post.published|date }}">{{ post.published|date('MMMM Do, YYYY') }}</time>
+    By: {{ post.author.name }}
+    </section>
+
+    {% if post.postList %}
+    <section class="canonical-toc">
+        <h2>Artical Series</h2>
+        <ul>
+            {% for li in post.postList %}
+                {% if li.route == post.route %}
+                    <li>Part {{loop.index}}: {{ li.title }}</li>
+                {% else %}
+                    <li>Part {{loop.index}}: <a href="{{ li.route }}">{{ li.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
     {{ post.content|md }}
 
 {% endblock %}

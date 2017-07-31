@@ -99,7 +99,7 @@
         <script src="{{ script }}"></script>
     {% endfor %}
 
-
+{#
     {% if not debug %}
     <script type="text/javascript">
         window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
@@ -108,9 +108,8 @@
     <script src="https://www.google-analytics.com/analytics.js" async defer></script>
     {% endif %}
 
-    <script>var window.model = {{ post|dump }}</script>
-
-
+    <script>var window.model = {{ model|debug }}</script>
+ #}
 </body>
 </html>
 
