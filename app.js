@@ -60,7 +60,7 @@ app.use(express.static(__dirname + '/public'));
 // -----------------------------------------------------------------
 
 const expressNunjucks   = require('express-nunjucks');
-const nunjucks          = require('./app/nunjucks.js');
+const nunjucks          = require('./app/nunjucks.js')(app);
 
 app.set('view engine', 'twig')
 app.set('views', __dirname + '/app/views');
@@ -80,7 +80,14 @@ expressNunjucks(app, {
 // REGISTER STATIC CONTENT ROUTES
 // -----------------------------------------------------------------
 
-let posts = db.get('posts').value();
+let posts = db.get('posts')
+    .filter((p) => {
+        return !p.published < Date.now();
+    })
+    .sortBy('route')
+    .sortBy('priority')
+    .value()
+    ;
 
 
 _.each(posts, function(post) {
@@ -93,13 +100,33 @@ _.each(posts, function(post) {
         let db      = req.app.get('db');
         let model   = req.app.get('model');
 
+
+        if (post.canonical)
+
+
         model.post = post;
+
+        model.model = model;
 
         res.render(post.template, model);
     });
 
 });
 
+
+
+// TODO: multi-index sitemap generation: https://www.sitemaps.org/protocol.html#index
+app.get('/sitemap.xml', function(req, res) {
+
+    let db      = req.app.get('db');
+    let model   = req.app.get('model');
+
+
+    model.posts = posts;
+
+
+    res.render('sitemap', model);
+});
 
 
 

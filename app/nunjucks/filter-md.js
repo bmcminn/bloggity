@@ -21,7 +21,7 @@ var mdFilter = function mdFilter(nunjucks) {
 
         content = md.render(content);
 
-        console.log(content);
+        // console.log(content);
 
         return new nunjucks.runtime.SafeString(content.trim());
     };

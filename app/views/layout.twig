@@ -69,7 +69,7 @@
         <main class="body-content row">
         {% block content %}
             <h1>{{ title }}</h1>
-            {{ contents|safe }}
+            {{ content|safe }}
         {% endblock content %}
         </main>
 
@@ -85,7 +85,6 @@
 
             <div class="row text-center">
                 ©{{ date.year }} — {{ site.legalName }} All Rights Reserved.
-                }
             </div>
 
         </footer>
