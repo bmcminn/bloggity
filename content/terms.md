@@ -2,7 +2,7 @@
 title: 'Terms of Use'
 nav: footer
 published: '2016-10-09'
-updated: '2017-07-31'
+updated: '2017-08-01'
 template: pages/legal
 ---
 **PLEASE READ THESE TERMS OF SERVICE CAREFULLY!**

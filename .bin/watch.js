@@ -88,7 +88,6 @@ chokidar
         })
 
     .on('add', function(filepath, stats) {
-
         filepath = filepath.replace(/\\+/g, '/');
 
         let ext = path.extname(filepath);
@@ -98,7 +97,6 @@ chokidar
     })
 
     .on('unlink', function(filepath, stats) {
-
         filepath = filepath.replace(/\\+/g, '/');
 
         let ext = path.extname(filepath);
@@ -107,7 +105,6 @@ chokidar
     })
 
     .on('change', function(filepath, stats) {
-
         filepath = filepath.replace(/\\+/g, '/');
 
         let ext = path.extname(filepath);
@@ -209,8 +206,6 @@ function updateContent(filepath, stats) {
 //
 // FILE MODEL COMPOSITION HELPERS
 //
-
-
 
 function updateFileTimestamp(snapshot, obj) {
 

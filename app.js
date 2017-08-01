@@ -43,10 +43,12 @@ config.date = {
 app.set('model', Object.assign({}, pkg, config));
 
 
+
 // SETUP STATIC ASSETS DIRECTORY
 // -----------------------------------------------------------------
 
 app.use(express.static(__dirname + '/public'));
+
 
 
 // REGISTER STYLES AND SCRIPTS
@@ -77,13 +79,23 @@ expressNunjucks(app, {
 
 
 
+
+// SETUP MIDDLEWARE TO GENERATE COLLECTION PAGES
+// -----------------------------------------------------------------
+
+require(__dirname + '/app/middleware/register-collections.js')(app);
+
+
+
+
 // REGISTER STATIC CONTENT ROUTES
 // -----------------------------------------------------------------
 
 let posts = db.get('posts')
-    .filter((p) => {
-        return p.published < Date.now();
-    })
+    // // filter scheduled posts
+    // .filter((p) => {
+    //     return p.published < Date.now();
+    // })
     .sortBy('route')
     .sortBy('priority')
     .value()
@@ -102,7 +114,7 @@ _.each(posts, function(post) {
         let model   = req.app.get('model');
 
         if (post.canonical) {
-            post.postList = _.filter(posts, function(p) {
+            post.series = _.filter(_.clone(posts), function(p) {
                 return (p.canonical === post.canonical);
             });
         }
@@ -115,6 +127,8 @@ _.each(posts, function(post) {
     });
 
 });
+
+
 
 
 

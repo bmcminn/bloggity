@@ -5,6 +5,11 @@ site:
     url: http://test.name
     timezone: America/Chicago
 
+paging:
+    postCount: 10
+    pages: 5
+    next: Next
+    prev: Previous
 
 address:
     street1:    4500 Testing

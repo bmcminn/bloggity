@@ -4,9 +4,9 @@
 {% block content %}
 
     <ul>
-    {% for post in posts %}
+    {% for item in post.posts %}
         <li>
-            <a href="{{ post.route }}">{{ post.title }}</a>
+            <a href="{{ item.route }}">{{ item.title }}</a>
         </li>
     {% endfor %}
     </ul>

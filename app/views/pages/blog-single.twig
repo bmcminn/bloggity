@@ -10,11 +10,11 @@
     By: {{ post.author.name }}
     </section>
 
-    {% if post.postList %}
+    {% if post.series %}
     <section class="canonical-toc">
         <h2>Artical Series</h2>
         <ul>
-            {% for li in post.postList %}
+            {% for li in post.series %}
                 {% if li.route == post.route %}
                     <li>Part {{loop.index}}: {{ li.title }}</li>
                 {% else %}

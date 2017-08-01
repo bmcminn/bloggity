@@ -275,6 +275,10 @@ chokidar@^1.4.3, chokidar@^1.6.0, chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
+circular-json@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
+
 clap@^1.0.9:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.0.tgz#59c90fe3e137104746ff19469a27a634ff68c857"
@@ -2532,6 +2536,10 @@ yaml-front-matter@^3.4.0:
   dependencies:
     commander "1.0.0"
     js-yaml "^3.5.2"
+
+yaml-js@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/yaml-js/-/yaml-js-0.2.0.tgz#30cdcc7bf678fdd00695ec34eb17b13aa8961632"
 
 yamljs@^0.3.0:
   version "0.3.0"
