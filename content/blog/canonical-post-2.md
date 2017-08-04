@@ -2,11 +2,11 @@
 title: 'Canonical Post pt.2'
 published: '2017-05-07'
 canonical: POST_THREAD_NAME
-author: 'Brandtley McMinn'
+author: brandtley
 taxonomies:
     category: [testing, posts]
     tags: [test, posts, canonical, tags]
-updated: '2017-08-01'
+updated: '2017-08-02'
 ---
 Second page content goes here!
 

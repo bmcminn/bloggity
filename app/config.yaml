@@ -19,6 +19,18 @@ address:
     state:      TX
     zipcode:    78759
 
+
+navlists:
+    header:
+        -
+            name: Blog
+            route: /blog
+    footer:
+        -
+            name: Sitemap
+            route: /sitemap.xml
+
+
 authors:
     brandtley:
         name: Brandtley McMinn
@@ -43,4 +55,4 @@ authors:
 
 
 defaultStyles:
-    - /public/css/main.css
+    - /css/main.css

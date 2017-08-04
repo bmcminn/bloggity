@@ -2,13 +2,47 @@
 
 
 {% block content %}
-
     <ul>
     {% for item in post.posts %}
-        <li>
-            <a href="{{ item.route }}">{{ item.title }}</a>
-        </li>
+        <li><a href="{{ item.route }}">{{ item.title }}</a></li>
     {% endfor %}
     </ul>
+{% endblock %}
 
+
+{% block belowBody %}
+    <nav class="pagination section">
+
+        {% if post.paging.prev %}
+            <a class="pagination-previous" href="{{ post.baseroute }}/{{ post.index - 1 }}">Previous</a>
+        {% else %}
+            <a class="pagination-previous" disabled>Previous</a>
+        {% endif %}
+
+
+        {% if post.paging.next %}
+            <a class="pagination-next" href="{{ post.baseroute }}/{{ post.index + 1 }}">Next</a>
+        {% else %}
+            <a class="pagination-next" disabled>Next</a>
+        {% endif %}
+
+
+        <ul class="pagination-list">
+
+            {% if post.index == 1 %}
+            <li><a class="pagination-link" disabled>1</a></li>
+
+            {% else %}
+            <li><a class="pagination-link">1</a></li>
+
+            {% endif %}
+
+            {# <li><span class="pagination-ellipsis">&hellip;</span></li> #}
+            <li><a class="pagination-link">45</a></li>
+            <li><a class="pagination-link is-current">46</a></li>
+            <li><a class="pagination-link">47</a></li>
+            {# <li><span class="pagination-ellipsis">&hellip;</span></li> #}
+            <li><a class="pagination-link">86</a></li>
+        </ul>
+    </nav>
 {% endblock %}

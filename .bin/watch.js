@@ -41,6 +41,8 @@ global.APP_DIR      = path.join(process.cwd(), 'app');
 global.VIEWS_DIR    = path.join(process.cwd(), 'app/views');
 global.PUBLIC_DIR   = path.join(process.cwd(), 'public');
 global.CONTENT_DIR  = path.join(process.cwd(), 'content');
+global.ASSET_DIR    = path.join(process.cwd(), 'assets');
+
 
 // Ensure public directory structures exist
 global.ASSET_DIRS = {
@@ -80,8 +82,9 @@ fonts();
 
 chokidar
     .watch([
-            APP_DIR + '/**/*'
+            APP_DIR     + '/**/*'
         ,   CONTENT_DIR + '/**/*'
+        ,   ASSET_DIR   + '/**/*'
         ], {
             ignored: /(^|[\/\\])\../
         ,   persistent: true
@@ -512,7 +515,7 @@ function svg() {
 function fonts() {
 
     let fonts = fs.expand({ filter: 'isFile' }, [
-            path.join(APP_DIR, ASSET_DIRS.FONTS, '**/*')
+            path.join(ASSET_DIR, ASSET_DIRS.FONTS, '**/*')
         ]);
 
     _.each(fonts, function(filepath) {
@@ -520,7 +523,7 @@ function fonts() {
         let filename = filepath
                 .replace(/\s+/gi, '-')
                 .toLowerCase()
-                .substr(path.join(APP_DIR, ASSET_DIRS.FONTS).length)
+                .substr(path.join(ASSET_DIR, ASSET_DIRS.FONTS).length)
             ;
 
         let newFont = path.join(PUBLIC_DIR, ASSET_DIRS.FONTS, filename);
@@ -545,14 +548,14 @@ function scripts() {
     let Uglify = require('uglify-js');
 
     let scripts = fs.expand({ filter: 'isFile' }, [
-            path.join(APP_DIR, ASSET_DIRS.JS, '**/*')
+            path.join(ASSET_DIR, ASSET_DIRS.JS, '**/*')
         ]);
 
     _.each(scripts, function(script) {
         let filename = script
                 .replace(/\s+/gi, '-')
                 .toLowerCase()
-                .substr(path.join(APP_DIR, ASSET_DIRS.JS).length)
+                .substr(path.join(ASSET_DIR, ASSET_DIRS.JS).length)
             ;
 
         let newImage = path.join(PUBLIC_DIR, ASSET_DIRS.JS, filename);
@@ -583,8 +586,8 @@ function styles() {
     let Stylus = require('stylus');
 
     let styles = fs.expand({ filter: 'isFile' }, [
-            path.join(APP_DIR, ASSET_DIRS.CSS, '**/*')
-        ,   "!"+path.join(APP_DIR, ASSET_DIRS.CSS, '**/_*')
+            path.join(ASSET_DIR, ASSET_DIRS.CSS, '**/*')
+        ,   "!"+path.join(ASSET_DIR, ASSET_DIRS.CSS, '**/_*')
         ]);
 
 
@@ -600,7 +603,7 @@ function styles() {
 
         Stylus(content)
             .set('filename',    style)
-            .set('paths',       [ path.join(APP_DIR, ASSET_DIRS.CSS, '/') ])
+            .set('paths',       [ path.join(ASSET_DIR, ASSET_DIRS.CSS, '/') ])
             .set('linenos',     process.env.NODE_ENV ? false : true)
             .set('compress',    process.env.NODE_ENV ? true : false)
             .render(function(err, css) {

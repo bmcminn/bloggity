@@ -1,31 +1,11 @@
 const low   = require('lowdb');
 
-// const YAML = require('yaml-js');
-
-
-// const dbconf = {
-//     storage: {
-//         read:
-//     ,   write:
-//     }
-// ,   format: {
-//         serialize: YAML.serialize
-//     ,   deseriealize: YAML.parse
-//     }
-// };
-
-
-const db = low(process.cwd() + '/db/db.json');
-
-// if (process.env.NODE_ENV !== 'production') {
-//     console.log('resetting db');
-//     db.setState({});
-// }
-
+const db = low(__dirname + '/db/db.json');
 
 db
     .defaults({
         posts: []
+    ,   series: []
     ,   posttypes: []
     ,   taxonomies: []
     ,   routes: []

@@ -21,6 +21,7 @@
     "express": "^4.15.2",
     "express-nunjucks": "^2.2.3",
     "front-matter": "^2.1.2",
+    "gray-matter": "^3.0.2",
     "grunt": "^1.0.1",
     "highlightjs": "^9.10.0",
     "hljs": "^6.2.3",

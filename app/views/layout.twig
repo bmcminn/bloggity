@@ -9,28 +9,26 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     {% block title %}
-        {% if page.title %}
-            <title>{{ page.title }}</title>
-
+        {% if post.title %}
+            <title>{{ post.title }}</title>
         {% else %}
             <title>{{ site.title }}</title>
-
         {% endif %}
     {% endblock title %}
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% if page.description %}
-        <meta name="description" content="{{ page.description }}">
 
+    {% if post.description %}
+        <meta name="description" content="{{ post.description }}">
     {% else %}
         <meta name="description" content="{{ site.description }}">
-
     {% endif %}
 
-    <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' }}">
-    <link rel="shortcut icon" href="{{ '/apple-touch-icon.png' }}">
+
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/apple-touch-icon.png">
 
     {% for font in fonts %}
     <link rel="stylesheet" href="{{ font }}" async defer>
@@ -50,46 +48,50 @@
 </head>
 <body {% if bodyClasses %}class="{% for class in bodyClasses %}{{ class }} {% endfor %}"{% endif %}>
 
-    {% block header %}
-        {% include "partials/header" %}
-    {% endblock header %}
+    <div class="container">
+        {% block header %}
+            {% include "partials/header" %}
+        {% endblock header %}
 
 
-    <div class="page-container container">
+        <div class="post-container container">
 
-        {% block mainNav %}
-        {% include "partials/navigation" %}
-        {% endblock mainNav %}
+            {% block aboveBody %}{% endblock %}
 
 
-        {% block aboveBody %}
-        {% endblock aboveBody %}
+            <main class="section content">
+            {% block content %}
+                <h1>{{ title }}</h1>
+                {{ content|safe }}
+            {% endblock content %}
+            </main>
 
 
-        <main class="body-content row">
-        {% block content %}
-            <h1>{{ title }}</h1>
-            {{ content|safe }}
-        {% endblock content %}
-        </main>
+            {% block belowBody %}{% endblock %}
 
-        {% block footer %}
-        <footer class="footer-block row">
+        </div>
+    </div>
+
+
+    {% block footer %}
+    <footer class="footer">
+        <div class="container">
             <nav class="">
-            {% for nav in navi.footer %}
+            {% for nav in navlists.footer %}
                 <a href="{{ nav.link }}">{{ nav.title }}</a>
             {% endfor %}
             </nav>
 
             <hr>
 
-            <div class="row text-center">
+            <div class="row has-text-centered">
                 ©{{ date.year }} — {{ site.legalName }} All Rights Reserved.
             </div>
+        </div>
+    </footer>
+    {% endblock footer %}
 
-        </footer>
-        {% endblock footer %}
-    </div>
+
 
     {% for script in defaultScripts %}
         <script src="{{ script }}"></script>

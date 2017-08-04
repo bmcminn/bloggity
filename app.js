@@ -12,12 +12,14 @@ const app = express();
 global.radix = 10;
 
 
+
 // SETUP DB INSTANCE
 // -----------------------------------------------------------------
 
 const db = require('./app/db.js');
 
 app.set('db', db);
+
 
 
 // CONFIGURE BASE APP MODEL
@@ -78,13 +80,10 @@ expressNunjucks(app, {
 
 
 
-
-
 // SETUP MIDDLEWARE TO GENERATE COLLECTION PAGES
 // -----------------------------------------------------------------
 
 require(__dirname + '/app/middleware/register-collections.js')(app);
-
 
 
 
@@ -119,12 +118,61 @@ _.each(posts, function(post) {
             });
         }
 
+
+        if (post.posts) {
+
+            // define a page description for post listing pages
+            post.description = post.posts[0].posttype + ' listing page'
+
+            // TODO: manipulate the paging controls
+
+        }
+
+
+        if (!post.description) {
+
+            // we can derive the page description from the post.content
+            if (post.content) {
+                post.description = post.content.substring(0, 60).replace(/[\r\n]+/, ' ') + '...';
+            }
+        }
+
+
+        if (!post.title) {
+            // define a page description for post listing pages
+            if (post.posttype !== 'page') {
+                post.title = post.posts[0].posttype + ' listing page'
+            }
+
+        }
+
+
+        if (post.author) {
+            post.author = model.authors[post.author];
+        }
+
+
         model.post = post;
 
         model.model = model;
 
         res.render(post.template, model);
     });
+
+});
+
+
+
+
+
+// REGISTER AUTHOR LISTINGS
+// -----------------------------------------------------------------
+
+let model = app.get('model');
+
+_.each(model.authors, (author, name) => {
+
+    console.log(author);
 
 });
 
@@ -147,7 +195,6 @@ app.get('/sitemap.xml', function(req, res) {
 
     res.render('sitemap', model);
 });
-
 
 
 

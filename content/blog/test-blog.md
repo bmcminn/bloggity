@@ -1,10 +1,10 @@
 ---
 title: 'Test Blog Entry'
 published: '2017-05-13'
-author: 'Brandtley McMinn'
+author: brandtley
 taxonomies:
     category: [testing, posts]
     tags: [waffles, pants, test, tags]
-updated: '2017-08-01'
+updated: '2017-08-02'
 ---
 Page content goes here

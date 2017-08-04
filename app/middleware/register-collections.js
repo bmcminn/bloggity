@@ -52,7 +52,7 @@ module.exports = function(app) {
 
         let chunks = _.chunk(posttypePosts, model.paging.postCount);
 
-        console.log(chunks.length);
+        // console.log(chunks.length);
 
         _.each(chunks, (chunk, index) => {
 
@@ -79,7 +79,7 @@ module.exports = function(app) {
             }
 
 
-            console.log(CJSON.stringify(db.getState(), null, 2));
+            // console.log(CJSON.stringify(db.getState(), null, 2));
 
         });
 
