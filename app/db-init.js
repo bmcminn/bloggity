@@ -1,12 +1,15 @@
 require('dotenv-safe').load()
 
 
-const path  = require('path');
-const fs    = require('./fs.js');
-const db    = require('./db.js');
-const _     = db._;
+const path      = require('path');
+const fs        = require('./fs.js');
+const db        = require('./db.js');
+const _         = db._;
 
-const fm    = require('gray-matter');
+
+const moment    = require('moment');
+const fm        = require('gray-matter');
+
 
 const fmOpts = {
     excerpt: true   // use this to get post descriptions/social media meta data snippets
@@ -90,14 +93,6 @@ _.each(files, (filepath) => {
         ;
 
 
-    // TODO: MAKE THIS A SECONDARY CHECK TO ASSIGN 'isHomepage' ONCE ALL PAGES ARE INDEXED
-    // // SET PAGE AS HOMEPAGE
-    // file.route === '/'
-    //     ? file.isHomepage = true
-    //     : null
-    //     ;
-
-
     // GET THE POST ROUTE
     file.route = file.filepath
         .substr(contentDir.length)  // remove content base dir
@@ -155,14 +150,66 @@ _.each(files, (filepath) => {
 
     db.setState(state);
 
+});
 
 
 
-    console.log(JSON.stringify(file, null, 2));
-    console.log('---------------------------------------------');
 
+// POSTTYPE LISTINGS
+// -----------------------------------------------------------------
+
+let postGroups = db.get('posts')
+    .filter((p) => { return p.posttype !== 'page' })
+    .groupBy('posttype')
+    .value()
+    ;
+
+// console.log(postGroups);
+
+// TODO: iterate over postGroups and generate listing pages
+
+_.each(postGroups, (postGroup) => {
+
+    // TODO: allow for custom handlers to come in for parsing posttypes/groups like this
+
+    let posts = _.chunk(postGroup, config.paging.postCount);
+
+
+    console.log(posts);
 
 });
 
 
 
+
+// SEO ROUND
+// -----------------------------------------------------------------
+
+posts = db.get('posts').value();
+
+_.each(posts, (post) => {
+
+
+    // DETERMINE PAGE PRIORITY FOR SITEMAP.XML GENERATION
+    if (!post.priority) {
+        post.isHomepage
+            ? post.priority = 1.0
+            : post.priority = 0.5
+            ;
+    }
+
+    // TODO: setup maths to determine change frequency
+    //  -- https://www.v9seo.com/blog/2011/12/27/sitemap-xml-why-changefreq-priority-are-important/
+
+    // SET OLD POSTS TO LOWER PRIORITY
+    let d = moment(Date.now());
+    let yearsOld = d.diff(post.published, 'years', true).toFixed(2);
+
+    if (yearsOld > 1) {
+        post.priority = (0.3 / yearsOld).toFixed(1);
+    }
+
+
+    db.get('posts').find({ 'filepath': post.filepath }).assign(post).write();
+
+});
