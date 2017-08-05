@@ -34,6 +34,7 @@ navlists:
 authors:
     brandtley:
         name: Brandtley McMinn
+        # slug: brandtley-mcminn
         website: http://brandtley.name/
         social:
             -
@@ -44,6 +45,7 @@ authors:
                 url:    https://twitter.com/blarg
     bob:
         name: Bob Dole
+        # slug: bob-dole
         website: http://bobdo.le/
         social:
             -

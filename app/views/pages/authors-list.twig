@@ -2,12 +2,15 @@
 
 
 {% block content %}
+
+    <h1>Authors</h1>
+
     <div class="colums">
 
         <ul>
         {% for author in authors %}
             <li class="column card media">
-                <a href="/author/{{ author.slug }}">{{ author.name }}</a>
+                <a href="/author/{{ author.name|slugify }}">{{ author.name }}</a>
                 <a href="{{ author.website }}">Website</a>
             </li>
         {% endfor %}

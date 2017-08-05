@@ -137,6 +137,11 @@ module.exports = function(app) {
             return require('./nunjucks/filter-phone')(nunjucks)(content);
         }
 
+
+    ,   slugify: function(content) {
+            return require('./nunjucks/filter-slugify')(nunjucks)(content);
+        }
+
     ,   md: function(content) {
             return require('./nunjucks/filter-md')(nunjucks)(content);
         }

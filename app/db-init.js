@@ -186,7 +186,8 @@ _.each(postGroups, (postGroup) => {
     _.each(groups, (group, index) => {
 
         let post = {
-            items: group
+            title: group[0].posttype
+        ,   items: group
         ,   route: '/' + group[0].posttype + '/' + (index > 0 ? index + 1 : '')
         ,   index: index + 1
         ,   template: `pages/${group[0].posttype}-list`

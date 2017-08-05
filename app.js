@@ -200,6 +200,8 @@ _.each(model.authors, (author, name) => {
             .value()
             ;
 
+        model.author = model.posts[0].author;
+
         res.render('pages/author-list', model);
 
     });

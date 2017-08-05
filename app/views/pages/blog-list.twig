@@ -2,6 +2,9 @@
 
 
 {% block content %}
+
+    <h1>{{ post.title|title }}</h1>
+
     <ul>
     {% for item in post.items %}
         <li><a href="{{ item.route }}">{{ item.title }}</a></li>

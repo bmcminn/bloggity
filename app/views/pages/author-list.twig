@@ -2,6 +2,9 @@
 
 
 {% block content %}
+
+    <h1>Author: {{ author.name }}</h1>
+
     <ul>
     {% for item in posts %}
         <li><a href="{{ item.route }}">{{ item.title }}</a></li>
