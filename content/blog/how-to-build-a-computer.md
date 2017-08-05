@@ -4,7 +4,7 @@ author: brandtley
 taxonomies:
     tags: [computers, builds, hardware, howto]
     categories: [howtos]
-updated: '2017-08-02'
+updated: '2017-08-05'
 published: '2017-08-01'
 ---
 ## Preface

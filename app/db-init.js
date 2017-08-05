@@ -1,6 +1,10 @@
 require('dotenv-safe').load()
 
+process.debug = {};
 
+process.debug.startTime = Date.now();
+
+const chalk     = require('chalk');
 const path      = require('path');
 const fs        = require('./fs.js');
 const db        = require('./db.js');
@@ -18,6 +22,11 @@ const fmOpts = {
 
 const IS_DEV = process.env.NODE_ENV === 'dev';
 
+
+
+// // RESET DB STATE
+// // ------------------------------------------------------------
+// db.setState({});
 
 
 // GET LIST OF CONTENT FILES TO GROK
@@ -41,8 +50,6 @@ const contentPath = [
 let files = fs.glob({ filter: 'isFile' }, contentPath);
 
 
-console.log(contentDir);
-
 
 // RUN INITIAL FILE LOOP TO COMPOSE 'POSTS' COLLECTION
 // ------------------------------------------------------------
@@ -50,7 +57,6 @@ console.log(contentDir);
 _.each(files, (filepath) => {
 
     let file = fm(fs.readFileSync(filepath, { encoding: 'utf-8' }), fmOpts);
-
 
     file = Object.assign({}, file, file.data);
 
@@ -86,6 +92,12 @@ _.each(files, (filepath) => {
         ;
 
 
+    // DEFINE AUTHOR
+    if (file.author) {
+        file.author         = config.authors[file.author];
+        file.author.slug    = file.author.name.toLowerCase().replace(/\s+/g, '-');
+    }
+
     // IF THE FILE IS SCHEDULED TO BE PUBLISHED LATER
     file.published > Date.now()
         ? file.private = true
@@ -98,6 +110,10 @@ _.each(files, (filepath) => {
         .substr(contentDir.length)  // remove content base dir
         .replace(/\.\S{2,}/, '')    // remove file extension
         ;
+
+    if (file.route === '/index') {
+        file.route = '/';
+    }
 
 
     // GET POST TYPE FROM POST ROUTE
@@ -122,33 +138,25 @@ _.each(files, (filepath) => {
     if (file.canonical) {
         db.get('series').push(file.canonical).write();  // push the tag to the collection
 
-        let series = db.getState('series');
+        let series = db.get('series').value();
 
-        series.series = _.uniq(series.series);
-
-        db.setState(series);
+        db.set('series', _.uniq(series)).write();
     }
 
-
-    // TRUNCATE CONTENT VALUE WHILE DEBUGGING
-    if (IS_DEV) {
-        file.content    = '[TRUNCATED] ' + file.content.substr(0, 60) + '...';
-        file.stats      = '[REDACTED]';
-    }
 
     // CLEAN UP DATA MODEL
     delete(file.data);
     delete(file.excerpt);
 
 
-    // FORCE UNIQUE POSTS
-    db.get('posts').push(file).write();
+    // ENSURE UNIQUE POSTS
+    if (db.get('posts').find({ route: file.route }).value()) {
+        db.get('posts').find({ route: file.route }).assign(file).write();
 
-    let state = db.getState('series');
+    } else {
+        db.get('posts').push(file).write();
 
-    state.posts = _.uniqBy(state.posts, 'filepath');
-
-    db.setState(state);
+    }
 
 });
 
@@ -159,12 +167,13 @@ _.each(files, (filepath) => {
 // -----------------------------------------------------------------
 
 let postGroups = db.get('posts')
-    .filter((p) => { return p.posttype !== 'page' })
+    .filter((p) => { return p.posttype !== 'page'; })   // ignore pages
+    .filter((p) => { return !p.items; })                // ignore listings
+    .sortBy('published')
     .groupBy('posttype')
     .value()
     ;
 
-// console.log(postGroups);
 
 // TODO: iterate over postGroups and generate listing pages
 
@@ -172,13 +181,29 @@ _.each(postGroups, (postGroup) => {
 
     // TODO: allow for custom handlers to come in for parsing posttypes/groups like this
 
-    let posts = _.chunk(postGroup, config.paging.postCount);
+    let groups = _.chunk(postGroup, config.paging.postCount);
+
+    _.each(groups, (group, index) => {
+
+        let post = {
+            items: group
+        ,   route: '/' + group[0].posttype + '/' + (index > 0 ? index + 1 : '')
+        ,   index: index + 1
+        ,   template: `pages/${group[0].posttype}-list`
+        };
 
 
-    console.log(posts);
+        if (db.get('posts').find({ route: post.route }).value()) {
+            db.get('posts').find({ route: post.route }).assign(post).write();
+
+        } else {
+            db.get('posts').push(post).write();
+
+        }
+
+    });
 
 });
-
 
 
 
@@ -196,9 +221,16 @@ _.each(posts, (post) => {
             ? post.priority = 1.0
             : post.priority = 0.5
             ;
+
+        !post.items
+            ? post.priority = 0.7
+            : null
+            ;
     }
 
     // TODO: setup maths to determine change frequency
+    //  -- requires long term analysis of file changes to determine this
+    //      -- might need to migrate to SQLite to make this happen
     //  -- https://www.v9seo.com/blog/2011/12/27/sitemap-xml-why-changefreq-priority-are-important/
 
     // SET OLD POSTS TO LOWER PRIORITY
@@ -210,6 +242,19 @@ _.each(posts, (post) => {
     }
 
 
-    db.get('posts').find({ 'filepath': post.filepath }).assign(post).write();
+    db.get('posts')
+        .find({ filepath: post.filepath })
+        .assign(post)
+        .write()
+        ;
 
 });
+
+
+
+
+
+console.log('PROCESS EXECUTION TIME:', Date.now() - process.debug.startTime + 'ms');
+
+
+require(__dirname + '/../app.js');

@@ -16,7 +16,7 @@ global.radix = 10;
 // SETUP DB INSTANCE
 // -----------------------------------------------------------------
 
-const db = require('./app/db.js');
+const db = require(__dirname + '/app/db.js');
 
 app.set('db', db);
 
@@ -25,7 +25,7 @@ app.set('db', db);
 // CONFIGURE BASE APP MODEL
 // -----------------------------------------------------------------
 
-const configPath    = path.join(process.cwd(), 'config/config.yml');
+const configPath    = path.join(process.cwd(), 'app/config.yaml');
 const config        = fs.readYAML(configPath);
 
 const pkg           = require('./package.json');
@@ -64,7 +64,7 @@ app.use(express.static(__dirname + '/public'));
 // -----------------------------------------------------------------
 
 const expressNunjucks   = require('express-nunjucks');
-const nunjucks          = require('./app/nunjucks.js')(app);
+const nunjucks          = require(__dirname + '/app/nunjucks.js')(app);
 
 app.set('view engine', 'twig')
 app.set('views', __dirname + '/app/views');
@@ -83,7 +83,7 @@ expressNunjucks(app, {
 // SETUP MIDDLEWARE TO GENERATE COLLECTION PAGES
 // -----------------------------------------------------------------
 
-require(__dirname + '/app/middleware/register-collections.js')(app);
+// require(__dirname + '/app/middleware/register-collections.js')(app);
 
 
 
@@ -126,30 +126,25 @@ _.each(posts, function(post) {
 
             // TODO: manipulate the paging controls
 
-        }
+            if (!post.title) {
+                // define a page description for post listing pages
+                if (post.posttype !== 'page') {
+                    post.title = post.posts[0].posttype + ' listing page'
+                }
 
-
-        if (!post.description) {
-
-            // we can derive the page description from the post.content
-            if (post.content) {
-                post.description = post.content.substring(0, 60).replace(/[\r\n]+/, ' ') + '...';
-            }
-        }
-
-
-        if (!post.title) {
-            // define a page description for post listing pages
-            if (post.posttype !== 'page') {
-                post.title = post.posts[0].posttype + ' listing page'
             }
 
         }
 
 
-        if (post.author) {
-            post.author = model.authors[post.author];
-        }
+        // if (!post.description) {
+
+        //     // we can derive the page description from the post.content
+        //     if (post.content) {
+        //         post.description = post.content.substring(0, 60).replace(/[\r\n]+/, ' ') + '...';
+        //     }
+        // }
+
 
 
         model.post = post;
@@ -170,9 +165,45 @@ _.each(posts, function(post) {
 
 let model = app.get('model');
 
+
+app.get('/author', (req, res) => {
+
+    let model = req.app.get('model');
+
+    let authors = model.authors;
+
+    model.authors = [];
+
+    _.each(authors, (a) => {
+        model.authors.push(a);
+    });
+
+    console.log(model.authors);
+
+    res.render('pages/authors-list', model);
+
+});
+
+
 _.each(model.authors, (author, name) => {
 
-    console.log(author);
+    app.get('/author/:name', (req, res) => {
+
+        let model   = req.app.get('model');
+        let db      = req.app.get('db');
+
+        // TODO: figure out means of having multiple authors
+
+        model.posts = db.get('posts')
+            .filter((p) => { return p.author; })
+            .filter((p) => { return p.author.slug === req.params.name; })
+            .value()
+            ;
+
+        res.render('pages/author-list', model);
+
+    });
+
 
 });
 
@@ -187,8 +218,11 @@ app.get('/sitemap.xml', function(req, res) {
     let model   = req.app.get('model');
 
 
-    model.posts = _(posts)
-        .filter((p) => { return !p.private; })
+    model.posts = db.get('posts')
+        .filter((p) => {
+            return !p.private;
+        })
+        .value()
         ;
 
     model.model = model;

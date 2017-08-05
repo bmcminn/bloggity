@@ -7,7 +7,7 @@
 
     <section class="post-meta">
     Published: <time datetime="{{ post.published|date }}">{{ post.published|date('MMMM Do, YYYY') }}</time>
-    By: {{ post.author.name }}
+    By: <a href="/author/{{ post.author.slug }}">{{ post.author.name }}</a>
     </section>
 
     {% if post.series %}

@@ -1,7 +1,7 @@
 ---
 title: 'Welcome to Bloggity'
 isHomepage: true
-updated: '2017-08-02'
+updated: '2017-08-05'
 published: '2017-07-13'
 template: pages/homepage
 priority: '1.0'

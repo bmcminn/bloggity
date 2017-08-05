@@ -3,7 +3,7 @@
 
 {% block content %}
     <ul>
-    {% for item in post.items %}
+    {% for item in posts %}
         <li><a href="{{ item.route }}">{{ item.title }}</a></li>
     {% endfor %}
     </ul>

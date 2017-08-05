@@ -1,5 +1,7 @@
 ---
 doc: missing-homepage
+updated: '2017-08-05'
+published: '2017-08-05'
 ---
 # You're missing an `isHomepage` post
 

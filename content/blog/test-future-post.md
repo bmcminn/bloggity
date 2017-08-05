@@ -5,6 +5,6 @@ author: brandtley
 taxonomies:
     category: [testing, posts]
     tags: [test, posts, canonical, tags]
-updated: '2017-08-02'
+updated: '2017-08-05'
 ---
 First page content goes here!
