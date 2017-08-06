@@ -64,6 +64,10 @@ _.each(files, (filepath) => {
 
 
     // GET POST/PAGE META DESCRIPTION
+    if (file.excerpt === '') {
+        file.excerpt = file.content.substr(0,400);
+    }
+
     file.description = file.excerpt;
 
     if (!file.description && IS_DEV) {
@@ -146,7 +150,6 @@ _.each(files, (filepath) => {
 
     // CLEAN UP DATA MODEL
     delete(file.data);
-    delete(file.excerpt);
 
 
     // ENSURE UNIQUE POSTS
@@ -252,10 +255,5 @@ _.each(posts, (post) => {
 });
 
 
-
-
-
 console.log('PROCESS EXECUTION TIME:', Date.now() - process.debug.startTime + 'ms');
 
-
-require(__dirname + '/../app.js');

@@ -98,7 +98,7 @@ module.exports = function(app) {
         // date: require('nunjucks-date-filter')
 
     ,   debug: function(ctx, space) {
-            return nunjucks.runtime.safeString(JSON.stringify(ctx, null, space || 0));
+            return new nunjucks.runtime.SafeString(JSON.stringify(ctx, null, space || 0));
         }
 
 
@@ -142,6 +142,7 @@ module.exports = function(app) {
             return require('./nunjucks/filter-slugify')(nunjucks)(content);
         }
 
+
     ,   md: function(content) {
             return require('./nunjucks/filter-md')(nunjucks)(content);
         }
@@ -156,12 +157,11 @@ module.exports = function(app) {
         }
 
 
+    ,   icon: function(name) {
+            return new nunjucks.runtime.SafeString('<i class="fa fa-' + name + '" aria-hidden="true"></i>');
+        }
+
     };
-
-
-
-
-
 
     return exp;
 }

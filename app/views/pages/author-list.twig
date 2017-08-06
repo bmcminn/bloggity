@@ -3,7 +3,13 @@
 
 {% block content %}
 
-    <h1>Author: {{ author.name }}</h1>
+    {% set breadcrumbs = post.route %}
+
+    {% include 'partials/breadcrumbs' %}
+
+    <div class="content">
+        <h1>{{ author.name }}'s posts</h1>
+    </div>
 
     <ul>
     {% for item in posts %}
@@ -14,38 +20,5 @@
 
 
 {% block belowBody %}
-    <nav class="pagination section">
-
-        {% if post.paging.prev %}
-            <a class="pagination-previous" href="{{ post.baseroute }}/{{ post.index - 1 }}">Previous</a>
-        {% else %}
-            <a class="pagination-previous" disabled>Previous</a>
-        {% endif %}
-
-
-        {% if post.paging.next %}
-            <a class="pagination-next" href="{{ post.baseroute }}/{{ post.index + 1 }}">Next</a>
-        {% else %}
-            <a class="pagination-next" disabled>Next</a>
-        {% endif %}
-
-
-        <ul class="pagination-list">
-
-            {% if post.index == 1 %}
-            <li><a class="pagination-link" disabled>1</a></li>
-
-            {% else %}
-            <li><a class="pagination-link">1</a></li>
-
-            {% endif %}
-
-            {# <li><span class="pagination-ellipsis">&hellip;</span></li> #}
-            <li><a class="pagination-link">45</a></li>
-            <li><a class="pagination-link is-current">46</a></li>
-            <li><a class="pagination-link">47</a></li>
-            {# <li><span class="pagination-ellipsis">&hellip;</span></li> #}
-            <li><a class="pagination-link">86</a></li>
-        </ul>
-    </nav>
+    {% include 'partials/pagination' %}
 {% endblock %}

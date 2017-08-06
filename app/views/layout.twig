@@ -48,29 +48,25 @@
 </head>
 <body {% if bodyClasses %}class="{% for class in bodyClasses %}{{ class }} {% endfor %}"{% endif %}>
 
-    <div class="container">
-        {% block header %}
-            {% include "partials/header" %}
-        {% endblock header %}
+    {% block header %}
+        {% include "partials/header" %}
+    {% endblock header %}
 
 
-        <div class="post-container container">
-
-            {% block aboveBody %}{% endblock %}
+    {% block aboveBody %}{% endblock %}
 
 
-            <main class="section content">
+    <main class="section">
+        <div class="container">
             {% block content %}
                 <h1>{{ title }}</h1>
                 {{ content|safe }}
             {% endblock content %}
-            </main>
-
-
-            {% block belowBody %}{% endblock %}
-
         </div>
-    </div>
+    </main>
+
+
+    {% block belowBody %}{% endblock %}
 
 
     {% block footer %}
@@ -90,7 +86,6 @@
         </div>
     </footer>
     {% endblock footer %}
-
 
 
     {% for script in defaultScripts %}

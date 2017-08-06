@@ -82,37 +82,37 @@ fonts();
 
 chokidar
     .watch([
-            APP_DIR     + '/**/*'
-        ,   CONTENT_DIR + '/**/*'
-        ,   ASSET_DIR   + '/**/*'
+            ASSET_DIR   + '/**/*'
+        // ,   APP_DIR     + '/**/*'
+        // ,   CONTENT_DIR + '/**/*'
         ], {
             ignored: /(^|[\/\\])\../
         ,   persistent: true
         })
 
-    .on('add', function(filepath, stats) {
-        filepath = filepath.replace(/\\+/g, '/');
+    // .on('add', function(filepath, stats) {
+    //     filepath = filepath.replace(/\\+/g, '/');
 
-        let ext = path.extname(filepath);
+    //     let ext = path.extname(filepath);
 
-        if (ext.match(/\.(md|markdown|mdown)$/)) { addContent(filepath, stats); }
+    //     if (ext.match(/\.(md|markdown|mdown)$/)) { addContent(filepath, stats); }
 
-    })
+    // })
 
-    .on('unlink', function(filepath, stats) {
-        filepath = filepath.replace(/\\+/g, '/');
+    // .on('unlink', function(filepath, stats) {
+    //     filepath = filepath.replace(/\\+/g, '/');
 
-        let ext = path.extname(filepath);
+    //     let ext = path.extname(filepath);
 
-        if (ext.match(/\.(md|markdown|mdown)$/)) { deleteContent(filepath); }
-    })
+    //     if (ext.match(/\.(md|markdown|mdown)$/)) { deleteContent(filepath); }
+    // })
 
     .on('change', function(filepath, stats) {
         filepath = filepath.replace(/\\+/g, '/');
 
         let ext = path.extname(filepath);
 
-        if (ext.match(/\.(md)$/)) { updateContent(filepath, stats); }
+        // if (ext.match(/\.(md)$/)) { updateContent(filepath, stats); }
         if (ext.match(/\.(eot|woff|woff2|ttf|otf)$/)) { fonts(); }
         if (ext.match(/\.(jpeg|jpg|png|gif|tiff)$/)) { images(); }
         if (ext.match(/\.(js)$/)) { scripts(); }

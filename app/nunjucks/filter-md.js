@@ -19,6 +19,9 @@ var mdFilter = function mdFilter(nunjucks) {
 
     return function(content) {
 
+        // TODO: fix the lack of filtering for HTML comments in MD files
+        content = content.replace(/<!--[\s\S]+-->/gi, '');
+
         content = md.render(content);
 
         // console.log(content);

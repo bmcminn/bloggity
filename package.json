@@ -6,7 +6,7 @@
   "author": "Brandtley McMinn <labs@gbox.name>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon .bin/watch.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

@@ -2,29 +2,38 @@
 
 
 {% block content %}
+    <div class="content">
 
-    <h1>{{ post.title }}</h1>
+        <h1>{{ post.title }}</h1>
 
-    <section class="post-meta">
-    Published: <time datetime="{{ post.published|date }}">{{ post.published|date('MMMM Do, YYYY') }}</time>
-    By: <a href="/author/{{ post.author.slug }}">{{ post.author.name }}</a>
-    </section>
+        <section class="post-meta">
+            By: <a href="/authors/{{ post.author.slug }}">{{ post.author.name }}</a> on
+            <time datetime="{{ post.published|date }}">{{ post.published|date('MMMM Do, YYYY') }}</time>
+            <div class="tags-row">
+                {{ 'tags'|icon }}
 
-    {% if post.series %}
-    <section class="canonical-toc">
-        <h2>Artical Series</h2>
-        <ul>
-            {% for li in post.series %}
-                {% if li.route == post.route %}
-                    <li>Part {{loop.index}}: {{ li.title }}</li>
-                {% else %}
-                    <li>Part {{loop.index}}: <a href="{{ li.route }}">{{ li.title }}</a></li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
+                {{ post.taxonomies.tags|join(', ') }}
+            </div>
+        </section>
 
-    {{ post.content|md }}
 
+
+        {% if post.series %}
+        <section class="canonical-toc">
+            <h2>Artical Series</h2>
+            <ul>
+                {% for li in post.series %}
+                    {% if li.route == post.route %}
+                        <li>Part {{loop.index}}: {{ li.title }}</li>
+                    {% else %}
+                        <li>Part {{loop.index}}: <a href="{{ li.route }}">{{ li.title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        {{ post.content|md }}
+
+    </div>
 {% endblock %}

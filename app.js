@@ -1,5 +1,10 @@
 require('dotenv-safe').load();
 
+
+require(__dirname + '/app/db-init.js');
+require(__dirname + '/app/watch.js');
+
+
 const express   = require('express');
 const chalk     = require('chalk');
 const path      = require('path');
@@ -80,10 +85,58 @@ expressNunjucks(app, {
 
 
 
+
+
+// HELPERS
+// -----------------------------------------------------------------
+
+String.prototype.toTitleCase = function toTitleCase() {
+    return this.replace(/\w\S*/g, function(txt) {
+        let str = txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+
+        // crazy specific rule for Irish/Scottish names
+        // @sauce: https://stackoverflow.com/a/7153523
+        str = str.replace(/Mc(.)/ig, function(m, m1) {
+            return 'Mc' + m1.toUpperCase();
+        });
+
+
+        return str;
+    });
+}
+
+
+
+
 // SETUP MIDDLEWARE TO GENERATE COLLECTION PAGES
 // -----------------------------------------------------------------
 
 // require(__dirname + '/app/middleware/register-collections.js')(app);
+
+app.use(function(req, res, next) {
+
+    let model = req.app.get('model');
+
+    let parts = req.url.split('/');
+
+    console.log(req.url);
+
+    model.breadcrumbs = [];
+
+    let route = '';
+
+    _.each(parts, (p) => {
+        model.breadcrumbs.push({
+            label: p === '' ? 'Home' : p.replace(/[-_]+/g, ' ').toTitleCase()
+        ,   route: (route += '/' + p).replace(/\/+/g, '/')
+        })
+    });
+
+    req.app.set('model', model);
+
+    next();
+
+});
 
 
 
@@ -166,19 +219,34 @@ _.each(posts, function(post) {
 let model = app.get('model');
 
 
-app.get('/author', (req, res) => {
+app.get('/authors', (req, res) => {
 
-    let model = req.app.get('model');
+    let model   = req.app.get('model');
+    let db      = req.app.get('db');
 
     let authors = model.authors;
 
     model.authors = [];
 
     _.each(authors, (a) => {
-        model.authors.push(a);
-    });
 
-    console.log(model.authors);
+        let posts = db.get('posts')
+            .filter((p) => {
+                if (p.author) {
+                    return p.author.name === a.name;
+                }
+                return false;
+            })
+            .value()
+            ;
+
+        a.postCount = posts.length;
+
+        if (posts.length > 0) {
+            model.authors.push(a);
+        }
+
+    });
 
     res.render('pages/authors-list', model);
 
@@ -187,7 +255,7 @@ app.get('/author', (req, res) => {
 
 _.each(model.authors, (author, name) => {
 
-    app.get('/author/:name', (req, res) => {
+    app.get('/authors/:name', (req, res) => {
 
         let model   = req.app.get('model');
         let db      = req.app.get('db');

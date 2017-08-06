@@ -1,5 +1,27 @@
-<header>
+<header class="container">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a class="navbar-item site-logo" href="/">
+                <img src="/images/bloggity-logo.png" alt="Bulma: a modern CSS framework based on Flexbox">
+            </a>
 
+            <div class="navbar-burger"><span></span><span></span><span></span></div>
+
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    {% for item in navlists.header %}
+                        <a href="{{ item.route }}" class="navbar-item">{{ item.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <div class="navbar-end">
+                <!-- navbar items -->
+                </div>
+            </div>
+
+        </div>
+    </nav>
+</header>
 
 {#
     <nav class="navbar is-transparent">
@@ -162,31 +184,3 @@
     </nav>
 
 #}
-
-
-
-
-    <nav class="navbar">
-
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-            </a>
-
-            <div class="navbar-burger"><span></span><span></span><span></span></div>
-
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    {% for item in navlists.header %}
-                        <a href="{{ item.route }}" class="navbar-item">{{ item.name }}</a>
-                    {% endfor %}
-                </div>
-
-                <div class="navbar-end">
-                <!-- navbar items -->
-                </div>
-            </div>
-
-        </div>
-    </nav>
-</header>
