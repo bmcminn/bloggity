@@ -6,7 +6,7 @@ author: 'Brandtley McMinn'
 taxonomies:
     category: [testing, posts]
     tags: [test, posts, canonical, tags]
-updated: '2017-07-13'
+updated: '2017-07-16'
 ---
 Second page content goes here!
 

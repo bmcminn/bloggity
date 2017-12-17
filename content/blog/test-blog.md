@@ -5,6 +5,6 @@ author: 'Brandtley McMinn'
 taxonomies:
     category: [testing, posts]
     tags: [waffles, pants, test, tags]
-updated: '2017-07-13'
+updated: '2017-07-16'
 ---
 Page content goes here

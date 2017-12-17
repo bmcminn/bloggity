@@ -3,7 +3,7 @@ title: 'Privacy Policy'
 nav: footer
 published: '2017-05-09'
 template: pages/legal
-updated: '2017-07-13'
+updated: '2017-07-16'
 ---
 ### _{{ site.name }}_
 All rights reserved.
