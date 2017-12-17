@@ -1,0 +1,63 @@
+site:
+    name: Site Title Here
+    legalName: Company Name
+    owner:  Brandtley McMinn
+    url: http://test.name
+    timezone: America/Chicago
+
+paging:
+    postCount: 10
+    pages: 5
+    next: Next
+    prev: Previous
+
+address:
+    street1:    4500 Testing
+    street2:
+    city:       Austin
+    stateFull:  Texas
+    state:      TX
+    zipcode:    78759
+
+
+navlists:
+    header:
+        -
+            name: Blog
+            route: /blog
+    footer:
+        -
+            name: Sitemap
+            route: /sitemap.xml
+
+
+authors:
+    brandtley:
+        name: Brandtley McMinn
+        # slug: brandtley-mcminn
+        website: http://brandtley.name/
+        bio: |
+            Brandtley is an Austin native who prefers to spend his time tinkering in his workshop, tailoring software solutions, and enjoying time with his three fur babies and lovely fiance.
+        social:
+            -
+                name: Facebook
+                url:  https://facebook.com/brandtley
+            -
+                name: Twitter
+                username: '@brandtleymcminn'
+                url:  https://twitter.com/brandtleymcminn
+    bob:
+        name: Bob Dole
+        # slug: bob-dole
+        website: http://bobdo.le/
+        social:
+            -
+                name: Facebook
+                url: https://facebook.com/boblarg
+            -
+                name: Instagram
+                url: https://instagram.com/boblarg
+
+
+defaultStyles:
+    - /css/main.css

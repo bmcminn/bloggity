@@ -1,0 +1,644 @@
+
+.nav-toggle
+    cursor: pointer
+    display: block
+    height: 3.25rem
+    position: relative
+    width: 3.25rem
+
+
+.nav-toggle span
+    background-color: #4a4a4a
+    display: block
+    height: 1px
+    left: 50%
+    margin-left: -7px
+    position: absolute
+    top: 50%
+    -webkit-transition: none 86ms ease-out
+    transition: none 86ms ease-out
+    -webkit-transition-property: background, left, opacity, -webkit-transform
+    transition-property: background, left, opacity, -webkit-transform
+    transition-property: background, left, opacity, transform
+    transition-property: background, left, opacity, transform, -webkit-transform
+    width: 15px
+
+
+.nav-toggle span:nth-child(1)
+    margin-top: -6px
+
+
+.nav-toggle span:nth-child(2)
+    margin-top: -1px
+
+
+.nav-toggle span:nth-child(3)
+    margin-top: 4px
+
+
+.nav-toggle:hover
+    background-color: whitesmoke
+
+
+.nav-toggle.is-active span
+    background-color: #00d1b2
+
+
+.nav-toggle.is-active span:nth-child(1)
+    margin-left: -5px
+    -webkit-transform: rotate(45deg)
+    transform: rotate(45deg)
+    -webkit-transform-origin: left top
+    transform-origin: left top
+
+
+.nav-toggle.is-active span:nth-child(2)
+    opacity: 0
+
+
+.nav-toggle.is-active span:nth-child(3)
+    margin-left: -5px
+    -webkit-transform: rotate(-45deg)
+    transform: rotate(-45deg)
+    -webkit-transform-origin: left bottom
+    transform-origin: left bottom
+
+
+@media screen and (min-width: 769px), print
+    .nav-toggle
+        display: none
+
+
+
+.nav-item
+    -webkit-box-align: center
+    -ms-flex-align: center
+    align-items: center
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    -webkit-box-flex: 0
+    -ms-flex-positive: 0
+    flex-grow: 0
+    -ms-flex-negative: 0
+    flex-shrink: 0
+    font-size: 1rem
+    -webkit-box-pack: center
+    -ms-flex-pack: center
+    justify-content: center
+    line-height: 1.5
+    padding: 0.5rem 0.75rem
+
+
+.nav-item a
+    -webkit-box-flex: 1
+    -ms-flex-positive: 1
+    flex-grow: 1
+    -ms-flex-negative: 0
+    flex-shrink: 0
+
+
+.nav-item img
+    max-height: 1.75rem
+
+
+.nav-item .tag:first-child:not(:last-child)
+    margin-right: 0.5rem
+
+
+.nav-item .tag:last-child:not(:first-child)
+    margin-left: 0.5rem
+
+
+@media screen and (max-width: 768px)
+    .nav-item
+        -webkit-box-pack: start
+        -ms-flex-pack: start
+        justify-content: flex-start
+
+
+
+.nav-item a:not(.button),
+a.nav-item:not(.button)
+    color: #7a7a7a
+
+
+.nav-item a:not(.button):hover,
+a.nav-item:not(.button):hover
+    color: #363636
+
+
+.nav-item a:not(.button).is-active,
+a.nav-item:not(.button).is-active
+    color: #363636
+
+
+.nav-item a:not(.button).is-tab,
+a.nav-item:not(.button).is-tab
+    border-bottom: 1px solid transparent
+    border-top: 1px solid transparent
+    padding-bottom: calc(0.75rem - 1px)
+    padding-left: 1rem
+    padding-right: 1rem
+    padding-top: calc(0.75rem - 1px)
+
+
+.nav-item a:not(.button).is-tab:hover,
+a.nav-item:not(.button).is-tab:hover
+    border-bottom-color: #00d1b2
+    border-top-color: transparent
+
+
+.nav-item a:not(.button).is-tab.is-active,
+a.nav-item:not(.button).is-tab.is-active
+    border-bottom: 3px solid #00d1b2
+    color: #00d1b2
+    padding-bottom: calc(0.75rem - 3px)
+
+
+@media screen and (min-width: 1008px)
+    .nav-item a:not(.button).is-brand,
+    a.nav-item:not(.button).is-brand
+        padding-left: 0
+
+
+
+.nav-left,
+.nav-right
+    -webkit-overflow-scrolling: touch
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    -webkit-box-flex: 1
+    -ms-flex-positive: 1
+    flex-grow: 1
+    -ms-flex-negative: 0
+    flex-shrink: 0
+    max-width: 100%
+    overflow: auto
+
+
+@media screen and (min-width: 1200px)
+    .nav-left,
+    .nav-right
+        -ms-flex-preferred-size: 0
+        flex-basis: 0
+
+
+
+.nav-left
+    -webkit-box-pack: start
+    -ms-flex-pack: start
+    justify-content: flex-start
+    white-space: nowrap
+
+
+.nav-right
+    -webkit-box-pack: end
+    -ms-flex-pack: end
+    justify-content: flex-end
+
+
+.nav-center
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    -webkit-box-flex: 0
+    -ms-flex-positive: 0
+    flex-grow: 0
+    -ms-flex-negative: 0
+    flex-shrink: 0
+    -webkit-box-pack: center
+    -ms-flex-pack: center
+    justify-content: center
+    margin-left: auto
+    margin-right: auto
+
+
+@media screen and (max-width: 768px)
+    .nav-menu.nav-right
+        background-color: white
+        -webkit-box-shadow: 0 4px 7px rgba(10, 10, 10, 0.1)
+        box-shadow: 0 4px 7px rgba(10, 10, 10, 0.1)
+        left: 0
+        display: none
+        right: 0
+        top: 100%
+        position: absolute
+
+    .nav-menu.nav-right .nav-item
+        border-top: 1px solid rgba(219, 219, 219, 0.5)
+        padding: 0.75rem
+
+    .nav-menu.nav-right.is-active
+        display: block
+
+
+
+.nav
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    background-color: white
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    height: 3.25rem
+    position: relative
+    text-align: center
+    z-index: 10
+
+
+.nav > .container
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    min-height: 3.25rem
+    width: 100%
+
+
+.nav.has-shadow
+    -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1)
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1)
+
+
+.navbar
+    background-color: white
+    min-height: 3.25rem
+    position: relative
+
+
+.navbar > .container
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    min-height: 3.25rem
+    width: 100%
+
+
+.navbar.has-shadow
+    -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1)
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1)
+
+
+.navbar-brand
+    -webkit-overflow-scrolling: touch
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+    display: -webkit-box
+    display: -ms-flexbox
+    display: flex
+    min-height: 3.25rem
+    overflow-x: auto
+    overflow-y: hidden
+
+
+.navbar-burger
+    cursor: pointer
+    display: block
+    height: 3.25rem
+    position: relative
+    width: 3.25rem
+    margin-left: auto
+
+
+.navbar-burger span
+    background-color: #4a4a4a
+    display: block
+    height: 1px
+    left: 50%
+    margin-left: -7px
+    position: absolute
+    top: 50%
+    -webkit-transition: none 86ms ease-out
+    transition: none 86ms ease-out
+    -webkit-transition-property: background, left, opacity, -webkit-transform
+    transition-property: background, left, opacity, -webkit-transform
+    transition-property: background, left, opacity, transform
+    transition-property: background, left, opacity, transform, -webkit-transform
+    width: 15px
+
+
+.navbar-burger span:nth-child(1)
+    margin-top: -6px
+
+
+.navbar-burger span:nth-child(2)
+    margin-top: -1px
+
+
+.navbar-burger span:nth-child(3)
+    margin-top: 4px
+
+
+.navbar-burger:hover
+    background-color: whitesmoke
+
+
+.navbar-burger.is-active span
+    background-color: #00d1b2
+
+
+.navbar-burger.is-active span:nth-child(1)
+    margin-left: -5px
+    -webkit-transform: rotate(45deg)
+    transform: rotate(45deg)
+    -webkit-transform-origin: left top
+    transform-origin: left top
+
+
+.navbar-burger.is-active span:nth-child(2)
+    opacity: 0
+
+
+.navbar-burger.is-active span:nth-child(3)
+    margin-left: -5px
+    -webkit-transform: rotate(-45deg)
+    transform: rotate(-45deg)
+    -webkit-transform-origin: left bottom
+    transform-origin: left bottom
+
+
+.navbar-menu
+    display: none
+
+
+.navbar-item,
+.navbar-link
+    color: #4a4a4a
+    display: block
+    line-height: 1.5
+    padding: 0.5rem 1rem
+    position: relative
+
+
+a.navbar-item:hover, a.navbar-item.is-active,
+.navbar-link:hover,
+.navbar-link.is-active
+    background-color: whitesmoke
+    color: #0a0a0a
+
+
+.navbar-item
+    -webkit-box-flex: 0
+    -ms-flex-positive: 0
+    flex-grow: 0
+    -ms-flex-negative: 0
+    flex-shrink: 0
+
+
+.navbar-item img
+    max-height: 1.75rem
+
+
+.navbar-item.has-dropdown
+    padding: 0
+
+
+.navbar-item.is-tab
+    border-bottom: 1px solid transparent
+    min-height: 3.25rem
+    padding-bottom: calc(0.5rem - 1px)
+
+
+.navbar-item.is-tab:hover
+    background-color: transparent
+    border-bottom-color: #00d1b2
+
+
+.navbar-item.is-tab.is-active
+    background-color: transparent
+    border-bottom-color: #00d1b2
+    border-bottom-style: solid
+    border-bottom-width: 3px
+    color: #00d1b2
+    padding-bottom: calc(0.5rem - 3px)
+
+
+.navbar-content
+    -webkit-box-flex: 1
+    -ms-flex-positive: 1
+    flex-grow: 1
+    -ms-flex-negative: 1
+    flex-shrink: 1
+
+
+.navbar-link
+    padding-right: 2.5em
+
+
+.navbar-dropdown
+    font-size: 0.875rem
+    padding-bottom: 0.5rem
+    padding-top: 0.5rem
+
+
+.navbar-dropdown .navbar-item
+    padding-left: 1.5rem
+    padding-right: 1.5rem
+
+
+.navbar-divider
+    background-color: #dbdbdb
+    border: none
+    display: none
+    height: 1px
+    margin: 0.5rem 0
+
+
+@media screen and (max-width: 1007px)
+    .navbar-brand .navbar-item
+        -webkit-box-align: center
+        -ms-flex-align: center
+        align-items: center
+        display: -webkit-box
+        display: -ms-flexbox
+        display: flex
+
+    .navbar-menu
+        -webkit-box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1)
+        box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1)
+        padding: 0.5rem 0
+
+    .navbar-menu.is-active
+        display: block
+
+
+
+@media screen and (min-width: 1008px)
+    .navbar,
+    .navbar-menu,
+    .navbar-start,
+    .navbar-end
+        -webkit-box-align: stretch
+        -ms-flex-align: stretch
+        align-items: stretch
+        display: -webkit-box
+        display: -ms-flexbox
+        display: flex
+
+    .navbar
+        min-height: 3.25rem
+
+    .navbar.is-transparent a.navbar-item:hover,
+    .navbar.is-transparent a.navbar-item.is-active,
+    .navbar.is-transparent .navbar-link:hover,
+    .navbar.is-transparent .navbar-link.is-active
+        background-color: transparent
+
+    .navbar.is-transparent .navbar-item.has-dropdown.is-active .navbar-link,
+    .navbar.is-transparent .navbar-item.has-dropdown.is-hoverable:hover .navbar-link
+        background-color: transparent
+
+    .navbar.is-transparent .navbar-dropdown a.navbar-item:hover
+        background-color: whitesmoke
+        color: #0a0a0a
+
+    .navbar.is-transparent .navbar-dropdown a.navbar-item.is-active
+        background-color: whitesmoke
+        color: #00d1b2
+
+    .navbar-burger
+        display: none
+
+    .navbar-item,
+    .navbar-link
+        -webkit-box-align: center
+        -ms-flex-align: center
+        align-items: center
+        display: -webkit-box
+        display: -ms-flexbox
+        display: flex
+
+.navbar-item.has-dropdown
+    -webkit-box-align: stretch
+    -ms-flex-align: stretch
+    align-items: stretch
+
+    .navbar-item.is-active .navbar-dropdown,
+    .navbar-item.is-hoverable:hover .navbar-dropdown
+        display: block
+
+    .navbar-item.is-active .navbar-dropdown.is-boxed,
+    .navbar-item.is-hoverable:hover .navbar-dropdown.is-boxed
+        opacity: 1
+        pointer-events: auto
+        -webkit-transform: translateY(0)
+        transform: translateY(0)
+
+    .navbar-link::after
+        border: 1px solid #00d1b2
+        border-right: 0
+        border-top: 0
+        content: " "
+        display: block
+        height: 0.5em
+        pointer-events: none
+        position: absolute
+        -webkit-transform: rotate(-45deg)
+        transform: rotate(-45deg)
+        width: 0.5em
+        margin-top: -0.375em
+        right: 1.125em
+        top: 50%
+
+    .navbar-menu
+        -webkit-box-flex: 1
+        -ms-flex-positive: 1
+        flex-grow: 1
+        -ms-flex-negative: 0
+        flex-shrink: 0
+
+    .navbar-start
+        -webkit-box-pack: start
+        -ms-flex-pack: start
+        justify-content: flex-start
+        margin-right: auto
+
+    .navbar-end
+        -webkit-box-pack: end
+        -ms-flex-pack: end
+        justify-content: flex-end
+        margin-left: auto
+
+    .navbar-dropdown
+        background-color: white
+        border-bottom-left-radius: 5px
+        border-bottom-right-radius: 5px
+        border-top: 1px solid #dbdbdb
+        -webkit-box-shadow: 0 8px 8px rgba(10, 10, 10, 0.1)
+        box-shadow: 0 8px 8px rgba(10, 10, 10, 0.1)
+        display: none
+        font-size: 0.875rem
+        left: 0
+        min-width: 100%
+        position: absolute
+        top: 100%
+        z-index: 20
+
+    .navbar-dropdown .navbar-item
+        padding: 0.375rem 1rem
+        white-space: nowrap
+
+    .navbar-dropdown a.navbar-item
+        padding-right: 3rem
+
+    .navbar-dropdown a.navbar-item:hover
+        background-color: whitesmoke
+        color: #0a0a0a
+
+    .navbar-dropdown a.navbar-item.is-active
+        background-color: whitesmoke
+        color: #00d1b2
+
+    .navbar-dropdown.is-boxed
+        border-radius: 5px
+        border-top: none
+        -webkit-box-shadow: 0 8px 8px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
+        box-shadow: 0 8px 8px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
+        display: block
+        opacity: 0
+        pointer-events: none
+        top: calc(100% + (-4px))
+        -webkit-transform: translateY(-5px)
+        transform: translateY(-5px)
+        -webkit-transition-duration: 86ms
+        transition-duration: 86ms
+        -webkit-transition-property: opacity, -webkit-transform
+        transition-property: opacity, -webkit-transform
+        transition-property: opacity, transform
+        transition-property: opacity, transform, -webkit-transform
+
+    .navbar-divider
+        display: block
+
+    .container > .navbar
+        margin-left: -1rem
+        margin-right: -1rem
+
+    a.navbar-item.is-active,
+    .navbar-link.is-active
+        color: #0a0a0a
+
+    a.navbar-item.is-active:not(:hover),
+    .navbar-link.is-active:not(:hover)
+        background-color: transparent
+
+    .navbar-item.has-dropdown:hover .navbar-link,
+    .navbar-item.has-dropdown.is-active .navbar-link
+        background-color: whitesmoke
+
+

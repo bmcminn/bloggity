@@ -2,7 +2,11 @@
 title: 'Terms of Use'
 nav: footer
 published: '2016-10-09'
+<<<<<<< HEAD
 updated: '2017-07-16'
+=======
+updated: '2017-08-05'
+>>>>>>> df7742ec1816047b3c041bebfe53742891c0797d
 template: pages/legal
 ---
 **PLEASE READ THESE TERMS OF SERVICE CAREFULLY!**

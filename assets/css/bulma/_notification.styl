@@ -1,0 +1,89 @@
+
+//
+// NOTIFICATIONS STYLES
+//
+
+.notification
+    background-color: whitesmoke
+    border-radius: 3px
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem
+    position: relative
+
+
+    &:not(:last-child)
+        margin-bottom: 1.5rem
+
+
+    a:not(.button)
+        color: currentColor
+        text-decoration: underline
+
+
+    strong
+        color: currentColor
+
+
+    code,
+    pre
+        background: white
+
+
+    pre code
+        background: transparent
+
+
+    > .delete
+        position: absolute
+        right: 0.5em
+        top: 0.5em
+
+
+    .title,
+    .subtitle,
+    .content
+        color: currentColor
+
+
+    &.is-white
+        background-color: white
+        color: #0a0a0a
+
+
+    &.is-black
+        background-color: #0a0a0a
+        color: white
+
+
+    &.is-light
+        background-color: whitesmoke
+        color: #363636
+
+
+    &.is-dark
+        background-color: #363636
+        color: whitesmoke
+
+
+    &.is-primary
+        background-color: #00d1b2
+        color: #fff
+
+
+    &.is-info
+        background-color: #3273dc
+        color: #fff
+
+
+    &.is-success
+        background-color: #23d160
+        color: #fff
+
+
+    &.is-warning
+        background-color: #ffdd57
+        color: rgba(0, 0, 0, 0.7)
+
+
+    &.is-danger
+        background-color: #ff3860
+        color: #fff

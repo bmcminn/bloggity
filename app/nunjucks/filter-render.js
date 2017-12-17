@@ -9,15 +9,11 @@ var renderFilter = function renderFilter(nunjucks) {
 
     'use strict';
 
-    return function(content) {
+    return function(content, ctx) {
 
-        let ctx = {};
+        content = nunjucks.renderString(content.trim(), ctx);
 
-        content = md.render(content);
-
-        // console.log(content);
-
-        return nunjucks.renderString(content.trim(), ctx);
+        return nunjucks.runtime.SafeString(content);
     };
 };
 

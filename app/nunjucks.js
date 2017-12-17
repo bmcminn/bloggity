@@ -10,205 +10,158 @@ const regex = {
 };
 
 
-module.exports.reloader = new nunjucks.Loader.extend({
-
-    init: function(viewspath, opts) {
-
-        this.opts       = opts || {};
-        this.templates  = {};
-        // TODO: need better way of passing custom options to nunjucks instance
-        this.opts.extension  = this.opts.extension || '.twig';
-        this.viewsDir    = viewspath[0];
-
-        this.getFiles();
-
-        let self = this;
-
-        chokidar.watch(self.viewsDir)
-            .on('change', filepath => {
-                console.log('updated view:', filepath);
-                this.getFile(filepath);
-                this.emit('update', this.getFileName(filepath));
-            })
-            ;
-
-    }
-
-,   getFile: function(filepath) {
-        let self = this;
-
-        let name = this.getFileName(filepath);
-        this.templates[name] = fs.read(filepath);
-    }
 
 
-,   getFiles: function() {
-        let self = this;
+module.exports = function(app) {
 
-        let viewFiles = fs.expand({ filter: 'isFile' }, path.join(self.viewsDir, '**/*' + self.opts.extension));
+    let exp = {};
 
-        viewFiles.map(this.getFile, this);
-    }
+    exp.reloader = new nunjucks.Loader.extend({
 
+        init: function(viewspath, opts) {
 
-,   getFileName: function(filepath) {
-        let self = this;
+            this.opts       = opts || {};
+            this.templates  = {};
+            // TODO: need better way of passing custom options to nunjucks instance
+            this.opts.extension  = this.opts.extension || '.twig';
+            this.viewsDir    = viewspath[0];
 
-        let filename = filepath
-                .substr(self.viewsDir.length + 1) // remove the base directory path
-                .replace(regex.ext, '')
+            this.getFiles();
+
+            let self = this;
+
+            chokidar.watch(self.viewsDir)
+                .on('change', filepath => {
+                    console.log('updated view:', filepath);
+                    this.getFile(filepath);
+                    this.emit('update', this.getFileName(filepath));
+                })
                 ;
 
-        return filename;
-    }
-
-
-    // TODO: add watcher process to update files when changed
-,   getSource: function(name) {
-
-        let self = this;
-
-        name = name.replace(regex.ext, '');
-
-        if (!self.templates[name]) {
-            throw Error(`No template '${name}' exists.`);
         }
 
-        return {
-            src: self.templates[name]
-        ,   path: name
-        ,   noCache: this.noCache || false
-        };
-    }
-});
+    ,   getFile: function(filepath) {
+            let self = this;
+
+            let name = this.getFileName(filepath);
+            this.templates[name] = fs.read(filepath);
+        }
+
+
+    ,   getFiles: function() {
+            let self = this;
+
+            let viewFiles = fs.expand({ filter: 'isFile' }, path.join(self.viewsDir, '**/*' + self.opts.extension));
+
+            viewFiles.map(this.getFile, this);
+        }
+
+
+    ,   getFileName: function(filepath) {
+            let self = this;
+
+            let filename = filepath
+                    .substr(self.viewsDir.length + 1) // remove the base directory path
+                    .replace(regex.ext, '')
+                    ;
+
+            return filename;
+        }
+
+
+        // TODO: add watcher process to update files when changed
+    ,   getSource: function(name) {
+
+            let self = this;
+
+            name = name.replace(regex.ext, '');
+
+            if (!self.templates[name]) {
+                throw Error(`No template '${name}' exists.`);
+            }
+
+            return {
+                src: self.templates[name]
+            ,   path: name
+            ,   noCache: this.noCache || false
+            };
+        }
+    });
 
 
 
-module.exports.filters = {
+    exp.filters = {
 
-    // TODO: setup systemwide default date format
-    // dateFilter.setDefaultForamt()
+        date: function(datetime, format) {
+            return require('./nunjucks/filter-date')(nunjucks)(datetime, format || 'YYYY-MM-DDThh:mm:ssZ', app.get('model'));
+        }
+        // date: require('nunjucks-date-filter')
 
-    date: require('nunjucks-date-filter')
-
-
-,   shorten: function(str, count) {
-        return str.slice(0, count || 5);
-    }
-
-
-,   spaceless: function(content) {
-        return require('./nunjucks/filter-spaceless')(nunjucks)(content);
-    }
+    ,   debug: function(ctx, space) {
+            return new nunjucks.runtime.SafeString(JSON.stringify(ctx, null, space || 0));
+        }
 
 
-,   sanitize: function(content) {
-        return require('./nunjucks/filter-sanitize')(nunjucks)(content);
-    }
+    ,   shorten: function(str, count) {
+            return str.slice(0, count || 5);
+        }
 
 
-,   log: function(content) {
-        return require('./nunjucks/filter-log')(nunjucks)(content);
-    }
+    ,   spaceless: function(content) {
+            return require('./nunjucks/filter-spaceless')(nunjucks)(content);
+        }
 
 
-,   hash: function(content) {
-        return require('./nunjucks/filter-hash')(nunjucks)(content);
-    }
+    ,   sanitize: function(content) {
+            return require('./nunjucks/filter-sanitize')(nunjucks)(content);
+        }
 
 
-    // @sauce: https://perishablepress.com/best-method-for-email-obfuscation/
-,   email: function(content) {
-        return require('./nunjucks/filter-email')(nunjucks)(content);
-    }
+    ,   log: function(content) {
+            return require('./nunjucks/filter-log')(nunjucks)(content);
+        }
 
 
-,   phone: function(content) {
-        return require('./nunjucks/filter-phone')(nunjucks)(content);
-    }
-
-,   md: function(content) {
-        return require('./nunjucks/filter-md')(nunjucks)(content);
-    }
+    ,   hash: function(content) {
+            return require('./nunjucks/filter-hash')(nunjucks)(content);
+        }
 
 
-,   render: function(content) {
-        return require('./nunjucks/filter-render')(nunjucks)(content);
-    }
+        // @sauce: https://perishablepress.com/best-method-for-email-obfuscation/
+    ,   email: function(content) {
+            return require('./nunjucks/filter-email')(nunjucks)(content);
+        }
 
 
-};
+    ,   phone: function(content) {
+            return require('./nunjucks/filter-phone')(nunjucks)(content);
+        }
 
 
-
-// let nunjucksEnvironment = function(opts) {
-
-//     'use strict';
-
+    ,   slugify: function(content) {
+            return require('./nunjucks/filter-slugify')(nunjucks)(content);
+        }
 
 
-//     // init custom nunjucks file loader instance
-//     let ReLoader = nunjucks.Loader.extend(reloaderConfig);
-
-//     // setup nunjucks environment
-//     let env = new nunjucks.Environment(new ReLoader(opts.views));
+    ,   md: function(content) {
+            return require('./nunjucks/filter-md')(nunjucks)(content);
+        }
 
 
-//     // add filters to nunjucks environment
-//     //----------------------------------------------------------------------
+    ,   render: function(content, ctx) {
+            return require('./nunjucks/filter-render')(nunjucks)(content, ctx);
+        }
 
-//     let dateFilter = require('nunjucks-date-filter');
-
-//     // TODO: setup systemwide default date format
-//     // dateFilter.setDefaultForamt()
-
-//     env.addFilter('date', dateFilter);
+    ,   parseFloat: function(content) {
+            return parseFloat(content).toFixed(1);
+        }
 
 
-//     env.addFilter('shorten', function shorten(str, count) {
-//         return str.slice(0, count || 5);
-//     });
+    ,   icon: function(name) {
+            return new nunjucks.runtime.SafeString('<i class="fa fa-' + name + '" aria-hidden="true"></i>');
+        }
 
+    };
 
-//     env.addFilter('spaceless', function spacelessFilter(content) {
-//         return require('./nunjucks/filter-spaceless')(nunjucks, env)(content);
-//     });
-
-
-//     env.addFilter('sanitize', function sanitizeFilter(content) {
-//         return require('./nunjucks/filter-sanitize')(nunjucks, env)(content);
-//     });
-
-
-//     env.addFilter('log', function logFilter(content) {
-//         return require('./nunjucks/filter-log')(nunjucks, env)(content);
-//     });
-
-
-//     env.addFilter('hash', function hashFilter(content) {
-//         return require('./nunjucks/filter-hash')(nunjucks, env)(content);
-//     });
-
-
-//     /**
-//      * { item_description }
-//      * @sauce: https://perishablepress.com/best-method-for-email-obfuscation/
-//      */
-//     env.addFilter('email', function emailFilter(content) {
-//         return require('./nunjucks/filter-email')(nunjucks, env)(content);
-//     });
-
-
-//     env.addFilter('phone', function phoneFilter(content) {
-//         return require('./nunjucks/filter-phone')(nunjucks, env)(content);
-//     });
-
-
-//     // return nunjucks environment instance
-//     return env;
-
-// };
-
-
-
-// module.exports = nunjucksEnvironment;
+    return exp;
+}

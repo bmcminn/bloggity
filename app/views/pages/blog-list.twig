@@ -3,12 +3,45 @@
 
 {% block content %}
 
-    <ul>
-    {% for post in posts %}
-        <li>
-            <a href="{{ post.route }}">{{ post.title }}</a>
-        </li>
-    {% endfor %}
-    </ul>
+    {% include 'partials/breadcrumbs' %}
 
+
+    <div class="content">
+        <h1>{{ post.title|title }}</h1>
+    </div>
+
+
+    <div class="container">
+        <ul class="columns is-multiline">
+        {% for item in post.items %}
+            <li class="column is-4">
+                <div class="card">
+                    {% if item.image %}
+                        <div class="card-image">
+                            <figure class="image is-16by9">
+                                <img src="{{ item.image }}" alt="Image">
+                            </figure>
+                        </div>
+                    {% endif %}
+                    <div class="card-content content">
+                        <h2><a href="{{ item.route }}">{{ item.title }}</a></h2>
+
+                        <span class="date-time">
+                            <time datetime="{{ post.published|date }}">{{ item.published|date('MMMM Do, YYYY') }}</time> By: <a href="/authors/{{ item.author.slug }}">{{ item.author.name }}</a>
+                        </span>
+
+                        {{ item.excerpt|md }}
+
+                        <a class="button is-link" href="{{ item.route }}">more...</a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block belowBody %}
+    {% include 'partials/pagination' %}
 {% endblock %}
